@@ -14,25 +14,9 @@ const NavigationButtonPropietarios = () => {
     const { 
         nuevoPropietarioFormDispatch, 
         buscarPropietarioFormDispatch,
-        editarPropietarioFormDispatch, 
-        eliminarPropietarioFormDispatch 
+        buscarPropietarioParaEditarDispatch, 
+        buscarPropietarioParaEliminarDispatch 
     } = useContext(DatosGeneralesFormContext);
-
-    function handleClickNuevoPropietarioForm() {
-        nuevoPropietarioFormDispatch();
-    }
-
-    function handleClickBuscarPropietarioForm() {
-        buscarPropietarioFormDispatch();
-    }
-    
-    function handleClickEditarPropietarioForm() {
-        editarPropietarioFormDispatch();
-    }
-
-    function handleClickEliminarPropietarioForm() {
-        eliminarPropietarioFormDispatch();
-    }   
 
 
     const [value, setValue] = useState('nuevo');
@@ -48,7 +32,7 @@ const NavigationButtonPropietarios = () => {
                     label="Nuevo"
                     value="nuevo"
                     icon={<PlaylistAddIcon/>}
-                    onClick={ handleClickNuevoPropietarioForm }
+                    onClick={ nuevoPropietarioFormDispatch }
                 />
             </Tooltip>
             <Tooltip title="buscar propietarios">
@@ -56,7 +40,7 @@ const NavigationButtonPropietarios = () => {
                     label="Buscar"
                     value="buscar"
                     icon={<FindInPageIcon/>}
-                    onClick={ handleClickBuscarPropietarioForm }
+                    onClick={ buscarPropietarioFormDispatch }
                 />
             </Tooltip>
             <Tooltip title="editar propietario">
@@ -64,7 +48,7 @@ const NavigationButtonPropietarios = () => {
                     label="Editar"
                     value="editar"
                     icon={<CreateIcon/>}
-                    onClick={ handleClickEditarPropietarioForm }
+                    onClick={ buscarPropietarioParaEditarDispatch }
                 />
             </Tooltip>
             <Tooltip title="eliminar propietario">
@@ -72,7 +56,7 @@ const NavigationButtonPropietarios = () => {
                     label="Eliminar"
                     value="eliminar"
                     icon={<DeleteIcon/>}
-                    onClick={ handleClickEliminarPropietarioForm }
+                    onClick={ buscarPropietarioParaEliminarDispatch }
                 />
             </Tooltip>    
         </BottomNavigation>

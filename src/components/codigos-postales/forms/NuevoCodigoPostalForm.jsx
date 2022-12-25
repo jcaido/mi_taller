@@ -123,8 +123,7 @@ const NuevoCodigoPostalForm = () => {
                 <ModalOK open={open} handleClose={handleClose}></ModalOK>
                 <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError}></ModalErrores>
             </form>
-        </Box>
-        
+        </Box>   
     )
 }
 

@@ -2,6 +2,16 @@ import React, { useContext } from 'react';
 import { Box  } from '@mui/material';
 import NavigationButtonPropietarios from './NavigationButtonPropietarios';
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
+import NuevoPropietarioForm from './forms/NuevoPropietarioForm';
+import TablaPropietarios from './TablaPropietarios';
+import BuscarPropietarioForm from './forms/BuscarPropietarioForm';
+import Propietario from './Propietario';
+import TablaPropietariosPorPrimerApellido from './TablaPropietariosPorPrimerApellido';
+import TablaPropietariosPorCodigoPostal from './TablaPropietariosPorCodigoPostal';
+import BuscarPropietarioParaEditarForm from './forms/BuscarPropietarioParaEditarForm';
+import EditarPropietarioForm from './forms/EditarPropietarioForm';
+import BuscarPropietarioParaEliminarForm from './forms/BuscarPropietarioParaEliminarForm';
+import EliminarPropietarioForm from './forms/EliminarPropietarioForm';
 
 const Propietarios = () => {
 
@@ -14,10 +24,20 @@ const Propietarios = () => {
         <NavigationButtonPropietarios></NavigationButtonPropietarios>   
       </Box> 
       <Box>
-        { state.formNuevoPropietario && <p>nuevo propietario</p>}
-        { state.formBuscarPropietario && <p>buscar propietario</p>}
-        { state.formEditarPropietario && <p>editar propietario</p>}
-        { state.formEliminarPropietario && <p>eliminar propietario</p>}
+        { state.formNuevoPropietario && <NuevoPropietarioForm></NuevoPropietarioForm>}
+        { state.formBuscarPropietario && <BuscarPropietarioForm></BuscarPropietarioForm>}
+        { state.formEditarPropietario && <BuscarPropietarioParaEditarForm></BuscarPropietarioParaEditarForm>}
+        { state.formEliminarPropietario && <BuscarPropietarioParaEliminarForm></BuscarPropietarioParaEliminarForm>}
+      </Box>
+      <Box p = {2}>
+        { state.tablaPropietarios && <TablaPropietarios></TablaPropietarios> }
+        { state.propietarioPorDni && state.listaPropietariosPorDni !== null && <Propietario></Propietario>}
+        { state.propietariosPorPrimerApellido && <TablaPropietariosPorPrimerApellido></TablaPropietariosPorPrimerApellido> }
+        { state.propietariosPorCodigoPostal && <TablaPropietariosPorCodigoPostal></TablaPropietariosPorCodigoPostal> }
+      </Box>
+      <Box>
+        { state.editarPropietario && <EditarPropietarioForm></EditarPropietarioForm> }
+        { state.eliminarPropietario && <EliminarPropietarioForm></EliminarPropietarioForm> }
       </Box>
     </Box>  
   )

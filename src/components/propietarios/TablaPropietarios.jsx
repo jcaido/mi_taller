@@ -1,24 +1,25 @@
 import React, { useContext, useEffect } from 'react';
-import { DataGrid }  from '@mui/x-data-grid';
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
+import { DataGrid }  from '@mui/x-data-grid';
 
 const columns = [
 
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'codigo', headerName: 'Codigo', width: 90 },
-    { field: 'localidad', headerName: 'Localidad', width: 170 },
-    { field: 'provincia', headerName: 'Provincia', width: 110 },
+    { field: 'nombre', headerName: 'Nombre', width: 90 },
+    { field: 'primerApellido', headerName: '1º apellido', width: 90 },
+    { field: 'segundoApellido', headerName: '2º apellido', width: 90 },
+    { field: 'dni', headerName: 'DNI', width: 100 },
 ]
 
-const TablaCodigosPostales = () => {
+const TablaPropietarios = () => {
 
-    const { state, ListarCodigosPostales } = useContext(DatosGeneralesFormContext);
+    const { state, ListarPropietarios } = useContext(DatosGeneralesFormContext);
 
     useEffect(() => {
         
-        ListarCodigosPostales();
+        ListarPropietarios();
 
-    },[ListarCodigosPostales]);
+    }, [ListarPropietarios]);
 
     return (
         <div style={{ height: 315, width: '100%' }}>
@@ -36,13 +37,13 @@ const TablaCodigosPostales = () => {
                         sortModel: [{field: 'id', sort: 'desc'}]
                     }
                 }}
-                rows={state.listaCodigosPostales}
+                rows={state.listaPropietarios}
                 columns={columns}
                 pageSize={4}
                 rowsPerPageOptions={[4]}
-            />    
+            />            
         </div>
     )
 }
 
-export default TablaCodigosPostales
+export default TablaPropietarios

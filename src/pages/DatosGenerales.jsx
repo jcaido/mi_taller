@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import CodigosPostales from '../components/codigos-postales/CodigosPostales';
 import Propietarios from '../components/propietarios/Propietarios';
 import Vehiculos from '../components/vehiculos/Vehiculos';
-import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia } from '../components/codigos-postales/axiosService';
+import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido } from '../components/codigos-postales/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 
 export const DatosGeneralesFormContext = createContext();
@@ -44,6 +44,48 @@ const DatosGenerales = () => {
             })
     }
 
+    const ListarPropietariosPorDni = (dni) => {
+        obtenerPropietarioPorDni(dni)
+            .then((response) => {
+                dispatch({type:'actualizar_lista_propietarios_por_dni', payload: response.data})
+            })
+            .then(() => {
+                buscarPropietarioPorDniDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+    const ListarPropietariosPorPrimerApellido = (primerApellido) => {
+        obtenerPropietariosPorPrimerApellido(primerApellido)
+            .then((response) => {
+                dispatch({type:'actualizar_lista_propietarios_por_primer_apellido', payload: response.data})
+            })
+            .then(() => {
+                buscarPropietariosPorPrimerApellidoDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+    const ListarPropietariosPorCodigoPostal =  (codigo) => {
+        obtenerCodigoPostalPorCodigo(codigo)
+            .then((response) => {
+                obtenerPropietariosPorCodigoPostal(response.data.id)
+                    .then((response) => {
+                        dispatch({type:'actualizar_lista_propietarios_por_codigo_postal', payload: response.data})
+                    })
+                    .then(()=> {
+                        buscarPropietariosPorCodigoPostalDispatch();
+                    })
+            })
+            .catch((error)=> {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
     const ObtenerCodigoPostalPorCodigoParaEditar = (codigo) => {
         obtenerCodigoPostalPorCodigo(codigo)
             .then((response) => {
@@ -57,6 +99,19 @@ const DatosGenerales = () => {
             })
     }
 
+    const ObtenerPropietarioPorDniParaEditar = (dni) => {
+        obtenerPropietarioPorDni(dni)
+            .then((response) => {
+                dispatch({type:'actualizar_lista_propietarios_por_dni', payload: response.data})
+            })
+            .then(() => {
+                editarPropietarioFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
     const ObtenerCodigoPostalPorCodigoParaEliminar = (codigo)=> {
         obtenerCodigoPostalPorCodigo(codigo)
             .then((response) => {
@@ -64,6 +119,19 @@ const DatosGenerales = () => {
             })
             .then(() => {
                 eliminarCodigoPostalFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje)
+            })
+    }
+
+    const obtenerPropietarioPorDniParaEliminar = (dni) => {
+        obtenerPropietarioPorDni(dni)
+            .then((response) => {
+                dispatch({type:'actualizar_lista_propietarios_por_dni', payload: response.data})
+            })
+            .then(() => {
+                eliminarPropietarioFormDispatch();
             })
             .catch((error) => {
                 error.response.status === 404 && handleOpenError(error.response.data.mensaje)
@@ -100,15 +168,41 @@ const DatosGenerales = () => {
         dispatch({type: 'cerrar_formulario_editar_codigo_postal', payload: false})
     }
 
+    const ListarPropietarios = () => {
+        obtenerPropietarios()
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_propietarios', payload: response.data})
+            })
+            .catch((error) => {
+                alert(`ERROR: ${error.response.data.mensaje}`);
+            })
+    }
+
+    const CerrarFormEditarPropietario = () => {
+        dispatch({type:'cerrar_formulario_editar_propietario', payload: false})
+    }
+
     const DatosGeneralesFormInicial = {
         formNuevoVehiculo: false,
         formBuscarVehiculo: false,
         formEditarVehiculo: false,
         formEliminarVehiculo: false,
+
         formNuevoPropietario: false,
         formBuscarPropietario: false,
         formEditarPropietario: false,
         formEliminarPropietario: false,
+        tablaPropietarios: false,
+        propietarioPorDni: false,
+        propietariosPorPrimerApellido: false,
+        propietariosPorCodigoPostal: false,
+        editarPropietario: false,
+        eliminarPropietario: false,
+        listaPropietarios: [],
+        listaPropietariosPorDni: [],
+        listaPropietariosPorPrimerApellido: [],
+        listaPropietariosPorCodigoPostal: [],
+
         formNuevoCodigoPostal: false,
         formBuscarCodigoPostal: false,
         formEditarCodigoPostal: false,
@@ -141,7 +235,14 @@ const DatosGenerales = () => {
                     formNuevoPropietario: action.payload.formNuevoPropietario,
                     formBuscarPropietario:action.payload.formBuscarPropietario,
                     formEditarPropietario: action.payload.formEditarPropietario,
-                    formEliminarPropietario: action.payload.formEliminarPropietario
+                    formEliminarPropietario: action.payload.formEliminarPropietario,
+                    tablaPropietarios: action.payload.tablaPropietarios,
+                    propietarioPorDni: action.payload.propietarioPorDni,
+                    propietariosPorPrimerApellido: action.payload.propietariosPorPrimerApellido,
+                    propietariosPorCodigoPostal: action.payload.propietariosPorCodigoPostal,
+                    editarPropietario: action.payload.editarPropietario,
+                    eliminarPropietario: action.payload.eliminarPropietario,
+                    listaPropietarios: action.payload.listaPropietarios,
                 }
             case 'codigo_postal':
                 return {
@@ -183,6 +284,31 @@ const DatosGenerales = () => {
                 return {
                     ...state,
                     editarCodigoPostal: action.payload
+                }
+            case 'actualizar_lista_propietarios':
+                return {
+                    ...state,
+                    listaPropietarios: action.payload
+                }
+            case 'actualizar_lista_propietarios_por_dni':
+                return {
+                    ...state,
+                    listaPropietariosPorDni: action.payload
+                }
+            case 'actualizar_lista_propietarios_por_primer_apellido':
+                return {
+                    ...state,
+                    listaPropietariosPorPrimerApellido: action.payload
+                }
+            case 'actualizar_lista_propietarios_por_codigo_postal':
+                return {
+                    ...state,
+                    listaPropietariosPorCodigoPostal: action.payload
+                }
+            case 'cerrar_formulario_editar_propietario':
+                return {
+                    ...state,
+                    editarPropietario: action.payload
                 }               
             default:
                 return state;
@@ -246,7 +372,14 @@ const DatosGenerales = () => {
                 formNuevoPropietario: true,
                 formBuscarPropietario: false,
                 formEditarPropietario: false,
-                formEliminarPropietario: false
+                formEliminarPropietario: false,
+                tablaPropietarios: true,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []
             }
         })
     }
@@ -258,7 +391,109 @@ const DatosGenerales = () => {
                 formNuevoPropietario: false,
                 formBuscarPropietario: true,
                 formEditarPropietario: false,
-                formEliminarPropietario: false
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []
+            }
+        })
+    }
+
+    function buscarPropietarioPorDniDispatch() {
+        dispatch({
+            type: 'propietario',
+            payload: {
+                formNuevoPropietario: false,
+                formBuscarPropietario: true,
+                formEditarPropietario: false,
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: true,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []
+            }
+        })
+    }
+
+    function buscarPropietariosPorPrimerApellidoDispatch() {
+        dispatch({
+            type: 'propietario',
+            payload: {
+                formNuevoPropietario: false,
+                formBuscarPropietario: true,
+                formEditarPropietario: false,
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: true,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []                
+            }
+        })
+    }
+
+    function buscarPropietariosPorCodigoPostalDispatch() {
+        dispatch({
+            type: 'propietario',
+            payload: {
+                formNuevoPropietario: false,
+                formBuscarPropietario: true,
+                formEditarPropietario: false,
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: true,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []
+            }
+        })
+    }
+
+    function buscarPropietarioParaEditarDispatch() {
+        dispatch({
+            type: 'propietario',
+            payload: {
+                formNuevoPropietario: false,
+                formBuscarPropietario: false,
+                formEditarPropietario: true,
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []                
+            }
+        })
+    }
+
+    function buscarPropietarioParaEliminarDispatch() {
+        dispatch({
+            type: 'propietario',
+            payload: {
+                formNuevoPropietario: false,
+                formBuscarPropietario: false,
+                formEditarPropietario: false,
+                formEliminarPropietario: true,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: false,
+                listaPropietarios: []                
             }
         })
     }
@@ -270,7 +505,14 @@ const DatosGenerales = () => {
                 formNuevoPropietario: false,
                 formBuscarPropietario: false,
                 formEditarPropietario: true,
-                formEliminarPropietario: false
+                formEliminarPropietario: false,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: true,
+                eliminarPropietario: false,
+                listaPropietarios: []
             }
         })
     }
@@ -282,7 +524,14 @@ const DatosGenerales = () => {
                 formNuevoPropietario: false,
                 formBuscarPropietario: false,
                 formEditarPropietario: false,
-                formEliminarPropietario: true
+                formEliminarPropietario: true,
+                tablaPropietarios: false,
+                propietarioPorDni: false,
+                propietariosPorPrimerApellido: false,
+                propietariosPorCodigoPostal: false,
+                editarPropietario: false,
+                eliminarPropietario: true,
+                listaPropietarios: []
             }
         })
     }
@@ -469,6 +718,8 @@ const DatosGenerales = () => {
                 eliminarVehiculoFormDispatch,
                 nuevoPropietarioFormDispatch,
                 buscarPropietarioFormDispatch,
+                buscarPropietarioParaEditarDispatch,
+                buscarPropietarioParaEliminarDispatch,
                 editarPropietarioFormDispatch,
                 eliminarPropietarioFormDispatch,
                 nuevoCodigoPostalFormDispatch,
@@ -483,7 +734,14 @@ const DatosGenerales = () => {
                 ListarCodigosPostalesPorProvincia,
                 ObtenerCodigoPostalPorCodigoParaEditar,
                 ObtenerCodigoPostalPorCodigoParaEliminar,
-                CerrarFormEditarCodigoPostal
+                CerrarFormEditarCodigoPostal,
+                ListarPropietarios,
+                ListarPropietariosPorDni,
+                ListarPropietariosPorPrimerApellido,
+                ListarPropietariosPorCodigoPostal,
+                ObtenerPropietarioPorDniParaEditar,
+                CerrarFormEditarPropietario,
+                obtenerPropietarioPorDniParaEliminar
             }}
         >
             <Grid container>

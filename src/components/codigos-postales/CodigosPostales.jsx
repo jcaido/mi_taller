@@ -27,7 +27,7 @@ const CodigosPostales = () => {
         { state.formEditarCodigoPostal && <BuscarCodigoPostalParaEditarForm></BuscarCodigoPostalParaEditarForm>}
         { state.formEliminarCodigoPostal && <BuscarCodigoPostalParaEliminarForm></BuscarCodigoPostalParaEliminarForm>}
       </Box>
-      <Box>
+      <Box p = {2}>
         { state.tablaCodigosPostales &&  <TablaCodigosPostales></TablaCodigosPostales> }
         { state.codigoPostalPorCodigo && state.listaCodigosPostalesPorCodigo !== null && <CodigoPostal></CodigoPostal> }
         { state.codigoPostalPorLocalidad && state.listaCodigosPostalesPorLocalidad !== null && <CodigoPostal></CodigoPostal> } 
