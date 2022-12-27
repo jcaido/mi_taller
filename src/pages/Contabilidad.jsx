@@ -1,10 +1,13 @@
 import React from 'react';
-import NavBarContabilidad from '../components/NavBarContabilidad';
+import NavBar from '../components/NavBar';
 
 const Contabilidad = () => {
     return (
         <div>
-            <NavBarContabilidad></NavBarContabilidad>
+            <NavBar
+                pages = {['INICIO', 'DATOS GENERALES', 'TALLER', 'FACTURACION']}
+                pagina = "CONTABILIDAD"
+            />
         </div>
     )
     }

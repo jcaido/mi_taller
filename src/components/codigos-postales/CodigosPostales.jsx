@@ -24,7 +24,6 @@ const CodigosPostales = () => {
   return (
     <Box>
       <Box mt = {1}>
-        {/*<NavigationButtonCodigosPostales></NavigationButtonCodigosPostales>*/}
         <NavigationButton 
           nuevo = { nuevoCodigoPostalFormDispatch }
           buscar = { buscarCodigoPostalFormDispatch }

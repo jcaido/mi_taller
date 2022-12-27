@@ -1,5 +1,4 @@
 import { useReducer, createContext, useState } from 'react';
-import NavBarDatosGenerales from '../components/NavBarDatosGenerales';
 import { Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import CodigosPostales from '../components/codigos-postales/CodigosPostales';
@@ -7,6 +6,7 @@ import Propietarios from '../components/propietarios/Propietarios';
 import Vehiculos from '../components/vehiculos/Vehiculos';
 import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido } from '../components/codigos-postales/axiosService';
 import ModalErrores from '../utils/ModalErrores';
+import NavBar from '../components/NavBar';
 
 export const DatosGeneralesFormContext = createContext();
 
@@ -747,7 +747,10 @@ const DatosGenerales = () => {
             <Grid container>
                 <Grid item xs = {12}>
                     <Box>
-                        <NavBarDatosGenerales></NavBarDatosGenerales>
+                        <NavBar
+                            pages = {['INICIO', 'TALLER', 'FACTURACION', 'CONTABILIDAD']}
+                            pagina = "DATOS GENERALES"
+                        />
                     </Box>
                 </Grid>
                 <Grid item md = {4}>

@@ -27,7 +27,6 @@ const Propietarios = () => {
   return (
     <Box>
       <Box mt = {1}>
-        {/*<NavigationButtonPropietarios></NavigationButtonPropietarios>*/}
         <NavigationButton
           nuevo = { nuevoPropietarioFormDispatch }
           buscar = { buscarPropietarioFormDispatch }

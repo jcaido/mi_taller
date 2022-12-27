@@ -1,10 +1,13 @@
 import React from 'react';
-import NavBarFacturacion from '../components/NavBarFacturacion';
+import NavBar from '../components/NavBar';
 
 const Facturacion = () => {
     return (
         <div>
-            <NavBarFacturacion></NavBarFacturacion>
+            <NavBar
+                pages = {['INICIO', 'DATOS GENERALES', 'TALLER', 'CONTABILIDAD']}
+                pagina = "FACTURACION"
+            />
         </div>
     )
 }

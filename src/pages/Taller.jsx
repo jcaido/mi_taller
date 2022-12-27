@@ -1,11 +1,14 @@
 import React from 'react';
-import NavBarTaller from '../components/NavBarTaller';
+import NavBar from '../components/NavBar';
 
 const Taller = () => {
 
     return (
         <div>
-            <NavBarTaller></NavBarTaller>
+            <NavBar
+                pages = {['INICIO', 'DATOS GENERALES', 'FACTURACION', 'CONTABILIDAD']}
+                pagina = "TALLER"
+            />
         </div>
     )
 }
