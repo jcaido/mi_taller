@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Box  } from '@mui/material';
-import NavigationButtonPropietarios from './NavigationButtonPropietarios';
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
 import NuevoPropietarioForm from './forms/NuevoPropietarioForm';
 import TablaPropietarios from './TablaPropietarios';
@@ -12,16 +11,33 @@ import BuscarPropietarioParaEditarForm from './forms/BuscarPropietarioParaEditar
 import EditarPropietarioForm from './forms/EditarPropietarioForm';
 import BuscarPropietarioParaEliminarForm from './forms/BuscarPropietarioParaEliminarForm';
 import EliminarPropietarioForm from './forms/EliminarPropietarioForm';
+import NavigationButton from '../NavigationButton';
 
 const Propietarios = () => {
 
-  const {state} = useContext(DatosGeneralesFormContext);
+  const {
+    state,
+    nuevoPropietarioFormDispatch,
+    buscarPropietarioFormDispatch,
+    buscarPropietarioParaEditarDispatch,
+    buscarPropietarioParaEliminarDispatch
+  } = useContext(DatosGeneralesFormContext);
 
 
   return (
     <Box>
       <Box mt = {1}>
-        <NavigationButtonPropietarios></NavigationButtonPropietarios>   
+        {/*<NavigationButtonPropietarios></NavigationButtonPropietarios>*/}
+        <NavigationButton
+          nuevo = { nuevoPropietarioFormDispatch }
+          buscar = { buscarPropietarioFormDispatch }
+          buscarParaEditar = { buscarPropietarioParaEditarDispatch }
+          buscarParaEliminar = { buscarPropietarioParaEliminarDispatch }
+          nuevoTitle = 'crear propietario'
+          buscarTitle = 'buscar propietarios'
+          editarTitle = 'editar propietario'
+          eliminarTitle = 'eliminar propietario'          
+        />   
       </Box> 
       <Box>
         { state.formNuevoPropietario && <NuevoPropietarioForm></NuevoPropietarioForm>}

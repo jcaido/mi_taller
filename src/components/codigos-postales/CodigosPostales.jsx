@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Box  } from '@mui/material';
-import NavigationButtonCodigosPostales from './NavigationButtonCodigosPostales';
 import NuevoCodigoPostalForm from './forms/NuevoCodigoPostalForm';
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
 import TablaCodigosPostales from './TablaCodigosPostales';
@@ -11,15 +10,31 @@ import TablaCodigosPostalesPorProvincia from './TablaCodigosPostalesPorProvincia
 import BuscarCodigoPostalParaEditarForm from './forms/BuscarCodigoPostalParaEditarForm';
 import BuscarCodigoPostalParaEliminarForm from './forms/BuscarCodigoPostalParaEliminarForm';
 import EliminarCodigoPostalForm from './forms/EliminarCodigoPostalForm';
+import NavigationButton from '../NavigationButton';
 
 const CodigosPostales = () => {
 
-  const {state} = useContext(DatosGeneralesFormContext);
+  const {state,
+         nuevoCodigoPostalFormDispatch,
+         buscarCodigoPostalFormDispatch,
+         buscarCodigoPostalParaEditarDispatch,
+         buscarCodigoPostalParaEliminarDispatch
+  } = useContext(DatosGeneralesFormContext);
 
   return (
     <Box>
       <Box mt = {1}>
-        <NavigationButtonCodigosPostales></NavigationButtonCodigosPostales>
+        {/*<NavigationButtonCodigosPostales></NavigationButtonCodigosPostales>*/}
+        <NavigationButton 
+          nuevo = { nuevoCodigoPostalFormDispatch }
+          buscar = { buscarCodigoPostalFormDispatch }
+          buscarParaEditar = { buscarCodigoPostalParaEditarDispatch }
+          buscarParaEliminar = { buscarCodigoPostalParaEliminarDispatch }
+          nuevoTitle = 'Crear codigo postal'
+          buscarTitle = 'buscar codigos postales'
+          editarTitle = 'editar codigo postal'
+          eliminarTitle = 'eliminar codigo postal'
+        />
       </Box>
       <Box>
         { state.formNuevoCodigoPostal && <NuevoCodigoPostalForm ></NuevoCodigoPostalForm> }
