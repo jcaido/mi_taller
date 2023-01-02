@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box  } from '@mui/material';
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { nuevoPropietario, obtenerCodigoPostalPorCodigo } from '../../codigos-postales/axiosService';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
+import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 
 
 const validationSchema = yup.object({
@@ -34,6 +35,8 @@ const validationSchema = yup.object({
 
 const NuevoPropietarioForm = () => {
 
+    const { ListarPropietarios } = useContext(DatosGeneralesFormContext);
+
     let nombreRef = useRef();
     let primerApellidoRef = useRef();
     let segundoApellidoRef = useRef();
@@ -56,12 +59,11 @@ const NuevoPropietarioForm = () => {
     const handleSubmitForm = () => {
         obtenerCodigoPostalPorCodigo(codigoPostalRef.current.value)
             .then((response) => {
-                //alert(JSON.stringify(response.data));
                 nuevoPropietario(nombreRef.current.value, primerApellidoRef.current.value, segundoApellidoRef.current.value, dniRef.current.value, domicilioRef.current.value, response.data.id)
                     .then((response) => {
-                        //alert(JSON.stringify(response.data))
                         formik.resetForm();
                         handleOpen();
+                        ListarPropietarios();
                     })
                     .catch((error) => {
                         error.response.status === 409 && handleOpenError(error.response.data.mensaje);                       

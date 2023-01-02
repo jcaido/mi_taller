@@ -9,7 +9,6 @@ import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { modificarPropietario, obtenerCodigoPostalPorCodigo } from '../../codigos-postales/axiosService';
 
-
 const validationSchema = yup.object({
     nombre: yup
         .string('Introduzca el nombre')
@@ -59,15 +58,15 @@ const EditarPropietarioForm = () => {
         obtenerCodigoPostalPorCodigo(codigoPostalRef.current.value)
             .then((response)=> {
                 modificarPropietario
-                (
-                    state.listaPropietariosPorDni.id,
-                    nombreRef.current.value,
-                    primerApellidoRef.current.value,
-                    segundoApellidoRef.current.value,
-                    dniRef.current.value,
-                    domicilioRef.current.value,
-                    response.data.id
-                )
+                    (
+                        state.listaPropietariosPorDni.id,
+                        nombreRef.current.value,
+                        primerApellidoRef.current.value,
+                        segundoApellidoRef.current.value,
+                        dniRef.current.value,
+                        domicilioRef.current.value,
+                        response.data.id
+                    )
                 .then((response) => {
                     formik.resetForm();
                     handleOpen();

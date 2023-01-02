@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import CodigosPostales from '../components/codigos-postales/CodigosPostales';
 import Propietarios from '../components/propietarios/Propietarios';
 import Vehiculos from '../components/vehiculos/Vehiculos';
-import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido } from '../components/codigos-postales/axiosService';
+import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido, obtenerVehiculos, obtenerVehiculosPorMatricula, obtenerVehiculosPorMarcaModelo, obtenerVehiculosPorPropietario } from '../components/codigos-postales/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 import NavBar from '../components/NavBar';
 
@@ -57,7 +57,33 @@ const DatosGenerales = () => {
             })
     }
 
-    const ListarPropietariosPorPrimerApellido = (primerApellido) => {
+    const ListarVehiculosPorMatricula = (matricula) => {
+        obtenerVehiculosPorMatricula(matricula)
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_vehiculos_por_matricula', payload: response.data})
+            })
+            .then(() => {
+                buscarVehiculoPorMatriculaDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+    const ListarVehiculosPorMarcaModelo = (marcaModelo) => {
+        obtenerVehiculosPorMarcaModelo(marcaModelo)
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_vehiculos_por_marca_modelo', payload: response.data})
+            })
+            .then(() => {
+                buscarVehiculosPorMarcaModeloDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+   const ListarPropietariosPorPrimerApellido = (primerApellido) => {
         obtenerPropietariosPorPrimerApellido(primerApellido)
             .then((response) => {
                 dispatch({type:'actualizar_lista_propietarios_por_primer_apellido', payload: response.data})
@@ -82,6 +108,22 @@ const DatosGenerales = () => {
                     })
             })
             .catch((error)=> {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+    const ListarVehiculosPorDniPropietario = (dni) => {
+        obtenerPropietarioPorDni(dni)
+            .then((response) => {
+                obtenerVehiculosPorPropietario(response.data.id)
+                    .then((response) => {
+                        dispatch({type: 'actualizar_lista_vehiculos_por_propietario', payload: response.data})
+                    })
+                    .then(() => {
+                        buscarVehiculosPorDniPropietarioDispatch();
+                    })
+            })
+            .catch((error) => {
                 error.response.status === 404 && handleOpenError(error.response.data.mensaje);
             })
     }
@@ -112,6 +154,19 @@ const DatosGenerales = () => {
             })
     }
 
+    const ObtenerVehiculoPorMatriculaParaEditar = (matricula) => {
+        obtenerVehiculosPorMatricula(matricula)
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_vehiculos_por_matricula', payload: response.data})
+            })
+            .then(() => {
+                editarVehiculoFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
     const ObtenerCodigoPostalPorCodigoParaEliminar = (codigo)=> {
         obtenerCodigoPostalPorCodigo(codigo)
             .then((response) => {
@@ -132,6 +187,19 @@ const DatosGenerales = () => {
             })
             .then(() => {
                 eliminarPropietarioFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje)
+            })
+    }
+
+    const obtenerVehiculoPorMatriculaParaEliminar = (matricula) => {
+        obtenerVehiculosPorMatricula(matricula)
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_vehiculos_por_matricula', payload: response.data})
+            })
+            .then(() => {
+                eliminarVehiculoFormDispatch();
             })
             .catch((error) => {
                 error.response.status === 404 && handleOpenError(error.response.data.mensaje)
@@ -178,8 +246,22 @@ const DatosGenerales = () => {
             })
     }
 
+    const ListarVehiculos = () => {
+        obtenerVehiculos()
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_vehiculos', payload: response.data})
+            })
+            .catch((error) => {
+                alert(`ERROR: ${error.response.data.mensaje}`);
+            })
+    }
+
     const CerrarFormEditarPropietario = () => {
         dispatch({type:'cerrar_formulario_editar_propietario', payload: false})
+    }
+
+    const CerrarFormEditarVehiculo = () => {
+        dispatch({type: 'cerrar_formulario_editar_vehiculo', payload: false})
     }
 
     const DatosGeneralesFormInicial = {
@@ -187,6 +269,16 @@ const DatosGenerales = () => {
         formBuscarVehiculo: false,
         formEditarVehiculo: false,
         formEliminarVehiculo: false,
+        tablaVehiculos: false,
+        vehiculoPorMatricula: false,
+        vehiculosPorMarcaModelo: false,
+        vehiculosPorPropietario: false,
+        editarVehiculo: false,
+        eliminarVehiculo: false,
+        listaVehiculos: [],
+        listaVehiculosPorMatricula: [],
+        listaVehiculosPorMarcaModelo: [],
+        listaVehiculosPorPropietario: [],
 
         formNuevoPropietario: false,
         formBuscarPropietario: false,
@@ -227,7 +319,13 @@ const DatosGenerales = () => {
                     formNuevoVehiculo: action.payload.formNuevoVehiculo,
                     formBuscarVehiculo: action.payload.formBuscarVehiculo,
                     formEditarVehiculo: action.payload.formEditarVehiculo,
-                    formEliminarVehiculo: action.payload.formEliminarVehiculo
+                    formEliminarVehiculo: action.payload.formEliminarVehiculo,
+                    tablaVehiculos: action.payload.tablaVehiculos,
+                    vehiculoPorMatricula: action.payload.vehiculoPorMatricula,
+                    vehiculosPorMarcaModelo: action.payload.vehiculosPorMarcaModelo,
+                    vehiculosPorPropietario: action.payload.vehiculosPorPropietario,
+                    editarVehiculo: action.payload.editarVehiculo,
+                    eliminarVehiculo: action.payload.eliminarVehiculo
                 }
             case 'propietario':
                 return {
@@ -242,7 +340,6 @@ const DatosGenerales = () => {
                     propietariosPorCodigoPostal: action.payload.propietariosPorCodigoPostal,
                     editarPropietario: action.payload.editarPropietario,
                     eliminarPropietario: action.payload.eliminarPropietario,
-                    listaPropietarios: action.payload.listaPropietarios,
                 }
             case 'codigo_postal':
                 return {
@@ -257,7 +354,6 @@ const DatosGenerales = () => {
                     codigoPostalPorProvincia: action.payload.codigoPostalPorProvincia,
                     editarCodigoPostal: action.payload.editarCodigoPostal,
                     eliminarCodigoPostal: action.payload.eliminarCodigoPostal,
-                    listaCodigosPostales: action.payload.listaCodigosPostales,
                 }
             case 'actualizar_lista_codigos_postales':
                 return {
@@ -309,7 +405,33 @@ const DatosGenerales = () => {
                 return {
                     ...state,
                     editarPropietario: action.payload
-                }               
+                }
+            case 'actualizar_lista_vehiculos':
+                return {
+                    ...state,
+                    listaVehiculos: action.payload
+                }
+            case 'actualizar_lista_vehiculos_por_matricula':
+                return {
+                    ...state,
+                    listaVehiculosPorMatricula: action.payload
+                }
+            case 'actualizar_lista_vehiculos_por_marca_modelo':
+                return {
+                    ...state,
+                    listaVehiculosPorMarcaModelo: action.payload
+                }
+            case 'actualizar_lista_vehiculos_por_propietario':
+                return {
+                    ...state,
+                    listaVehiculosPorPropietario: action.payload
+                }
+            case 'cerrar_formulario_editar_vehiculo':
+                return {
+                    ...state,
+                    editarVehiculo: action.payload
+                }
+
             default:
                 return state;
         }
@@ -325,6 +447,11 @@ const DatosGenerales = () => {
                 formBuscarVehiculo: false,
                 formEditarVehiculo: false,
                 formEliminarVehiculo: false,
+                tablaVehiculos: true,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false
             }
         })
     }
@@ -337,6 +464,106 @@ const DatosGenerales = () => {
                 formBuscarVehiculo: true,
                 formEditarVehiculo: false,
                 formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []
+            }
+        })
+    }
+
+    function buscarVehiculoPorMatriculaDispatch() {
+        dispatch({
+            type: 'vehiculo',
+            payload: {
+                formNuevoVehiculo: false,
+                formBuscarVehiculo: true,
+                formEditarVehiculo: false,
+                formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: true,
+                vehiculosPorMarcaModelo: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []                
+            }
+        })
+    }
+
+    function buscarVehiculosPorMarcaModeloDispatch() {
+        dispatch({
+            type: 'vehiculo',
+            payload: {
+                formNuevoVehiculo: false,
+                formBuscarVehiculo: true,
+                formEditarVehiculo: false,
+                formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: true,
+                vehiculosPorPropietario: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []                 
+            }
+        })
+    }
+
+    function buscarVehiculosPorDniPropietarioDispatch() {
+        dispatch({
+            type: 'vehiculo',
+            payload: {
+                formNuevoVehiculo: false,
+                formBuscarVehiculo: true,
+                formEditarVehiculo: false,
+                formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                vehiculosPorPropietario: true,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []                
+            }
+        })
+    }
+
+    function buscarVehiculoParaEditarDispatch() {
+        dispatch({
+            type: 'vehiculo',
+            payload: {
+                formNuevoVehiculo: false,
+                formBuscarVehiculo: false,
+                formEditarVehiculo: true,
+                formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                vehiculosPorPropietario: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []                
+            }
+        })
+    }
+
+    function buscarVehiculoParaEliminarDispatch() {
+        dispatch({
+            type: 'vehiculo',
+            payload: {
+                formNuevoVehiculo: false,
+                formBuscarVehiculo: false,
+                formEditarVehiculo: false,
+                formEliminarVehiculo: true, 
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                vehiculosPorPropietario: false,
+                editarVehiculo: false,
+                eliminarVehiculo: false,
+                listaVehiculos: []                               
             }
         })
     }
@@ -349,6 +576,13 @@ const DatosGenerales = () => {
                 formBuscarVehiculo: false,
                 formEditarVehiculo: true,
                 formEliminarVehiculo: false,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                vehiculosPorPropietario: false,
+                editarVehiculo: true,
+                eliminarVehiculo: false,
+                listaVehiculos: []                
             }
         })
     }
@@ -361,6 +595,13 @@ const DatosGenerales = () => {
                 formBuscarVehiculo: false,
                 formEditarVehiculo: false,
                 formEliminarVehiculo: true,
+                tablaVehiculos: false,
+                vehiculoPorMatricula: false,
+                vehiculosPorMarcaModelo: false,
+                vehiculosPorPropietario: false,
+                editarVehiculo: false,
+                eliminarVehiculo: true,
+                listaVehiculos: []                
             }
         })
     }
@@ -379,7 +620,6 @@ const DatosGenerales = () => {
                 propietariosPorCodigoPostal: false,
                 editarPropietario: false,
                 eliminarPropietario: false,
-                listaPropietarios: []
             }
         })
     }
@@ -550,7 +790,6 @@ const DatosGenerales = () => {
                 codigoPostalPorProvincia: false,
                 editarCodigoPostal: false,
                 eliminarCodigoPostal: false,
-                listaCodigosPostales: [],
             }
         })
     }
@@ -714,6 +953,8 @@ const DatosGenerales = () => {
                 state,
                 nuevoVehiculoFormDispatch,
                 buscarVehiculoFormDispatch,
+                buscarVehiculoParaEditarDispatch,
+                buscarVehiculoParaEliminarDispatch,
                 editarVehiculoFormDispatch,
                 eliminarVehiculoFormDispatch,
                 nuevoPropietarioFormDispatch,
@@ -741,7 +982,14 @@ const DatosGenerales = () => {
                 ListarPropietariosPorCodigoPostal,
                 ObtenerPropietarioPorDniParaEditar,
                 CerrarFormEditarPropietario,
-                obtenerPropietarioPorDniParaEliminar
+                obtenerPropietarioPorDniParaEliminar,
+                ListarVehiculosPorMatricula,
+                ListarVehiculos,
+                ListarVehiculosPorMarcaModelo,
+                ListarVehiculosPorDniPropietario,
+                CerrarFormEditarVehiculo,
+                ObtenerVehiculoPorMatriculaParaEditar,
+                obtenerVehiculoPorMatriculaParaEliminar
             }}
         >
             <Grid container>

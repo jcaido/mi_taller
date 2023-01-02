@@ -1,23 +1,23 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react'
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
 import { DataGrid }  from '@mui/x-data-grid';
 
 const columns = [
 
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'nombre', headerName: 'Nombre', width: 90 },
-    { field: 'primerApellido', headerName: '1º apellido', width: 90 },
-    { field: 'segundoApellido', headerName: '2º apellido', width: 90 },
-    { field: 'dni', headerName: 'DNI', width: 100 },
+    { field: 'id', headerName: 'ID', width: 60 },
+    { field: 'matricula', headerName: 'Matricula', width: 90 },
+    { field: 'marca', headerName: 'Marca', width: 90 },
+    { field: 'modelo', headerName: 'Modelo',  width: 90 },
+    { field: 'propietarioDni', headerName: 'Propietario', width: 100 }
 ]
 
-const TablaPropietarios = () => {
+const TablaVehiculos = () => {
 
-    const { state, ListarPropietarios } = useContext(DatosGeneralesFormContext);
+    const { state, ListarVehiculos } = useContext(DatosGeneralesFormContext);
 
     useEffect(() => {
         
-        ListarPropietarios();
+        ListarVehiculos();
 
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -32,18 +32,24 @@ const TablaPropietarios = () => {
                         color: 'primary.main',
                     }
                 }}
+                rows={state.listaVehiculos}
+                columns={columns}
                 initialState={{
+                    columns: {
+                        columnVisibilityModel: {
+                            marca: false,
+                            modelo: false
+                        }
+                    },
                     sorting: {
                         sortModel: [{field: 'id', sort: 'desc'}]
                     }
                 }}
-                rows={state.listaPropietarios}
-                columns={columns}
                 pageSize={4}
                 rowsPerPageOptions={[4]}
-            />            
+            />       
         </div>
     )
 }
 
-export default TablaPropietarios
+export default TablaVehiculos

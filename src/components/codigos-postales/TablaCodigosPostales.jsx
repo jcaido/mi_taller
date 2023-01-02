@@ -18,7 +18,7 @@ const TablaCodigosPostales = () => {
         
         ListarCodigosPostales();
 
-    },[ListarCodigosPostales]);
+    },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div style={{ height: 315, width: '100%' }}>

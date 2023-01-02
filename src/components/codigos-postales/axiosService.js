@@ -88,3 +88,47 @@ export const modificarPropietario = (id, nombre, primerApellido, segundoApellido
 export const eliminarPropietario = (id) => {
     return axios.delete(`http://localhost:8080/api/propietarios/${id}`)
 }
+
+export const nuevoVehiculo = (matricula, marca, modelo, color, id_propietario) => {
+    
+    let body = {
+        matricula: matricula,
+        marca: marca,
+        modelo: modelo,
+        color: color
+    }
+
+    return axios.post(`http://localhost:8080/api/vehiculos/${id_propietario}`, body)
+}
+
+export const obtenerVehiculosPorMatricula = (matricula) => {
+    return axios.get(`http://localhost:8080/api/vehiculos/matricula/${matricula}`)
+}
+
+export const obtenerVehiculos = () => {
+    return axios.get('http://localhost:8080/api/vehiculos/parcial')
+}
+
+export const obtenerVehiculosPorMarcaModelo = (marcaModelo) => {
+    return axios.get(`http://localhost:8080/api/vehiculos/marca-modelo/parcial/${marcaModelo}`)
+}
+
+export const obtenerVehiculosPorPropietario = (id_propietario) => {
+    return axios.get(`http://localhost:8080/api/vehiculos/propietario/parcial/${id_propietario}`)
+}
+
+export const modificarVehiculo = (id, matricula, marca, modelo, color, id_propietario) => {
+
+    let body = {
+        id: id,
+        matricula: matricula,
+        marca: marca,
+        modelo: modelo,
+        color: color
+    }
+    return axios.put(`http://localhost:8080/api/vehiculos/${id_propietario}`, body)
+}
+
+export const eliminarVehiculo = (id) => {
+    return axios.delete(`http://localhost:8080/api/vehiculos/${id}`)
+}
