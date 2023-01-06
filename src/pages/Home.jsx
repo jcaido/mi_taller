@@ -48,7 +48,6 @@ const Home = () => {
             </CardActions>    
           </Card>          
         </Box>
-
       </Grid>
       <Grid item xs = {12}  sm= {6} md = {3}>
         <Box p = {2}>
@@ -68,7 +67,7 @@ const Home = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={()=>navigate('/taller')}>ACCESO</Button>
+                <Button size="small" onClick={()=>navigate('/taller/opciones')}>ACCESO</Button>
               </CardActions>    
             </Card>          
         </Box>
