@@ -32,7 +32,7 @@ const NavBar = ({ pages, pagina }) => {
             case 'DATOS GENERALES':
                 return navigate('/datos');
             case 'TALLER':
-                return navigate('/taller');
+                return navigate('/taller/opciones');
             case 'FACTURACION':   
                 return navigate('/facturacion');
             case 'CONTABILIDAD':

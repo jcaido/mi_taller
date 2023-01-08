@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import CodigosPostales from '../components/codigos-postales/CodigosPostales';
 import Propietarios from '../components/propietarios/Propietarios';
 import Vehiculos from '../components/vehiculos/Vehiculos';
-import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido, obtenerVehiculos, obtenerVehiculosPorMatricula, obtenerVehiculosPorMarcaModelo, obtenerVehiculosPorPropietario } from '../components/codigos-postales/axiosService';
+import { obtenerCodigoPostalPorCodigo, obtenerCodigosPostales, obtenerCodigosPostalesPorLocalidad, obtenerCodigosPostalesPorProvincia, obtenerPropietarioPorDni, obtenerPropietarios,  obtenerPropietariosPorCodigoPostal,  obtenerPropietariosPorPrimerApellido, obtenerVehiculos, obtenerVehiculosPorMatricula, obtenerVehiculosPorMarcaModelo, obtenerVehiculosPorPropietario } from '../services/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 import NavBar from '../components/NavBar';
 

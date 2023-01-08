@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
-import { modificarPropietario, obtenerCodigoPostalPorCodigo } from '../../codigos-postales/axiosService';
+import { modificarPropietario, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
     nombre: yup

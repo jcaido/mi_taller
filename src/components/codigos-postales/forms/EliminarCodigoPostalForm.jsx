@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Box  } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { eliminarCodigoPostal } from '../axiosService';
+import { eliminarCodigoPostal } from '../../../services/axiosService';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import ModalErrores from '../../../utils/ModalErrores';
 import ModalOK from '../../../utils/ModalOK';

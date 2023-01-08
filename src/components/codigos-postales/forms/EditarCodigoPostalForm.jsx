@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Box  } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { modificarCodigoPostal } from '../axiosService';
+import { modificarCodigoPostal } from '../../../services/axiosService';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import ModalErrores from '../../../utils/ModalErrores';
 import ModalOK from '../../../utils/ModalOK';

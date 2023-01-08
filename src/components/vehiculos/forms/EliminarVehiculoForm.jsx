@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
-import { eliminarVehiculo } from '../../codigos-postales/axiosService';
+import { eliminarVehiculo } from '../../../services/axiosService';
 
 const EliminarVehiculoForm = () => {
 

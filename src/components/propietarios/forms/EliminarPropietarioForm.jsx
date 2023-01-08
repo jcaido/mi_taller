@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
-import { eliminarPropietario } from '../../codigos-postales/axiosService';
+import { eliminarPropietario } from '../../../services/axiosService';
 
 const EliminarPropietarioForm = () => {
 

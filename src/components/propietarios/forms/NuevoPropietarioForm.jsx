@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { nuevoPropietario, obtenerCodigoPostalPorCodigo } from '../../codigos-postales/axiosService';
+import { nuevoPropietario, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';

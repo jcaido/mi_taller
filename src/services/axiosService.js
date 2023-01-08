@@ -132,3 +132,19 @@ export const modificarVehiculo = (id, matricula, marca, modelo, color, id_propie
 export const eliminarVehiculo = (id) => {
     return axios.delete(`http://localhost:8080/api/vehiculos/${id}`)
 }
+
+export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, id_matricula) => {
+    
+    let body = {
+        fechaApertura: fechaApertura,
+        descripcion: descripcion,
+        kilometros: kilometros,
+        cerrada: false
+    }
+
+    return axios.post(`http://localhost:8080/api/ordenesReparacion/${id_matricula}`, body)
+}
+
+export const obtenerOrdenesReparacionAbiertas = ()=> {
+    return axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false')
+}

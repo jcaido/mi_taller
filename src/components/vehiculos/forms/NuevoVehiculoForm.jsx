@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
-import { nuevoVehiculo, obtenerPropietarioPorDni } from '../../codigos-postales/axiosService';
+import { nuevoVehiculo, obtenerPropietarioPorDni } from '../../../services/axiosService';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 
 const validationSchema = yup.object({

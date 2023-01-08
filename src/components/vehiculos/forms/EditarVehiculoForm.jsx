@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
-import { modificarVehiculo, obtenerPropietarioPorDni } from '../../codigos-postales/axiosService';
+import { modificarVehiculo, obtenerPropietarioPorDni } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   matricula: yup
