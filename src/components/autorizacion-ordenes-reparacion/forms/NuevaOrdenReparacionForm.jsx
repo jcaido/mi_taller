@@ -32,6 +32,7 @@ const validationSchema = yup.object({
         .required('Los kilometros son obligatorios')
 });
 
+
 const NuevaOrdenReparacionForm = () => {
 
     const { ListarOrdenesReparacionAbiertas } = useContext(AutorizacionOrdenesContext);

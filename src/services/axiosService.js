@@ -145,6 +145,14 @@ export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, id_
     return axios.post(`http://localhost:8080/api/ordenesReparacion/${id_matricula}`, body)
 }
 
-export const obtenerOrdenesReparacionAbiertas = ()=> {
+export const obtenerOrdenesReparacionAbiertas = () => {
     return axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false')
+}
+
+export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) => {
+    return axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false/${fechaApertura}`)
+}
+
+export const obtenerOrdenesReparacionAbiertasPorVehiculo = (id_vehiculo) => {
+    return axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${id_vehiculo}`)
 }

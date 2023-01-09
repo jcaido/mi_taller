@@ -4,16 +4,18 @@ import NavigationButtonAutOrdenes from './NavigationButtonAutOrdenes';
 import { AutorizacionOrdenesContext } from '../../pages/TallerAutorizacionOrdenes';
 import NuevaOrdenReparacionForm from './forms/NuevaOrdenReparacionForm';
 import TablaOrdenesReparacion from './TablaOrdenesReparacion';
+import BuscarOrdenReparacionForm from './forms/BuscarOrdenReparacionForm';
+import TablaOrdenesReparacionBusqueda from './TablaOrdenesReparacionBusqueda';
 
 const AutorizacionOrdenes = () => {
 
     const { 
         state, 
         nuevaOrdenReparacionFormDispatch, 
-        BuscarOrdenReparacionFormDispatch,
-        EditarOrdenReparacionFormDispatch,
-        EliminarOrdenReparacionFormDispatch,
-        ImprimirOrdenReparacionFormDispatch 
+        buscarOrdenReparacionFormDispatch,
+        editarOrdenReparacionFormDispatch,
+        eliminarOrdenReparacionFormDispatch,
+        imprimirOrdenReparacionFormDispatch 
     } = useContext(AutorizacionOrdenesContext);
 
     return (
@@ -22,17 +24,17 @@ const AutorizacionOrdenes = () => {
                 <Box mt = {1}>
                     <NavigationButtonAutOrdenes
                         nueva = { nuevaOrdenReparacionFormDispatch }
-                        buscar = { BuscarOrdenReparacionFormDispatch }
-                        editar = { EditarOrdenReparacionFormDispatch }
-                        eliminar = { EliminarOrdenReparacionFormDispatch }
-                        imprimir = { ImprimirOrdenReparacionFormDispatch }
+                        buscar = { buscarOrdenReparacionFormDispatch }
+                        editar = { editarOrdenReparacionFormDispatch }
+                        eliminar = { eliminarOrdenReparacionFormDispatch }
+                        imprimir = { imprimirOrdenReparacionFormDispatch }
                     />
                 </Box>
             </Grid>
             <Grid item md = {4}>
                 <Box>
                     { state.formNuevaOrdenReparacion && <NuevaOrdenReparacionForm></NuevaOrdenReparacionForm> }
-                    { state.formBuscarOrdenReparacion && <p>formulario buscar orden de reparacion</p> }
+                    { state.formBuscarOrdenReparacion && <BuscarOrdenReparacionForm></BuscarOrdenReparacionForm> }
                     { state.formEditarOrdenReparacion && <p>formulario editar orden de reparacion</p> }
                     { state.formEliminarOrdenReparacion && <p>formulario eliminar orden de reparacion</p> }
                     { state.formImprimirOrdenReparacion && <p>formulario imprimir orden de reparacion</p> }
@@ -41,6 +43,9 @@ const AutorizacionOrdenes = () => {
             <Grid item md = {8}>
                 <Box>
                     { state.tablaOrdenesReparacion && <TablaOrdenesReparacion></TablaOrdenesReparacion> }
+                    { state.tablaOrdenesReparacionAbiertasPorFechaApertura && <TablaOrdenesReparacionBusqueda lista = { state.listaOrdenesReparacionAbiertasPorFechaApertura }></TablaOrdenesReparacionBusqueda> }
+                    { state.tablaOrdensReparacionAbiertasPorVehiculo && <TablaOrdenesReparacionBusqueda lista = { state.listaOrdenesReparacionAbiertasPorVehiculo }></TablaOrdenesReparacionBusqueda> }
+
                 </Box>
             </Grid>
         </Grid>
