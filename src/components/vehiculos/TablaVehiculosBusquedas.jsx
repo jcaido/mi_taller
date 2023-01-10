@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
+import React from 'react';
 import { DataGrid }  from '@mui/x-data-grid';
 
 const columns = [
@@ -11,9 +10,7 @@ const columns = [
     { field: 'propietarioDni', headerName: 'Propietario', width: 100 }
 ]
 
-const TablaVehiculosPorPropietario = () => {
-
-    const { state } = useContext(DatosGeneralesFormContext);
+const TablaVehiculosBusquedas = ({ lista }) => {
 
     return (
         <div style={{ height: 315, width: '100%' }}>
@@ -26,7 +23,7 @@ const TablaVehiculosPorPropietario = () => {
                         color: 'primary.main',
                     }
                 }}
-                rows={state.listaVehiculosPorPropietario}
+                rows={ lista }
                 columns={columns}
                 initialState={{
                     columns: {
@@ -40,10 +37,10 @@ const TablaVehiculosPorPropietario = () => {
                     }
                 }}
                 pageSize={4}
-                rowsPerPageOptions={[4]}
+                rowsPerPageOptions={[4]}                                
             />
         </div>
     )
 }
 
-export default TablaVehiculosPorPropietario
+export default TablaVehiculosBusquedas

@@ -6,8 +6,7 @@ import NuevoVehiculoForm from './forms/NuevoVehiculoForm';
 import BuscarVehiculoForm from './forms/BuscarVehiculoForm';
 import Vehiculo from './Vehiculo';
 import TablaVehiculos from './TablaVehiculos';
-import TablaVehiculosPorMarcaModelo from './TablaVehiculosPorMarcaModelo';
-import TablaVehiculosPorPropietario from './TablaVehiculosPorPropietario';
+import TablaVehiculosBusquedas from './TablaVehiculosBusquedas';
 import EditarVehiculoForm from './forms/EditarVehiculoForm';
 import BuscarVehiculoParaEditarForm from './forms/BuscarVehiculoParaEditarForm';
 import BuscarVehiculoParaEliminar from './forms/BuscarVehiculoParaEliminar';
@@ -46,8 +45,8 @@ const Vehiculos = () => {
       <Box p = {2}>
         { state.tablaVehiculos && <TablaVehiculos></TablaVehiculos> }
         { state.vehiculoPorMatricula && state.listaVehiculosPorMatricula !== null && <Vehiculo></Vehiculo>}
-        { state.vehiculosPorMarcaModelo && <TablaVehiculosPorMarcaModelo></TablaVehiculosPorMarcaModelo>  }
-        { state.vehiculosPorPropietario && <TablaVehiculosPorPropietario></TablaVehiculosPorPropietario>  }
+        { state.vehiculosPorMarcaModelo && <TablaVehiculosBusquedas lista = { state.listaVehiculosPorMarcaModelo }></TablaVehiculosBusquedas>  }
+        { state.vehiculosPorPropietario && <TablaVehiculosBusquedas lista = { state.listaVehiculosPorPropietario }></TablaVehiculosBusquedas>  }
       </Box>
       <Box>
         { state.editarVehiculo && <EditarVehiculoForm></EditarVehiculoForm> }

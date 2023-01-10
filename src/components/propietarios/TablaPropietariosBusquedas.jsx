@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
+import React from 'react';
 import { DataGrid }  from '@mui/x-data-grid';
 
 const columns = [
@@ -11,9 +10,7 @@ const columns = [
     { field: 'dni', headerName: 'DNI', width: 100 },
 ]
 
-const TablaPropietariosPorCodigoPostal = () => {
-
-    const { state }  = useContext(DatosGeneralesFormContext);
+const TablaPropietariosBusquedas = ({ lista }) => {
 
     return (
         <div style={{ height: 315, width: '100%' }}>
@@ -25,15 +22,14 @@ const TablaPropietariosPorCodigoPostal = () => {
                     '& .MuiDataGrid-cell:hover': {
                         color: 'primary.main',
                     }                    
-
                 }}
-                rows={state.listaPropietariosPorCodigoPostal}
+                rows={ lista }
                 columns={columns}
                 pageSize={4}
-                rowsPerPageOptions={[4]}
+                rowsPerPageOptions={[4]}                
             />
         </div>
     )
 }
 
-export default TablaPropietariosPorCodigoPostal
+export default TablaPropietariosBusquedas

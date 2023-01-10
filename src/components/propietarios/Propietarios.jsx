@@ -5,8 +5,7 @@ import NuevoPropietarioForm from './forms/NuevoPropietarioForm';
 import TablaPropietarios from './TablaPropietarios';
 import BuscarPropietarioForm from './forms/BuscarPropietarioForm';
 import Propietario from './Propietario';
-import TablaPropietariosPorPrimerApellido from './TablaPropietariosPorPrimerApellido';
-import TablaPropietariosPorCodigoPostal from './TablaPropietariosPorCodigoPostal';
+import TablaPropietariosBusquedas from './TablaPropietariosBusquedas';
 import BuscarPropietarioParaEditarForm from './forms/BuscarPropietarioParaEditarForm';
 import EditarPropietarioForm from './forms/EditarPropietarioForm';
 import BuscarPropietarioParaEliminarForm from './forms/BuscarPropietarioParaEliminarForm';
@@ -47,8 +46,8 @@ const Propietarios = () => {
       <Box p = {2}>
         { state.tablaPropietarios && <TablaPropietarios></TablaPropietarios> }
         { state.propietarioPorDni && state.listaPropietariosPorDni !== null && <Propietario></Propietario>}
-        { state.propietariosPorPrimerApellido && <TablaPropietariosPorPrimerApellido></TablaPropietariosPorPrimerApellido> }
-        { state.propietariosPorCodigoPostal && <TablaPropietariosPorCodigoPostal></TablaPropietariosPorCodigoPostal> }
+        { state.propietariosPorPrimerApellido && <TablaPropietariosBusquedas lista = { state.listaPropietariosPorPrimerApellido }></TablaPropietariosBusquedas> }
+        { state.propietariosPorCodigoPostal && <TablaPropietariosBusquedas lista = { state.listaPropietariosPorCodigoPostal }></TablaPropietariosBusquedas> }
       </Box>
       <Box>
         { state.editarPropietario && <EditarPropietarioForm></EditarPropietarioForm> }
