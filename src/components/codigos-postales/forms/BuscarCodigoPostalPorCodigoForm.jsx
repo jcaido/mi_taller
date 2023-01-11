@@ -1,20 +1,17 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box  } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 
-const BuscarCodigoPostalParaEditarForm = () => {
-
-    const { ObtenerCodigoPostalPorCodigoParaEditar, CerrarFormEditarCodigoPostal } = useContext(DatosGeneralesFormContext);
+const BuscarCodigoPostalPorCodigoForm = ({ label, obtener, cerrar }) => {
 
     let codigoRef = useRef();
 
     const handleSubmitForm = () => {
-        ObtenerCodigoPostalPorCodigoParaEditar(codigoRef.current.value);
+        obtener(codigoRef.current.value)
         formik.resetForm();
     }
 
@@ -32,7 +29,7 @@ const BuscarCodigoPostalParaEditarForm = () => {
         <Box m= {2}>
             <Box>
                 <Divider>
-                    <Chip label='Editar codigo postal'/> 
+                    <Chip label= { label }/> 
                 </Divider>
             </Box>
             <form onSubmit = { formik.handleSubmit}>
@@ -45,7 +42,7 @@ const BuscarCodigoPostalParaEditarForm = () => {
                         size="small"
                         value={formik.values.codigo}
                         onChange={formik.handleChange}
-                        onFocus={CerrarFormEditarCodigoPostal}
+                        onFocus={cerrar}
                         error={formik.touched.codigo && Boolean(formik.errors.codigo)}
                         helperText={formik.touched.codigo && formik.errors.codigo}
                         inputRef={codigoRef}
@@ -59,4 +56,4 @@ const BuscarCodigoPostalParaEditarForm = () => {
    )
 }
 
-export default BuscarCodigoPostalParaEditarForm
+export default BuscarCodigoPostalPorCodigoForm

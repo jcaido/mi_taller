@@ -1,61 +1,57 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box  } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 
-const BuscarCodigoPostalParaEliminarForm = () => {
+const BuscarVehiculoPorMatriculaForm = ({ label, obtener, cerrar }) => {
 
-    const { ObtenerCodigoPostalPorCodigoParaEliminar } = useContext(DatosGeneralesFormContext);
-
-    let codigoRef = useRef();
+    let matriculaRef = useRef();
 
     const handleSubmitForm = () => {
-        ObtenerCodigoPostalPorCodigoParaEliminar(codigoRef.current.value);
+        obtener(matriculaRef.current.value)
         formik.resetForm();
     }
-
 
     const formik = useFormik({
 
         initialValues: {
-            codigo: ''
+            matricula: ''
         },
         onSubmit: () =>  handleSubmitForm (),
     })
-
 
     return (
         <Box m= {2}>
             <Box>
                 <Divider>
-                    <Chip label='Eliminar codigo postal'/> 
+                    <Chip label={ label }/>
                 </Divider>
             </Box>
             <form onSubmit = { formik.handleSubmit}>
                 <Box m = {1}>
                     <TextField
                         fullWidth
-                        id="codigo"
-                        name="codigo"
-                        label="codigo"
+                        id="matricula"
+                        name="matricula"
+                        label="matricula"
                         size="small"
-                        value={formik.values.codigo}
+                        value={formik.values.matricula}
                         onChange={formik.handleChange}
-                        error={formik.touched.codigo && Boolean(formik.errors.codigo)}
-                        helperText={formik.touched.codigo && formik.errors.codigo}
-                        inputRef={codigoRef}
-                    />                    
+                        onFocus={cerrar}
+                        error={formik.touched.matricula && Boolean(formik.errors.matricula)}
+                        helperText={formik.touched.matricula && formik.errors.matricula}
+                        inputRef={matriculaRef}
+                    />
                 </Box>
                 <Box m = {1}>
                     <Button type = 'submit' color = 'primary' variant = 'contained' fullWidth>Aceptar</Button>
-                </Box>
-            </form>      
+                </Box>                
+            </form>
         </Box>
-   )
+    )
 }
 
-export default BuscarCodigoPostalParaEliminarForm
+export default BuscarVehiculoPorMatriculaForm

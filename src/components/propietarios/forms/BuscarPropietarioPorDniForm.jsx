@@ -1,19 +1,17 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef } from 'react';
 import { useFormik } from 'formik';
-import { Box, TextField  } from '@mui/material';
+import { Box  } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 
-const BuscarPropietarioParaEliminarForm = () => {
-
-    const { obtenerPropietarioPorDniParaEliminar } = useContext(DatosGeneralesFormContext);
+const BuscarPropietarioPorDniForm = ({ label, obtener, cerrar }) => {
 
     let dniRef = useRef();
 
-    const handleSubmitForm= () => {
-        obtenerPropietarioPorDniParaEliminar(dniRef.current.value);
+    const handleSubmitForm = () => {
+        obtener(dniRef.current.value)
         formik.resetForm();
     }
 
@@ -29,8 +27,8 @@ const BuscarPropietarioParaEliminarForm = () => {
         <Box m= {2}>
             <Box>
                 <Divider>
-                    <Chip label='Eliminar propietario'/> 
-                </Divider>                  
+                    <Chip label = { label }/>
+                </Divider>
             </Box>
             <form onSubmit = { formik.handleSubmit}>
                 <Box m = {1}>
@@ -42,9 +40,10 @@ const BuscarPropietarioParaEliminarForm = () => {
                         size="small"
                         value={formik.values.dni}
                         onChange={formik.handleChange}
+                        onFocus={cerrar}
                         error={formik.touched.dni && Boolean(formik.errors.dni)}
                         helperText={formik.touched.dni && formik.errors.dni}
-                        inputRef={dniRef}                        
+                        inputRef={dniRef}
                     />
                 </Box>
                 <Box m = {1}>
@@ -55,4 +54,4 @@ const BuscarPropietarioParaEliminarForm = () => {
     )
 }
 
-export default BuscarPropietarioParaEliminarForm
+export default BuscarPropietarioPorDniForm

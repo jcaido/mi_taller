@@ -236,6 +236,10 @@ const DatosGenerales = () => {
         dispatch({type: 'cerrar_formulario_editar_codigo_postal', payload: false})
     }
 
+    const CerrarFormEliminarCodigoPostal = () => {
+        dispatch({type: 'cerrar_formulario_eliminar_codigo_postal', payload: false})
+    }
+
     const ListarPropietarios = () => {
         obtenerPropietarios()
             .then((response) => {
@@ -260,8 +264,16 @@ const DatosGenerales = () => {
         dispatch({type:'cerrar_formulario_editar_propietario', payload: false})
     }
 
+    const CerrarFormEliminarPropietario = () => {
+        dispatch({type: 'cerrar_formulario_eliminar_propietario', payload: false})
+    }
+
     const CerrarFormEditarVehiculo = () => {
         dispatch({type: 'cerrar_formulario_editar_vehiculo', payload: false})
+    }
+
+    const CerrarFormEliminarVehiculo = () => {
+        dispatch({type: 'cerrar_formulario_eliminar_vehiculo', payload: false})
     }
 
     const DatosGeneralesFormInicial = {
@@ -381,6 +393,11 @@ const DatosGenerales = () => {
                     ...state,
                     editarCodigoPostal: action.payload
                 }
+            case 'cerrar_formulario_eliminar_codigo_postal':
+                return {
+                    ...state,
+                    eliminarCodigoPostal: action.payload
+                }
             case 'actualizar_lista_propietarios':
                 return {
                     ...state,
@@ -405,6 +422,11 @@ const DatosGenerales = () => {
                 return {
                     ...state,
                     editarPropietario: action.payload
+                }
+            case 'cerrar_formulario_eliminar_propietario':
+                return {
+                    ...state,
+                    eliminarPropietario: action.payload
                 }
             case 'actualizar_lista_vehiculos':
                 return {
@@ -431,7 +453,11 @@ const DatosGenerales = () => {
                     ...state,
                     editarVehiculo: action.payload
                 }
-
+            case 'cerrar_formulario_eliminar_vehiculo':
+                return {
+                    ...state,
+                    eliminarVehiculo: action.payload
+                }
             default:
                 return state;
         }
@@ -989,7 +1015,10 @@ const DatosGenerales = () => {
                 ListarVehiculosPorDniPropietario,
                 CerrarFormEditarVehiculo,
                 ObtenerVehiculoPorMatriculaParaEditar,
-                obtenerVehiculoPorMatriculaParaEliminar
+                obtenerVehiculoPorMatriculaParaEliminar,
+                CerrarFormEliminarPropietario,
+                CerrarFormEliminarCodigoPostal,
+                CerrarFormEliminarVehiculo
             }}
         >
             <Grid container>

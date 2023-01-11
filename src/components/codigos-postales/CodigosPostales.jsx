@@ -7,8 +7,7 @@ import BuscarCodigoPostalForm from './forms/BuscarCodigoPostalForm';
 import EditarCodigoPostalForm from './forms/EditarCodigoPostalForm';
 import CodigoPostal from './CodigoPostal';
 import TablaCodigosPostalesPorProvincia from './TablaCodigosPostalesPorProvincia';
-import BuscarCodigoPostalParaEditarForm from './forms/BuscarCodigoPostalParaEditarForm';
-import BuscarCodigoPostalParaEliminarForm from './forms/BuscarCodigoPostalParaEliminarForm';
+import BuscarCodigoPostalPorCodigoForm from './forms/BuscarCodigoPostalPorCodigoForm';
 import EliminarCodigoPostalForm from './forms/EliminarCodigoPostalForm';
 import NavigationButton from '../NavigationButton';
 
@@ -18,7 +17,11 @@ const CodigosPostales = () => {
          nuevoCodigoPostalFormDispatch,
          buscarCodigoPostalFormDispatch,
          buscarCodigoPostalParaEditarDispatch,
-         buscarCodigoPostalParaEliminarDispatch
+         buscarCodigoPostalParaEliminarDispatch,
+         ObtenerCodigoPostalPorCodigoParaEditar,
+         CerrarFormEditarCodigoPostal,
+         ObtenerCodigoPostalPorCodigoParaEliminar,
+         CerrarFormEliminarCodigoPostal
   } = useContext(DatosGeneralesFormContext);
 
   return (
@@ -38,8 +41,18 @@ const CodigosPostales = () => {
       <Box>
         { state.formNuevoCodigoPostal && <NuevoCodigoPostalForm ></NuevoCodigoPostalForm> }
         { state.formBuscarCodigoPostal && <BuscarCodigoPostalForm></BuscarCodigoPostalForm>}
-        { state.formEditarCodigoPostal && <BuscarCodigoPostalParaEditarForm></BuscarCodigoPostalParaEditarForm>}
-        { state.formEliminarCodigoPostal && <BuscarCodigoPostalParaEliminarForm></BuscarCodigoPostalParaEliminarForm>}
+        { state.formEditarCodigoPostal && 
+          <BuscarCodigoPostalPorCodigoForm
+            label='Editar codigo postal'
+            obtener = { ObtenerCodigoPostalPorCodigoParaEditar } 
+            cerrar = { CerrarFormEditarCodigoPostal }>
+          </BuscarCodigoPostalPorCodigoForm>}
+        { state.formEliminarCodigoPostal &&
+          <BuscarCodigoPostalPorCodigoForm
+            label='Eliminar codigo postal' 
+            obtener = { ObtenerCodigoPostalPorCodigoParaEliminar } 
+            cerrar = { CerrarFormEliminarCodigoPostal }>
+          </BuscarCodigoPostalPorCodigoForm>}
       </Box>
       <Box p = {2}>
         { state.tablaCodigosPostales &&  <TablaCodigosPostales></TablaCodigosPostales> }

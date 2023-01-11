@@ -8,8 +8,7 @@ import Vehiculo from './Vehiculo';
 import TablaVehiculos from './TablaVehiculos';
 import TablaVehiculosBusquedas from './TablaVehiculosBusquedas';
 import EditarVehiculoForm from './forms/EditarVehiculoForm';
-import BuscarVehiculoParaEditarForm from './forms/BuscarVehiculoParaEditarForm';
-import BuscarVehiculoParaEliminar from './forms/BuscarVehiculoParaEliminar';
+import BuscarVehiculoPorMatriculaForm from './forms/BuscarVehiculoPorMatriculaForm';
 import EliminarVehiculoForm from './forms/EliminarVehiculoForm';
 
 const Vehiculos = () => {
@@ -19,7 +18,11 @@ const Vehiculos = () => {
     nuevoVehiculoFormDispatch,
     buscarVehiculoFormDispatch,
     buscarVehiculoParaEditarDispatch,
-    buscarVehiculoParaEliminarDispatch
+    buscarVehiculoParaEliminarDispatch,
+    ObtenerVehiculoPorMatriculaParaEditar,
+    CerrarFormEditarVehiculo,
+    obtenerVehiculoPorMatriculaParaEliminar,
+    CerrarFormEliminarVehiculo
   } = useContext(DatosGeneralesFormContext);
 
   return (
@@ -39,8 +42,19 @@ const Vehiculos = () => {
       <Box>
         { state.formNuevoVehiculo && <NuevoVehiculoForm></NuevoVehiculoForm>}
         { state.formBuscarVehiculo && <BuscarVehiculoForm></BuscarVehiculoForm>}
-        { state.formEditarVehiculo && <BuscarVehiculoParaEditarForm></BuscarVehiculoParaEditarForm>}
-        { state.formEliminarVehiculo && <BuscarVehiculoParaEliminar></BuscarVehiculoParaEliminar>}
+        { state.formEditarVehiculo && 
+            <BuscarVehiculoPorMatriculaForm
+              label = 'Editar vehiculo' 
+              obtener = { ObtenerVehiculoPorMatriculaParaEditar} 
+              cerrar = { CerrarFormEditarVehiculo }>
+            </BuscarVehiculoPorMatriculaForm>}
+        { state.formEliminarVehiculo && 
+          <BuscarVehiculoPorMatriculaForm
+            label = 'Eliminar vehiculo' 
+            obtener = { obtenerVehiculoPorMatriculaParaEliminar} 
+            cerrar = { CerrarFormEliminarVehiculo }>
+          </BuscarVehiculoPorMatriculaForm>}
+        
       </Box>
       <Box p = {2}>
         { state.tablaVehiculos && <TablaVehiculos></TablaVehiculos> }

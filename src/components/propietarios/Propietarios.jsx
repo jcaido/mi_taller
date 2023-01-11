@@ -6,9 +6,8 @@ import TablaPropietarios from './TablaPropietarios';
 import BuscarPropietarioForm from './forms/BuscarPropietarioForm';
 import Propietario from './Propietario';
 import TablaPropietariosBusquedas from './TablaPropietariosBusquedas';
-import BuscarPropietarioParaEditarForm from './forms/BuscarPropietarioParaEditarForm';
+import BuscarPropietarioPorDniForm from './forms/BuscarPropietarioPorDniForm';
 import EditarPropietarioForm from './forms/EditarPropietarioForm';
-import BuscarPropietarioParaEliminarForm from './forms/BuscarPropietarioParaEliminarForm';
 import EliminarPropietarioForm from './forms/EliminarPropietarioForm';
 import NavigationButton from '../NavigationButton';
 
@@ -19,7 +18,11 @@ const Propietarios = () => {
     nuevoPropietarioFormDispatch,
     buscarPropietarioFormDispatch,
     buscarPropietarioParaEditarDispatch,
-    buscarPropietarioParaEliminarDispatch
+    buscarPropietarioParaEliminarDispatch,
+    ObtenerPropietarioPorDniParaEditar,
+    CerrarFormEditarPropietario,
+    obtenerPropietarioPorDniParaEliminar,
+    CerrarFormEliminarPropietario
   } = useContext(DatosGeneralesFormContext);
 
 
@@ -40,8 +43,18 @@ const Propietarios = () => {
       <Box>
         { state.formNuevoPropietario && <NuevoPropietarioForm></NuevoPropietarioForm>}
         { state.formBuscarPropietario && <BuscarPropietarioForm></BuscarPropietarioForm>}
-        { state.formEditarPropietario && <BuscarPropietarioParaEditarForm></BuscarPropietarioParaEditarForm>}
-        { state.formEliminarPropietario && <BuscarPropietarioParaEliminarForm></BuscarPropietarioParaEliminarForm>}
+        { state.formEditarPropietario && 
+          <BuscarPropietarioPorDniForm
+            label = 'Editar propietario' 
+            obtener = { ObtenerPropietarioPorDniParaEditar } 
+            cerrar = { CerrarFormEditarPropietario }>
+          </BuscarPropietarioPorDniForm> }
+        { state.formEliminarPropietario && 
+          <BuscarPropietarioPorDniForm
+            label = 'Eliminar propietario'
+            obtener = { obtenerPropietarioPorDniParaEliminar } 
+            cerrar = { CerrarFormEliminarPropietario }>
+          </BuscarPropietarioPorDniForm> }
       </Box>
       <Box p = {2}>
         { state.tablaPropietarios && <TablaPropietarios></TablaPropietarios> }
