@@ -156,3 +156,22 @@ export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) 
 export const obtenerOrdenesReparacionAbiertasPorVehiculo = (id_vehiculo) => {
     return axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${id_vehiculo}`)
 }
+
+export const obtenerOrdenReparacionPorId = (id) => {
+    return axios.get(`http://localhost:8080/api/ordenesReparacion/parcial/${id}`)
+}
+
+export const modificarOrdenReparacion = (id, fechaApertura, descripcion, kilometros, id_vehiculo) => {
+
+    let body = {
+        id: id,
+        fechaApertura: fechaApertura,
+        descripcion: descripcion,
+        kilometros: kilometros
+    }
+
+    return axios.put(`http://localhost:8080/api/ordenesReparacion/${id_vehiculo}`, body)
+}
+
+
+

@@ -10,7 +10,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const NavigationButtonAutOrdenes = ({ nueva, buscar, editar, eliminar, imprimir }) => {
+const NavigationButtonAutOrdenes = ({ nueva, buscar, buscarParaEditar, eliminar, imprimir }) => {
 
     const [value, setValue] = useState('nuevo');
 
@@ -43,7 +43,7 @@ const NavigationButtonAutOrdenes = ({ nueva, buscar, editar, eliminar, imprimir 
                     label="Editar"
                     value="editar"
                     icon={<CreateIcon/>}
-                    onClick={ editar }
+                    onClick={ buscarParaEditar }
                 />
             </Tooltip>
             <Tooltip title = 'eliminar orden de reparacion'>

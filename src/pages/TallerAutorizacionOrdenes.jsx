@@ -2,7 +2,7 @@ import React, { useState, createContext, useReducer } from 'react';
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AutorizacionOrdenes from '../components/autorizacion-ordenes-reparacion/AutorizacionOrdenes';
-import { obtenerOrdenesReparacionAbiertas, obtenerOrdenesReparacionAbiertasPorFechaApertura, obtenerOrdenesReparacionAbiertasPorVehiculo, obtenerVehiculosPorMatricula } from '../services/axiosService';
+import { obtenerOrdenesReparacionAbiertas, obtenerOrdenesReparacionAbiertasPorFechaApertura, obtenerOrdenesReparacionAbiertasPorVehiculo, obtenerOrdenReparacionPorId, obtenerVehiculosPorMatricula } from '../services/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 
 export const AutorizacionOrdenesContext = createContext();
@@ -57,6 +57,23 @@ const TallerAutorizacionOrdenes = () => {
             })
     }
 
+    const ObtenerOrdenReparacionPorIdParaEditar = (id) => {
+        obtenerOrdenReparacionPorId(id)
+            .then((response) => {
+                dispatch({type: 'actualizar_lista_ordenes_reparacion_por_id', payload: response.data})
+            })
+            .then(() => {
+                editarOrdenReparacionFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
+    const CerrarFormEditarOrdenReparacion = () => {
+        dispatch({type:'cerrar_formulario_editar_orden_reparacion', payload: false})
+    }
+
     const autorizacionOrdenReparacionInicial = {
         formNuevaOrdenReparacion: false,
         formBuscarOrdenReparacion: false,
@@ -66,9 +83,11 @@ const TallerAutorizacionOrdenes = () => {
         tablaOrdenesReparacion: false,
         tablaOrdenesReparacionAbiertasPorFechaApertura: false,
         tablaOrdensReparacionAbiertasPorVehiculo: false,
+        editarOrdenReparacion: false,
         listaOrdenesReparacionAbiertas: [],
         listaOrdenesReparacionAbiertasPorFechaApertura: [],
-        listaOrdenesReparacionAbiertasPorVehiculo: []
+        listaOrdenesReparacionAbiertasPorVehiculo: [],
+        listaOrdenReparacionPorId: []
     }
 
     const autorizacionOrdenesReducer = (state, action) => {
@@ -83,7 +102,8 @@ const TallerAutorizacionOrdenes = () => {
                     formImprimirOrdenReparacion: action.payload.formImprimirOrdenReparacion,
                     tablaOrdenesReparacion: action.payload.tablaOrdenesReparacion,
                     tablaOrdenesReparacionAbiertasPorFechaApertura: action.payload.tablaOrdenesReparacionAbiertasPorFechaApertura,
-                    tablaOrdensReparacionAbiertasPorVehiculo: action.payload.tablaOrdensReparacionAbiertasPorVehiculo
+                    tablaOrdensReparacionAbiertasPorVehiculo: action.payload.tablaOrdensReparacionAbiertasPorVehiculo,
+                    editarOrdenReparacion: action.payload.editarOrdenReparacion
                 }
             case 'actualizar_lista_ordenes_reparacion_abiertas':
                 return {
@@ -99,6 +119,16 @@ const TallerAutorizacionOrdenes = () => {
                 return {
                     ...state,
                     listaOrdenesReparacionAbiertasPorVehiculo: action.payload
+                }
+            case 'actualizar_lista_ordenes_reparacion_por_id':
+                return {
+                    ...state,
+                    listaOrdenReparacionPorId: action.payload
+                }
+            case'cerrar_formulario_editar_orden_reparacion':
+                return {
+                    ...state,
+                    editarOrdenReparacion: action.payload
                 }
             default:
                 return state;
@@ -118,7 +148,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: true,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: false
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false
             }
         })
     }
@@ -134,7 +165,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: false
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false
             }
         })
     }
@@ -150,7 +182,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: true,
-                tablaOrdensReparacionAbiertasPorVehiculo: false                
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false                
             }
         })
     }
@@ -166,9 +199,27 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: true                 
+                tablaOrdensReparacionAbiertasPorVehiculo: true,
+                editarOrdenReparacion: false                 
             }
         })
+    }
+
+    function buscarOrdenReparacionParaEditarDispatch() {
+        dispatch({
+            type: 'ordenReparacion',
+            payload: {
+                formNuevaOrdenReparacion: false,
+                formBuscarOrdenReparacion: false,
+                formEditarOrdenReparacion: true,
+                formEliminarOrdenReparacion: false,
+                formImprimirOrdenReparacion: false,
+                tablaOrdenesReparacion: false,
+                tablaOrdenesReparacionAbiertasPorFechaApertura: false,
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false
+            }
+        })        
     }
 
     function editarOrdenReparacionFormDispatch() {
@@ -182,7 +233,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: false
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: true
             }
         })
     }
@@ -198,7 +250,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: false,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: false
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false
             }
         })
     }
@@ -214,7 +267,8 @@ const TallerAutorizacionOrdenes = () => {
                 formImprimirOrdenReparacion: true,
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
-                tablaOrdensReparacionAbiertasPorVehiculo: false
+                tablaOrdensReparacionAbiertasPorVehiculo: false,
+                editarOrdenReparacion: false
             }
         })
     }
@@ -232,7 +286,10 @@ const TallerAutorizacionOrdenes = () => {
                 ListarOrdenesReparacionAbiertas,
                 ListarOrdenesReparacionAbiertasPorFechaApertura,
                 buscarOrdenesReparacionAbiertasPorFechaAperturaDispatch,
-                ListarOrdenesReparacionAbiertasPorVehiculo
+                ListarOrdenesReparacionAbiertasPorVehiculo,
+                ObtenerOrdenReparacionPorIdParaEditar,
+                buscarOrdenReparacionParaEditarDispatch,
+                CerrarFormEditarOrdenReparacion
             }}
         >
             <Grid container>
