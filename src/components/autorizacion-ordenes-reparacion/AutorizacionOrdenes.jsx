@@ -6,7 +6,7 @@ import NuevaOrdenReparacionForm from './forms/NuevaOrdenReparacionForm';
 import TablaOrdenesReparacion from './TablaOrdenesReparacion';
 import BuscarOrdenReparacionForm from './forms/BuscarOrdenReparacionForm';
 import TablaOrdenesReparacionBusqueda from './TablaOrdenesReparacionBusqueda';
-import BuscarOrdenReparacionParaEditarForm from './forms/BuscarOrdenReparacionParaEditarForm';
+import BuscarOrdenReparacionPorIdForm from './forms/BuscarOrdenReparacionPorIdForm';
 import EditarOrdenReparacionForm from './forms/EditarOrdenReparacionForm';
 
 const AutorizacionOrdenes = () => {
@@ -17,7 +17,9 @@ const AutorizacionOrdenes = () => {
         buscarOrdenReparacionFormDispatch,
         buscarOrdenReparacionParaEditarDispatch,
         eliminarOrdenReparacionFormDispatch,
-        imprimirOrdenReparacionFormDispatch 
+        imprimirOrdenReparacionFormDispatch,
+        ObtenerOrdenReparacionPorIdParaEditar,
+        CerrarFormEditarOrdenReparacion 
     } = useContext(AutorizacionOrdenesContext);
 
     return (
@@ -37,7 +39,13 @@ const AutorizacionOrdenes = () => {
                 <Box>
                     { state.formNuevaOrdenReparacion && <NuevaOrdenReparacionForm></NuevaOrdenReparacionForm> }
                     { state.formBuscarOrdenReparacion && <BuscarOrdenReparacionForm></BuscarOrdenReparacionForm> }
-                    { state.formEditarOrdenReparacion && <BuscarOrdenReparacionParaEditarForm></BuscarOrdenReparacionParaEditarForm> }
+                    { state.formEditarOrdenReparacion && 
+                        <BuscarOrdenReparacionPorIdForm
+                            label = 'Buscar orden de reparacion'
+                            obtener = { ObtenerOrdenReparacionPorIdParaEditar }
+                            cerrar = { CerrarFormEditarOrdenReparacion }
+                        />
+                    }
                     { state.formEliminarOrdenReparacion && <p>formulario eliminar orden de reparacion</p> }
                     { state.formImprimirOrdenReparacion && <p>formulario imprimir orden de reparacion</p> }
                 </Box>

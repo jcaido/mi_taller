@@ -1,21 +1,17 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box  } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 
-const BuscarOrdenReparacionParaEditarForm = () => {
-
-    //const { ObtenerVehiculoPorMatriculaParaEditar, CerrarFormEditarVehiculo } = useContext(AutorizacionOrdenesContext);
-    const { ObtenerOrdenReparacionPorIdParaEditar, CerrarFormEditarOrdenReparacion } = useContext(AutorizacionOrdenesContext);
+const BuscarOrdenReparacionPorIdForm = ({ label, obtener, cerrar }) => {
 
     let idRef = useRef();
 
     const handleSubmitForm = () => {
-        ObtenerOrdenReparacionPorIdParaEditar(idRef.current.value)
+        obtener(idRef.current.value)
         formik.resetForm();
     }
 
@@ -31,7 +27,7 @@ const BuscarOrdenReparacionParaEditarForm = () => {
         <Box m= {2}>
             <Box>
                 <Divider>
-                    <Chip label='Buscar orden de reparacion'/>
+                    <Chip label = { label }/>
                 </Divider>
             </Box>
             <form onSubmit = { formik.handleSubmit}>
@@ -44,7 +40,7 @@ const BuscarOrdenReparacionParaEditarForm = () => {
                         size="small"
                         value={formik.values.id}
                         onChange={formik.handleChange}
-                        onFocus={CerrarFormEditarOrdenReparacion}
+                        onFocus={ cerrar }
                         error={formik.touched.id && Boolean(formik.errors.id)}
                         helperText={formik.touched.id && formik.errors.id}
                         inputRef={idRef}
@@ -58,4 +54,4 @@ const BuscarOrdenReparacionParaEditarForm = () => {
     )
 }
 
-export default BuscarOrdenReparacionParaEditarForm
+export default BuscarOrdenReparacionPorIdForm

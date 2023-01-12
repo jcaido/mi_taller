@@ -45,14 +45,16 @@ const CodigosPostales = () => {
           <BuscarCodigoPostalPorCodigoForm
             label='Editar codigo postal'
             obtener = { ObtenerCodigoPostalPorCodigoParaEditar } 
-            cerrar = { CerrarFormEditarCodigoPostal }>
-          </BuscarCodigoPostalPorCodigoForm>}
+            cerrar = { CerrarFormEditarCodigoPostal }
+          />
+        }
         { state.formEliminarCodigoPostal &&
           <BuscarCodigoPostalPorCodigoForm
             label='Eliminar codigo postal' 
             obtener = { ObtenerCodigoPostalPorCodigoParaEliminar } 
-            cerrar = { CerrarFormEliminarCodigoPostal }>
-          </BuscarCodigoPostalPorCodigoForm>}
+            cerrar = { CerrarFormEliminarCodigoPostal }
+          />
+        }
       </Box>
       <Box p = {2}>
         { state.tablaCodigosPostales &&  <TablaCodigosPostales></TablaCodigosPostales> }

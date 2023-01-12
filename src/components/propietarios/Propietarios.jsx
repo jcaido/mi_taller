@@ -47,14 +47,16 @@ const Propietarios = () => {
           <BuscarPropietarioPorDniForm
             label = 'Editar propietario' 
             obtener = { ObtenerPropietarioPorDniParaEditar } 
-            cerrar = { CerrarFormEditarPropietario }>
-          </BuscarPropietarioPorDniForm> }
+            cerrar = { CerrarFormEditarPropietario }
+          />
+        }
         { state.formEliminarPropietario && 
           <BuscarPropietarioPorDniForm
             label = 'Eliminar propietario'
             obtener = { obtenerPropietarioPorDniParaEliminar } 
-            cerrar = { CerrarFormEliminarPropietario }>
-          </BuscarPropietarioPorDniForm> }
+            cerrar = { CerrarFormEliminarPropietario }
+          />
+       }
       </Box>
       <Box p = {2}>
         { state.tablaPropietarios && <TablaPropietarios></TablaPropietarios> }

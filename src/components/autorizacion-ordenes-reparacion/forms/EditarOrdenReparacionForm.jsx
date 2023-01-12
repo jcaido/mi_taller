@@ -90,7 +90,7 @@ const EditarOrdenReparacionForm = () => {
   const formik = useFormik({
 
     initialValues: {
-      fechaApertura: state.listaOrdenReparacionPorId.fechaApertura,
+      fechaApertura: value,
       matricula: state.listaOrdenReparacionPorId.vehiculoMatricula,
       descripcion: state.listaOrdenReparacionPorId.descripcion,
       kilometros: state.listaOrdenReparacionPorId.kilometros,

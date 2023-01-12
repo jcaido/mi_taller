@@ -43,18 +43,19 @@ const Vehiculos = () => {
         { state.formNuevoVehiculo && <NuevoVehiculoForm></NuevoVehiculoForm>}
         { state.formBuscarVehiculo && <BuscarVehiculoForm></BuscarVehiculoForm>}
         { state.formEditarVehiculo && 
-            <BuscarVehiculoPorMatriculaForm
-              label = 'Editar vehiculo' 
-              obtener = { ObtenerVehiculoPorMatriculaParaEditar} 
-              cerrar = { CerrarFormEditarVehiculo }>
-            </BuscarVehiculoPorMatriculaForm>}
+          <BuscarVehiculoPorMatriculaForm
+            label = 'Editar vehiculo' 
+            obtener = { ObtenerVehiculoPorMatriculaParaEditar} 
+            cerrar = { CerrarFormEditarVehiculo }
+          />
+        }
         { state.formEliminarVehiculo && 
           <BuscarVehiculoPorMatriculaForm
             label = 'Eliminar vehiculo' 
             obtener = { obtenerVehiculoPorMatriculaParaEliminar} 
-            cerrar = { CerrarFormEliminarVehiculo }>
-          </BuscarVehiculoPorMatriculaForm>}
-        
+            cerrar = { CerrarFormEliminarVehiculo }
+          />
+        }     
       </Box>
       <Box p = {2}>
         { state.tablaVehiculos && <TablaVehiculos></TablaVehiculos> }
