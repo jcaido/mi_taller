@@ -173,5 +173,9 @@ export const modificarOrdenReparacion = (id, fechaApertura, descripcion, kilomet
     return axios.put(`http://localhost:8080/api/ordenesReparacion/${id_vehiculo}`, body)
 }
 
+export const eliminarOrdenReparacion = (id) => {
+    return axios.delete(`http://localhost:8080/api/ordenesReparacion/${id}`)
+}
+
 
 

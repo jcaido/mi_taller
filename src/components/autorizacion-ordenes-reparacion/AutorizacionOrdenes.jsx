@@ -8,6 +8,7 @@ import BuscarOrdenReparacionForm from './forms/BuscarOrdenReparacionForm';
 import TablaOrdenesReparacionBusqueda from './TablaOrdenesReparacionBusqueda';
 import BuscarOrdenReparacionPorIdForm from './forms/BuscarOrdenReparacionPorIdForm';
 import EditarOrdenReparacionForm from './forms/EditarOrdenReparacionForm';
+import EliminarOrdenReparacionForm from './forms/EliminarOrdenReparacionForm';
 
 const AutorizacionOrdenes = () => {
 
@@ -19,7 +20,9 @@ const AutorizacionOrdenes = () => {
         eliminarOrdenReparacionFormDispatch,
         imprimirOrdenReparacionFormDispatch,
         ObtenerOrdenReparacionPorIdParaEditar,
-        CerrarFormEditarOrdenReparacion 
+        CerrarFormEditarOrdenReparacion,
+        ObtenerOrdenReparacionPorIdParaEliminar,
+        CerrarFormEliminarOrdenReparacion 
     } = useContext(AutorizacionOrdenesContext);
 
     return (
@@ -46,7 +49,13 @@ const AutorizacionOrdenes = () => {
                             cerrar = { CerrarFormEditarOrdenReparacion }
                         />
                     }
-                    { state.formEliminarOrdenReparacion && <p>formulario eliminar orden de reparacion</p> }
+                    { state.formEliminarOrdenReparacion &&
+                        <BuscarOrdenReparacionPorIdForm
+                            label = 'Buscar orden de reparacion'
+                            obtener = { ObtenerOrdenReparacionPorIdParaEliminar }
+                            cerrar = {CerrarFormEliminarOrdenReparacion}
+                        />
+                    }
                     { state.formImprimirOrdenReparacion && <p>formulario imprimir orden de reparacion</p> }
                 </Box>
             </Grid>
@@ -58,6 +67,7 @@ const AutorizacionOrdenes = () => {
                 </Box>
                 <Box>
                     { state.editarOrdenReparacion && <EditarOrdenReparacionForm></EditarOrdenReparacionForm> }
+                    { state.eliminarOrdenReparacion && <EliminarOrdenReparacionForm></EliminarOrdenReparacionForm> }
                 </Box>
             </Grid>
         </Grid>

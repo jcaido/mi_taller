@@ -70,8 +70,25 @@ const TallerAutorizacionOrdenes = () => {
             })
     }
 
+    const ObtenerOrdenReparacionPorIdParaEliminar = (id) => {
+        obtenerOrdenReparacionPorId(id)
+            .then((response) => {
+                dispatch({ type: 'actualizar_lista_ordenes_reparacion_por_id', payload: response.data })
+            })
+            .then(() => {
+                eliminarOrdenReparacionFormDispatch();
+            })
+            .catch((error) => {
+                error.response.status === 404 && handleOpenError(error.response.data.mensaje);
+            })
+    }
+
     const CerrarFormEditarOrdenReparacion = () => {
         dispatch({type:'cerrar_formulario_editar_orden_reparacion', payload: false})
+    }
+
+    const CerrarFormEliminarOrdenReparacion = () => {
+        dispatch({type:'cerrar_formulario_eliminar_orden_reparacion', payload: false})
     }
 
     const autorizacionOrdenReparacionInicial = {
@@ -84,6 +101,7 @@ const TallerAutorizacionOrdenes = () => {
         tablaOrdenesReparacionAbiertasPorFechaApertura: false,
         tablaOrdensReparacionAbiertasPorVehiculo: false,
         editarOrdenReparacion: false,
+        eliminarOrdenReparacion: false,
         listaOrdenesReparacionAbiertas: [],
         listaOrdenesReparacionAbiertasPorFechaApertura: [],
         listaOrdenesReparacionAbiertasPorVehiculo: [],
@@ -103,7 +121,8 @@ const TallerAutorizacionOrdenes = () => {
                     tablaOrdenesReparacion: action.payload.tablaOrdenesReparacion,
                     tablaOrdenesReparacionAbiertasPorFechaApertura: action.payload.tablaOrdenesReparacionAbiertasPorFechaApertura,
                     tablaOrdensReparacionAbiertasPorVehiculo: action.payload.tablaOrdensReparacionAbiertasPorVehiculo,
-                    editarOrdenReparacion: action.payload.editarOrdenReparacion
+                    editarOrdenReparacion: action.payload.editarOrdenReparacion,
+                    eliminarOrdenReparacion: action.payload.eliminarOrdenReparacion
                 }
             case 'actualizar_lista_ordenes_reparacion_abiertas':
                 return {
@@ -130,6 +149,11 @@ const TallerAutorizacionOrdenes = () => {
                     ...state,
                     editarOrdenReparacion: action.payload
                 }
+            case 'cerrar_formulario_eliminar_orden_reparacion':
+                return {
+                    ...state,
+                    eliminarOrdenReparacion: action.payload
+                }
             default:
                 return state;
         }
@@ -149,7 +173,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: true,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: false
             }
         })
     }
@@ -166,7 +191,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: false
             }
         })
     }
@@ -183,7 +209,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: true,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false                
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: false                
             }
         })
     }
@@ -200,7 +227,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: true,
-                editarOrdenReparacion: false                 
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: false                 
             }
         })
     }
@@ -217,7 +245,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion:false
             }
         })        
     }
@@ -234,7 +263,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: true
+                editarOrdenReparacion: true,
+                eliminarOrdenReparacion: false
             }
         })
     }
@@ -251,7 +281,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: true
             }
         })
     }
@@ -268,7 +299,8 @@ const TallerAutorizacionOrdenes = () => {
                 tablaOrdenesReparacion: false,
                 tablaOrdenesReparacionAbiertasPorFechaApertura: false,
                 tablaOrdensReparacionAbiertasPorVehiculo: false,
-                editarOrdenReparacion: false
+                editarOrdenReparacion: false,
+                eliminarOrdenReparacion: false
             }
         })
     }
@@ -289,7 +321,9 @@ const TallerAutorizacionOrdenes = () => {
                 ListarOrdenesReparacionAbiertasPorVehiculo,
                 ObtenerOrdenReparacionPorIdParaEditar,
                 buscarOrdenReparacionParaEditarDispatch,
-                CerrarFormEditarOrdenReparacion
+                CerrarFormEditarOrdenReparacion,
+                ObtenerOrdenReparacionPorIdParaEliminar,
+                CerrarFormEliminarOrdenReparacion
             }}
         >
             <Grid container>
