@@ -161,6 +161,10 @@ export const obtenerOrdenReparacionPorId = (id) => {
     return axios.get(`http://localhost:8080/api/ordenesReparacion/parcial/${id}`)
 }
 
+export const obtenerOrdenReparacionPorIdCompleta = (id) => {
+    return axios.get(`http://localhost:8080/api/ordenesReparacion/${id}`)
+} 
+
 export const modificarOrdenReparacion = (id, fechaApertura, descripcion, kilometros, id_vehiculo) => {
 
     let body = {

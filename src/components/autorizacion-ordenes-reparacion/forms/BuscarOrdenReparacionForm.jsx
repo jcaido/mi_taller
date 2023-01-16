@@ -17,7 +17,11 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 const BuscarOrdenReparacionForm = () => {
 
-    const { ListarOrdenesReparacionAbiertasPorFechaApertura, ListarOrdenesReparacionAbiertasPorVehiculo } = useContext(AutorizacionOrdenesContext);
+    const { ListarOrdenesReparacionAbiertasPorFechaApertura, 
+            ListarOrdenesReparacionAbiertasPorVehiculo,
+            CerrarTablaOrdenesReparacionAbiertas,
+            CerrarAutorizacionPdf
+         } = useContext(AutorizacionOrdenesContext);
 
     let matriculaRef = useRef();
     let fechaAperturaRef = useRef();
@@ -26,6 +30,8 @@ const BuscarOrdenReparacionForm = () => {
 
     const handleChange = (e) => {
         setValue(e.target.value);
+        CerrarTablaOrdenesReparacionAbiertas();
+        CerrarAutorizacionPdf();
     };
 
     const [valueFechaApertura, setValueFechaApertura] = useState(new Date());

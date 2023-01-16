@@ -9,6 +9,8 @@ import TablaOrdenesReparacionBusqueda from './TablaOrdenesReparacionBusqueda';
 import BuscarOrdenReparacionPorIdForm from './forms/BuscarOrdenReparacionPorIdForm';
 import EditarOrdenReparacionForm from './forms/EditarOrdenReparacionForm';
 import EliminarOrdenReparacionForm from './forms/EliminarOrdenReparacionForm';
+import OrdenReparacionPDF from './OrdenReparacionPDF';
+import { PDFViewer } from '@react-pdf/renderer';
 
 const AutorizacionOrdenes = () => {
 
@@ -22,8 +24,15 @@ const AutorizacionOrdenes = () => {
         ObtenerOrdenReparacionPorIdParaEditar,
         CerrarFormEditarOrdenReparacion,
         ObtenerOrdenReparacionPorIdParaEliminar,
-        CerrarFormEliminarOrdenReparacion 
+        CerrarFormEliminarOrdenReparacion,
+        ObtenerOrdenReparacionPorId,
+        ImprimirOrdenReparacionPorId,
+        CerrarAutorizacionPdf
     } = useContext(AutorizacionOrdenesContext);
+
+    const handleOnSelectionModelChange = (id) => {
+       ObtenerOrdenReparacionPorId(id);
+    }
 
     return (
         <Grid container>
@@ -56,18 +65,32 @@ const AutorizacionOrdenes = () => {
                             cerrar = {CerrarFormEliminarOrdenReparacion}
                         />
                     }
-                    { state.formImprimirOrdenReparacion && <p>formulario imprimir orden de reparacion</p> }
+                    { state.formImprimirOrdenReparacion && 
+                        <BuscarOrdenReparacionPorIdForm
+                            label = 'Buscar orden de reparacion'
+                            obtener = { ImprimirOrdenReparacionPorId }
+                            cerrar = { CerrarAutorizacionPdf }
+                        />
+                    }
                 </Box>
             </Grid>
             <Grid item md = {8}>
                 <Box>
                     { state.tablaOrdenesReparacion && <TablaOrdenesReparacion></TablaOrdenesReparacion> }
-                    { state.tablaOrdenesReparacionAbiertasPorFechaApertura && <TablaOrdenesReparacionBusqueda lista = { state.listaOrdenesReparacionAbiertasPorFechaApertura }></TablaOrdenesReparacionBusqueda> }
-                    { state.tablaOrdensReparacionAbiertasPorVehiculo && <TablaOrdenesReparacionBusqueda lista = { state.listaOrdenesReparacionAbiertasPorVehiculo }></TablaOrdenesReparacionBusqueda> }
+                    { state.tablaOrdenesReparacionAbiertasBusquedas && <TablaOrdenesReparacionBusqueda lista = { state.listaOrdenesReparacionAbiertas } tablaOnChange = { handleOnSelectionModelChange }></TablaOrdenesReparacionBusqueda> } 
                 </Box>
                 <Box>
                     { state.editarOrdenReparacion && <EditarOrdenReparacionForm></EditarOrdenReparacionForm> }
                     { state.eliminarOrdenReparacion && <EliminarOrdenReparacionForm></EliminarOrdenReparacionForm> }
+                </Box>
+            </Grid>
+            <Grid item md = {12}>
+                <Box>
+                    { state.imprimirOrdenReparacion && 
+                        <PDFViewer style={{width:"90%", height:"90vh", marginLeft: "80px"}}>
+                            <OrdenReparacionPDF orden = { state.listaOrdenReparacionPorId }></OrdenReparacionPDF>
+                        </PDFViewer>
+                    }
                 </Box>
             </Grid>
         </Grid>

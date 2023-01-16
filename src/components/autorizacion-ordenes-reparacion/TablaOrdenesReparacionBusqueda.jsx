@@ -1,8 +1,8 @@
+import React from 'react';
 import { DataGrid }  from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
-
 
 const columns = [
 
@@ -15,7 +15,7 @@ const columns = [
     { field: 'kilometros', headerName: 'Kilometros', width: 100 }
 ]
 
-const TablaOrdenesReparacionBusqueda = ( {lista} ) => {
+const TablaOrdenesReparacionBusqueda = ( {lista, tablaOnChange} ) => {
 
     return (
         <Box m={2}>
@@ -42,7 +42,10 @@ const TablaOrdenesReparacionBusqueda = ( {lista} ) => {
                         }
                     }}
                     pageSize={4}
-                    rowsPerPageOptions={[4]}              
+                    rowsPerPageOptions={[4]}
+                    onSelectionModelChange={(ids)=>{
+                        tablaOnChange(ids);
+                    }}              
                 />         
             </Box>
         </Box>
