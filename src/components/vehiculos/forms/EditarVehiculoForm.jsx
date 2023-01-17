@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Box  } from '@mui/material';
+import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
@@ -11,31 +11,30 @@ import { modificarVehiculo, obtenerPropietarioPorDni } from '../../../services/a
 
 const validationSchema = yup.object({
   matricula: yup
-      .string('Introduzca la matriculoa')
-      .required('La matricula es obligatoria'),
+    .string('Introduzca la matriculoa')
+    .required('La matricula es obligatoria'),
   marca: yup
-      .string('Introduzca la marca')
-      .required('La marca es obligatoria'),
+    .string('Introduzca la marca')
+    .required('La marca es obligatoria'),
   modelo: yup
-      .string('Introduzca el modelo')
-      .required('el modelo es obligatorio'),
+    .string('Introduzca el modelo')
+    .required('el modelo es obligatorio'),
   color: yup
-      .string('Introduzca el color')
-      .required('el color es obligatorio'),
+    .string('Introduzca el color')
+    .required('el color es obligatorio'),
   propietario: yup
-      .string('Introduzca el propietario')
-      .required('El propietario es obligatorio')
+    .string('Introduzca el propietario')
+    .required('El propietario es obligatorio'),
 });
 
-const EditarVehiculoForm = () => {
-
+function EditarVehiculoForm() {
   const { state } = useContext(DatosGeneralesFormContext);
 
-  let matriculaRef = useRef();
-  let marcaRef = useRef();
-  let modeloRef = useRef();
-  let colorRef = useRef();
-  let propietarioRef = useRef();
+  const matriculaRef = useRef();
+  const marcaRef = useRef();
+  const modeloRef = useRef();
+  const colorRef = useRef();
+  const propietarioRef = useRef();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -44,56 +43,50 @@ const EditarVehiculoForm = () => {
   const [openError, setOpenError] = useState(false);
   const [message, setMensaje] = useState('');
   const handleOpenError = (messag) => {
-      setOpenError(true);
-      setMensaje(messag);
-  }
-  const handleCloseError = () => setOpenError(false)
-
+    setOpenError(true);
+    setMensaje(messag);
+  };
+  const handleCloseError = () => setOpenError(false);
 
   const handleSubmitForm = () => {
     obtenerPropietarioPorDni(propietarioRef.current.value)
       .then((response) => {
-        modificarVehiculo
-          (
-            state.listaVehiculosPorMatricula.id,
-            matriculaRef.current.value,
-            marcaRef.current.value,
-            modeloRef.current.value,
-            colorRef.current.value,
-            response.data.id  
-          )
-          .then((response) => {
+        modificarVehiculo(
+          state.listaVehiculosPorMatricula.id,
+          matriculaRef.current.value,
+          marcaRef.current.value,
+          modeloRef.current.value,
+          colorRef.current.value,
+          response.data.id,
+        )
+          .then(() => {
             formik.resetForm();
             handleOpen();
           })
-          .catch((error) => {
-            error.response.status === 409 && handleOpenError(error.response.data.mensaje);
-            error.response.status === 400 && handleOpenError(error.response.data.codigo);
-          })
+          .catch((error) => (error.response.status === 409 || error.response.status === 400)
+          && handleOpenError(error.response.data.mensaje));
       })
-      .catch((error) => {
-        error.response.status === 404 && handleOpenError(error.response.data.mensaje);
-      })
-  }
+      .catch((error) => error.response.status === 404
+      && handleOpenError(error.response.data.mensaje));
+  };
 
   const formik = useFormik({
 
     initialValues: {
-        matricula: state.listaVehiculosPorMatricula.matricula,
-        marca: state.listaVehiculosPorMatricula.marca,
-        modelo: state.listaVehiculosPorMatricula.modelo,
-        color: state.listaVehiculosPorMatricula.color,
-        propietario: state.listaVehiculosPorMatricula.propietario.dni
+      matricula: state.listaVehiculosPorMatricula.matricula,
+      marca: state.listaVehiculosPorMatricula.marca,
+      modelo: state.listaVehiculosPorMatricula.modelo,
+      color: state.listaVehiculosPorMatricula.color,
+      propietario: state.listaVehiculosPorMatricula.propietario.dni,
     },
-    validationSchema: validationSchema,
-    onSubmit: () =>  handleSubmitForm (),
-})
-
+    validationSchema,
+    onSubmit: () => handleSubmitForm(),
+  });
 
   return (
-    <Box m= {2}>
-      <form onSubmit = { formik.handleSubmit}>
-        <Box m = {1}>
+    <Box m={2}>
+      <form onSubmit={formik.handleSubmit}>
+        <Box m={1}>
           <TextField
             fullWidth
             id="matricula"
@@ -105,9 +98,9 @@ const EditarVehiculoForm = () => {
             error={formik.touched.matricula && Boolean(formik.errors.matricula)}
             helperText={formik.touched.matricula && formik.errors.matricula}
             inputRef={matriculaRef}
-          />                    
+          />
         </Box>
-        <Box m = {1}>
+        <Box m={1}>
           <TextField
             fullWidth
             id="marca"
@@ -119,9 +112,9 @@ const EditarVehiculoForm = () => {
             error={formik.touched.marca && Boolean(formik.errors.marca)}
             helperText={formik.touched.marca && formik.errors.marca}
             inputRef={marcaRef}
-          />                    
+          />
         </Box>
-        <Box m = {1}>
+        <Box m={1}>
           <TextField
             fullWidth
             id="modelo"
@@ -133,9 +126,9 @@ const EditarVehiculoForm = () => {
             error={formik.touched.modelo && Boolean(formik.errors.modelo)}
             helperText={formik.touched.modelo && formik.errors.modelo}
             inputRef={modeloRef}
-          />                    
+          />
         </Box>
-        <Box m = {1}>
+        <Box m={1}>
           <TextField
             fullWidth
             id="color"
@@ -147,9 +140,9 @@ const EditarVehiculoForm = () => {
             error={formik.touched.color && Boolean(formik.errors.color)}
             helperText={formik.touched.color && formik.errors.color}
             inputRef={colorRef}
-          />                    
+          />
         </Box>
-        <Box m = {1}>
+        <Box m={1}>
           <TextField
             fullWidth
             id="propietario"
@@ -161,16 +154,16 @@ const EditarVehiculoForm = () => {
             error={formik.touched.propietario && Boolean(formik.errors.propietario)}
             helperText={formik.touched.propietario && formik.errors.propietario}
             inputRef={propietarioRef}
-          />                    
+          />
         </Box>
-        <Box m = {1}>
-          <Button type = 'submit' color = 'primary' variant = 'contained' fullWidth>Aceptar</Button>
+        <Box m={1}>
+          <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
         </Box>
-        <ModalOK open={open} handleClose={handleClose}></ModalOK>
-        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError}></ModalErrores>
+        <ModalOK open={open} handleClose={handleClose} />
+        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
       </form>
     </Box>
-  )
+  );
 }
 
-export default EditarVehiculoForm
+export default EditarVehiculoForm;

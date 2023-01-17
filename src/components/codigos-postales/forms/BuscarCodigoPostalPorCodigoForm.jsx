@@ -1,59 +1,56 @@
 import React, { useRef } from 'react';
 import { useFormik } from 'formik';
-import { Box  } from '@mui/material';
+import { Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const BuscarCodigoPostalPorCodigoForm = ({ label, obtener, cerrar }) => {
+function BuscarCodigoPostalPorCodigoForm({ label, obtener, cerrar }) {
+  const codigoRef = useRef();
 
-    let codigoRef = useRef();
+  const handleSubmitForm = () => {
+    obtener(codigoRef.current.value);
+    formik.resetForm();
+  };
 
-    const handleSubmitForm = () => {
-        obtener(codigoRef.current.value)
-        formik.resetForm();
-    }
+  const formik = useFormik({
 
+    initialValues: {
+      codigo: '',
+    },
+    onSubmit: () => handleSubmitForm(),
+  });
 
-    const formik = useFormik({
-
-        initialValues: {
-            codigo: ''
-        },
-        onSubmit: () =>  handleSubmitForm (),
-    })
-
-
-    return (
-        <Box m= {2}>
-            <Box>
-                <Divider>
-                    <Chip label= { label }/> 
-                </Divider>
-            </Box>
-            <form onSubmit = { formik.handleSubmit}>
-                <Box m = {1}>
-                    <TextField
-                        fullWidth
-                        id="codigo"
-                        name="codigo"
-                        label="codigo"
-                        size="small"
-                        value={formik.values.codigo}
-                        onChange={formik.handleChange}
-                        onFocus={cerrar}
-                        error={formik.touched.codigo && Boolean(formik.errors.codigo)}
-                        helperText={formik.touched.codigo && formik.errors.codigo}
-                        inputRef={codigoRef}
-                    />                    
-                </Box>
-                <Box m = {1}>
-                    <Button type = 'submit' color = 'primary' variant = 'contained' fullWidth>Aceptar</Button>
-                </Box>
-            </form>      
+  return (
+    <Box m={2}>
+      <Box>
+        <Divider>
+          <Chip label={label} />
+        </Divider>
+      </Box>
+      <form onSubmit={formik.handleSubmit}>
+        <Box m={1}>
+          <TextField
+            fullWidth
+            id="codigo"
+            name="codigo"
+            label="codigo"
+            size="small"
+            value={formik.values.codigo}
+            onChange={formik.handleChange}
+            onFocus={cerrar}
+            error={formik.touched.codigo && Boolean(formik.errors.codigo)}
+            helperText={formik.touched.codigo && formik.errors.codigo}
+            inputRef={codigoRef}
+          />
         </Box>
-   )
+        <Box m={1}>
+          <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
+        </Box>
+      </form>
+    </Box>
+  );
 }
 
-export default BuscarCodigoPostalPorCodigoForm
+export default BuscarCodigoPostalPorCodigoForm;

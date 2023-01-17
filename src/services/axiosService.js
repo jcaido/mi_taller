@@ -1,185 +1,159 @@
 import axios from 'axios';
 
 export const nuevoCodigoPostal = (codigo, localidad, provincia) => {
-    
-    let body = {
-        codigo: codigo,
-        localidad: localidad,
-        provincia: provincia
-    }
+  const body = {
+    codigo,
+    localidad,
+    provincia,
+  };
 
-    return axios.post('http://localhost:8080/api/codigosPostales', body)
-}
+  return axios.post('http://localhost:8080/api/codigosPostales', body);
+};
 
-export const obtenerCodigosPostales = () => {
-    return axios.get('http://localhost:8080/api/codigosPostales')
-}
+export const obtenerCodigosPostales = () => axios.get('http://localhost:8080/api/codigosPostales');
 
-export const obtenerCodigoPostalPorCodigo = (codigo) => {
-    return axios.get(`http://localhost:8080/api/codigosPostales/codigo/${codigo}`)
-}
+export const obtenerCodigoPostalPorCodigo = (codigo) => axios.get(`http://localhost:8080/api/codigosPostales/codigo/${codigo}`);
 
-export const obtenerCodigosPostalesPorLocalidad = (localidad) => {
-    return axios.get(`http://localhost:8080/api/codigosPostales/localidad/${localidad}`)
-}
+export const obtenerCodigosPostalesPorLocalidad = (localidad) => axios.get(`http://localhost:8080/api/codigosPostales/localidad/${localidad}`);
 
-export const obtenerCodigosPostalesPorProvincia = (provincia) => {
-    return axios.get(`http://localhost:8080/api/codigosPostales/provincia/${provincia}`)
-}
+export const obtenerCodigosPostalesPorProvincia = (provincia) => axios.get(`http://localhost:8080/api/codigosPostales/provincia/${provincia}`);
 
 export const modificarCodigoPostal = (id, codigo, localidad, provincia) => {
+  const body = {
+    id,
+    codigo,
+    localidad,
+    provincia,
+  };
+  return axios.put('http://localhost:8080/api/codigosPostales', body);
+};
 
-    let body = {
-        id: id,
-        codigo: codigo,
-        localidad: localidad,
-        provincia: provincia
-    }
-    return axios.put('http://localhost:8080/api/codigosPostales', body)
-}
+export const eliminarCodigoPostal = (id) => axios.delete(`http://localhost:8080/api/codigosPostales/${id}`);
 
-export const eliminarCodigoPostal = (id) => {
-    return axios.delete(`http://localhost:8080/api/codigosPostales/${id}`)
-}
+export const nuevoPropietario = (
+  nombre,
+  primerApellido,
+  segundoApellido,
+  dni,
+  domicilio,
+  idCodigoPostal,
+) => {
+  const body = {
+    nombre,
+    primerApellido,
+    segundoApellido,
+    dni,
+    domicilio,
+  };
 
+  return axios.post(`http://localhost:8080/api/propietarios/${idCodigoPostal}`, body);
+};
 
-export const nuevoPropietario = (nombre, primerApellido, segundoApellido, dni, domicilio, id_codigoPostal) => {
-    
-    let body = {
-        nombre: nombre,
-        primerApellido: primerApellido,
-        segundoApellido: segundoApellido,
-        dni: dni,
-        domicilio: domicilio
-    }
+export const obtenerPropietarios = () => axios.get('http://localhost:8080/api/propietarios/parcial');
 
-    return axios.post(`http://localhost:8080/api/propietarios/${id_codigoPostal}`, body)
-}
+export const obtenerPropietarioPorDni = (dni) => axios.get(`http://localhost:8080/api/propietarios/dni/${dni}`);
 
-export const obtenerPropietarios = () => {
-    return axios.get('http://localhost:8080/api/propietarios/parcial')
-}
+export const obtenerPropietariosPorPrimerApellido = (primerApellido) => axios.get(`http://localhost:8080/api/propietarios/primer-apellido/parcial/${primerApellido}`);
 
-export const obtenerPropietarioPorDni = (dni) => {
-    return axios.get(`http://localhost:8080/api/propietarios/dni/${dni}`)
-}
+export const obtenerPropietariosPorCodigoPostal = (idCodigoPostal) => axios.get(`http://localhost:8080/api/propietarios/codigo_postal/parcial/${idCodigoPostal}`);
 
-export const obtenerPropietariosPorPrimerApellido = (primerApellido) => {
-    return axios.get(`http://localhost:8080/api/propietarios/primer-apellido/parcial/${primerApellido}`)
-}
+export const modificarPropietario = (
+  id,
+  nombre,
+  primerApellido,
+  segundoApellido,
+  dni,
+  domicilio,
+  idCodigoPostal,
+) => {
+  const body = {
+    id,
+    nombre,
+    primerApellido,
+    segundoApellido,
+    dni,
+    domicilio,
+  };
+  return axios.put(`http://localhost:8080/api/propietarios/${idCodigoPostal}`, body);
+};
 
-export const obtenerPropietariosPorCodigoPostal = (id_codigoPostal) => {
-    return axios.get(`http://localhost:8080/api/propietarios/codigo_postal/parcial/${id_codigoPostal}`)
-}
+export const eliminarPropietario = (id) => axios.delete(`http://localhost:8080/api/propietarios/${id}`);
 
-export const modificarPropietario = (id, nombre, primerApellido, segundoApellido, dni, domicilio, id_codigoPostal) => {
+export const nuevoVehiculo = (matricula, marca, modelo, color, idPropietario) => {
+  const body = {
+    matricula,
+    marca,
+    modelo,
+    color,
+  };
 
-    let body = {
-        id: id,
-        nombre: nombre,
-        primerApellido: primerApellido,
-        segundoApellido: segundoApellido,
-        dni: dni,
-        domicilio: domicilio
-    }
-    return axios.put(`http://localhost:8080/api/propietarios/${id_codigoPostal}`, body)
-}
+  return axios.post(`http://localhost:8080/api/vehiculos/${idPropietario}`, body);
+};
 
-export const eliminarPropietario = (id) => {
-    return axios.delete(`http://localhost:8080/api/propietarios/${id}`)
-}
+export const obtenerVehiculosPorMatricula = (matricula) => axios.get(`http://localhost:8080/api/vehiculos/matricula/${matricula}`);
 
-export const nuevoVehiculo = (matricula, marca, modelo, color, id_propietario) => {
-    
-    let body = {
-        matricula: matricula,
-        marca: marca,
-        modelo: modelo,
-        color: color
-    }
+export const obtenerVehiculos = () => axios.get('http://localhost:8080/api/vehiculos/parcial');
 
-    return axios.post(`http://localhost:8080/api/vehiculos/${id_propietario}`, body)
-}
+export const obtenerVehiculosPorMarcaModelo = (marcaModelo) => axios.get(`http://localhost:8080/api/vehiculos/marca-modelo/parcial/${marcaModelo}`);
 
-export const obtenerVehiculosPorMatricula = (matricula) => {
-    return axios.get(`http://localhost:8080/api/vehiculos/matricula/${matricula}`)
-}
+export const obtenerVehiculosPorPropietario = (idPropietario) => axios.get(`http://localhost:8080/api/vehiculos/propietario/parcial/${idPropietario}`);
 
-export const obtenerVehiculos = () => {
-    return axios.get('http://localhost:8080/api/vehiculos/parcial')
-}
+export const modificarVehiculo = (
+  id,
+  matricula,
+  marca,
+  modelo,
+  color,
+  idPropietario,
+) => {
+  const body = {
+    id,
+    matricula,
+    marca,
+    modelo,
+    color,
+  };
+  return axios.put(`http://localhost:8080/api/vehiculos/${idPropietario}`, body);
+};
 
-export const obtenerVehiculosPorMarcaModelo = (marcaModelo) => {
-    return axios.get(`http://localhost:8080/api/vehiculos/marca-modelo/parcial/${marcaModelo}`)
-}
+export const eliminarVehiculo = (id) => axios.delete(`http://localhost:8080/api/vehiculos/${id}`);
 
-export const obtenerVehiculosPorPropietario = (id_propietario) => {
-    return axios.get(`http://localhost:8080/api/vehiculos/propietario/parcial/${id_propietario}`)
-}
+export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, idMatricula) => {
+  const body = {
+    fechaApertura,
+    descripcion,
+    kilometros,
+    cerrada: false,
+  };
 
-export const modificarVehiculo = (id, matricula, marca, modelo, color, id_propietario) => {
+  return axios.post(`http://localhost:8080/api/ordenesReparacion/${idMatricula}`, body);
+};
 
-    let body = {
-        id: id,
-        matricula: matricula,
-        marca: marca,
-        modelo: modelo,
-        color: color
-    }
-    return axios.put(`http://localhost:8080/api/vehiculos/${id_propietario}`, body)
-}
+export const obtenerOrdenesReparacionAbiertas = () => axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false');
 
-export const eliminarVehiculo = (id) => {
-    return axios.delete(`http://localhost:8080/api/vehiculos/${id}`)
-}
+export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false/${fechaApertura}`);
 
-export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, id_matricula) => {
-    
-    let body = {
-        fechaApertura: fechaApertura,
-        descripcion: descripcion,
-        kilometros: kilometros,
-        cerrada: false
-    }
+export const obtenerOrdenesReparacionAbiertasPorVehiculo = (idVehiculo) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${idVehiculo}`);
 
-    return axios.post(`http://localhost:8080/api/ordenesReparacion/${id_matricula}`, body)
-}
+export const obtenerOrdenReparacionPorId = (id) => axios.get(`http://localhost:8080/api/ordenesReparacion/parcial/${id}`);
 
-export const obtenerOrdenesReparacionAbiertas = () => {
-    return axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false')
-}
+export const obtenerOrdenReparacionPorIdCompleta = (id) => axios.get(`http://localhost:8080/api/ordenesReparacion/${id}`);
 
-export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) => {
-    return axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false/${fechaApertura}`)
-}
+export const modificarOrdenReparacion = (
+  id,
+  fechaApertura,
+  descripcion,
+  kilometros,
+  idVehiculo,
+) => {
+  const body = {
+    id,
+    fechaApertura,
+    descripcion,
+    kilometros,
+  };
 
-export const obtenerOrdenesReparacionAbiertasPorVehiculo = (id_vehiculo) => {
-    return axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${id_vehiculo}`)
-}
+  return axios.put(`http://localhost:8080/api/ordenesReparacion/${idVehiculo}`, body);
+};
 
-export const obtenerOrdenReparacionPorId = (id) => {
-    return axios.get(`http://localhost:8080/api/ordenesReparacion/parcial/${id}`)
-}
-
-export const obtenerOrdenReparacionPorIdCompleta = (id) => {
-    return axios.get(`http://localhost:8080/api/ordenesReparacion/${id}`)
-} 
-
-export const modificarOrdenReparacion = (id, fechaApertura, descripcion, kilometros, id_vehiculo) => {
-
-    let body = {
-        id: id,
-        fechaApertura: fechaApertura,
-        descripcion: descripcion,
-        kilometros: kilometros
-    }
-
-    return axios.put(`http://localhost:8080/api/ordenesReparacion/${id_vehiculo}`, body)
-}
-
-export const eliminarOrdenReparacion = (id) => {
-    return axios.delete(`http://localhost:8080/api/ordenesReparacion/${id}`)
-}
-
-
-
+export const eliminarOrdenReparacion = (id) => axios.delete(`http://localhost:8080/api/ordenesReparacion/${id}`);
