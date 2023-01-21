@@ -42,7 +42,6 @@ function AutorizacionOrdenes() {
             buscar={buscarOrdenReparacionFormDispatch}
             buscarParaEditar={buscarOrdenReparacionParaEditarDispatch}
             buscarParaEliminar={buscarOrdenReparacionParaEliminarDispatch}
-                        // eliminar = { eliminarOrdenReparacionFormDispatch }
             imprimir={imprimirOrdenReparacionFormDispatch}
           />
         </Box>
