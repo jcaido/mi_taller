@@ -3,6 +3,7 @@ import { Box, Grid } from '@mui/material';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
+import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 
 function EdicionOrdenes() {
   const {
@@ -41,6 +42,9 @@ function EdicionOrdenes() {
         <Box>
           { state.formCierreOrden ? <p>cerrar orden de reparacion</p> : null }
         </Box>
+      </Grid>
+      <Grid container>
+        { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
       </Grid>
     </Grid>
   );

@@ -7,7 +7,7 @@ import React, {
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import EdicionOrdenes from '../components/edicion-ordenes-reparacion/EdicionOrdenes';
-import { obtenerOrdenReparacionPorId } from '../services/axiosService';
+import { obtenerOrdenReparacionPorIdCompleta } from '../services/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 
 export const EdicionOrdenesContext = createContext();
@@ -26,6 +26,7 @@ function TallerEdicionOrdenes() {
     formPiezas: false,
     formManoDeObra: false,
     formCierreOrden: false,
+    informacionOrdenReparacion: false,
     ordenReparacionPorId: [],
   };
 
@@ -37,6 +38,7 @@ function TallerEdicionOrdenes() {
           formPiezas: action.payload.formPiezas,
           formManoDeObra: action.payload.formManoDeObra,
           formCierreOrden: action.payload.formCierreOrden,
+          informacionOrdenReparacion: action.payload.informacionOrdenReparacion,
         };
       case 'actualizar_lista_ordenes_reparacion_por_id':
         return {
@@ -58,6 +60,11 @@ function TallerEdicionOrdenes() {
           ...state,
           formCierreOrden: action.payload,
         };
+      case 'cerrar_informacion_orden_reparacion':
+        return {
+          ...state,
+          informacionOrdenReparacion: action.payload,
+        };
       default:
         return state;
     }
@@ -72,12 +79,13 @@ function TallerEdicionOrdenes() {
         formPiezas: true,
         formManoDeObra: true,
         formCierreOrden: true,
+        informacionOrdenReparacion: true,
       },
     });
   }
 
   const ObtenerOrdenReparacionPorIdParaCompletar = (id) => {
-    obtenerOrdenReparacionPorId(id)
+    obtenerOrdenReparacionPorIdCompleta(id)
       .then((response) => {
         dispatch({ type: 'actualizar_lista_ordenes_reparacion_por_id', payload: response.data });
       })
@@ -92,6 +100,7 @@ function TallerEdicionOrdenes() {
     dispatch({ type: 'cerrar_formularios_piezas', payload: false });
     dispatch({ type: 'cerrar_formularios_mano_de_obra', payload: false });
     dispatch({ type: 'cerrar_formularios_cierre_orden', payload: false });
+    dispatch({ type: 'cerrar_informacion_orden_reparacion', payload: false });
   };
 
   const EdicionOrdenesProviderValue = useMemo(
