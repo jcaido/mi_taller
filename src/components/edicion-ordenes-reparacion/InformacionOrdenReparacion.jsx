@@ -3,6 +3,10 @@ import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import InformacionGeneral from './InformacionGeneral';
 import InformacionVehiculo from './InformacionVehiculo';
+import InformacionPropietario from './InformacionPropietario';
+import InformacionPiezasReparacion from './InformacionPiezasReparacion';
+import InformacionManoDeObra from './InformacionManoDeObra';
+import InformacionCierre from './InformacionCierre';
 
 function InformacionOrdenReparacion() {
   return (
@@ -18,6 +22,19 @@ function InformacionOrdenReparacion() {
       <Grid item md={12}>
         <InformacionVehiculo />
       </Grid>
+      <Grid item md={12}>
+        <InformacionPropietario />
+      </Grid>
+      <Grid item md={12}>
+        <InformacionPiezasReparacion />
+      </Grid>
+      <Grid item md={12}>
+        <InformacionManoDeObra />
+      </Grid>
+      <Grid item md={12}>
+        <InformacionCierre />
+      </Grid>
+
     </>
   );
 }

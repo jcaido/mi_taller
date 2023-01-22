@@ -6,6 +6,8 @@ function InformacionGeneral() {
   const { state } = useContext(EdicionOrdenesContext);
   return (
     <Box>
+      Referencia (id):
+      { state.ordenReparacionPorId.id }
       Fecha de apertura:
       { state.ordenReparacionPorId.fechaApertura }
       Descripcion de los trabajos:
