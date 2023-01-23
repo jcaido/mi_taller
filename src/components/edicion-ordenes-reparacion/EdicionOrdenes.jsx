@@ -4,6 +4,8 @@ import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
+import ImputarPiezasForm from './forms/ImputarPiezasForm';
+import AbrirOrdenForm from './forms/AbrirOrdenForm';
 
 function EdicionOrdenes() {
   const {
@@ -30,21 +32,22 @@ function EdicionOrdenes() {
       </Grid>
       <Grid item md={3}>
         <Box>
-          { state.formPiezas ? <p>cargar piezas</p> : null }
+          { state.formPiezas ? <ImputarPiezasForm /> : null }
         </Box>
       </Grid>
       <Grid item md={3}>
         <Box>
-          { state.formManoDeObra ? <p>cargar mano de obra</p> : null }
+          { state.formManoDeObra ? <p>imputar mano de obra</p> : null }
         </Box>
       </Grid>
       <Grid item md={3}>
         <Box>
-          { state.formCierreOrden ? <p>cerrar orden de reparacion</p> : null }
+          { state.formCierreOrden ? <p>cerrar orden</p> : null }
         </Box>
       </Grid>
       <Grid container>
         { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
+        { state.formAbrirOrdenReparacion ? <AbrirOrdenForm /> : null }
       </Grid>
     </Grid>
   );

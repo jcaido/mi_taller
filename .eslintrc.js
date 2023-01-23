@@ -23,5 +23,6 @@ module.exports = {
     'no-use-before-define': 'off',
     'react/jsx-props-no-spreading': 'off',
     'import/no-cycle': 'off',
+    'no-console': 'off',
   },
 };

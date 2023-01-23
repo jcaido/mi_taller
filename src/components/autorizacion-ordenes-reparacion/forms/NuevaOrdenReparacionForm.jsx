@@ -45,10 +45,10 @@ function NuevaOrdenReparacionForm() {
   const handleClose = () => setOpen(false);
 
   const [openError, setOpenError] = useState(false);
-  const [message, setMensaje] = useState('');
+  const [message, setMessage] = useState('');
   const handleOpenError = (messag) => {
     setOpenError(true);
-    setMensaje(messag);
+    setMessage(messag);
   };
   const handleCloseError = () => setOpenError(false);
 

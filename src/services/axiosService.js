@@ -157,3 +157,12 @@ export const modificarOrdenReparacion = (
 };
 
 export const eliminarOrdenReparacion = (id) => axios.delete(`http://localhost:8080/api/ordenesReparacion/${id}`);
+
+export const obtenerPiezaPorReferencia = (referencia) => axios.get(`http://localhost:8080/api/piezas/referencia/${referencia}`);
+
+export const nuevaPiezaReparacion = (idOrden, idPieza, cantidad) => {
+  const body = {
+    cantidad,
+  };
+  return axios.post(`http://localhost:8080/api/piezas-reparacion/${idOrden}/${idPieza}`, body);
+};

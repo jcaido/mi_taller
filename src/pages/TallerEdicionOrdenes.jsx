@@ -27,6 +27,7 @@ function TallerEdicionOrdenes() {
     formManoDeObra: false,
     formCierreOrden: false,
     informacionOrdenReparacion: false,
+    formAbrirOrdenReparacion: false,
     ordenReparacionPorId: [],
   };
 
@@ -39,6 +40,7 @@ function TallerEdicionOrdenes() {
           formManoDeObra: action.payload.formManoDeObra,
           formCierreOrden: action.payload.formCierreOrden,
           informacionOrdenReparacion: action.payload.informacionOrdenReparacion,
+          formAbrirOrdenReparacion: action.payload.formAbrirOrdenReparacion,
         };
       case 'actualizar_lista_ordenes_reparacion_por_id':
         return {
@@ -65,6 +67,11 @@ function TallerEdicionOrdenes() {
           ...state,
           informacionOrdenReparacion: action.payload,
         };
+      case 'cerrar_formulario_abrir_orden_reparacion':
+        return {
+          ...state,
+          formAbrirOrdenReparacion: action.payload,
+        };
       default:
         return state;
     }
@@ -80,6 +87,20 @@ function TallerEdicionOrdenes() {
         formManoDeObra: true,
         formCierreOrden: true,
         informacionOrdenReparacion: true,
+        formAbrirOrdenReparacion: false,
+      },
+    });
+  }
+
+  function abrirOrdenReparacionFormDispatch() {
+    dispatch({
+      type: 'edicionOrdenReparacion',
+      payload: {
+        formPiezas: false,
+        formManoDeObra: false,
+        formCierreOrden: false,
+        informacionOrdenReparacion: true,
+        formAbrirOrdenReparacion: true,
       },
     });
   }
@@ -88,12 +109,21 @@ function TallerEdicionOrdenes() {
     obtenerOrdenReparacionPorIdCompleta(id)
       .then((response) => {
         dispatch({ type: 'actualizar_lista_ordenes_reparacion_por_id', payload: response.data });
-      })
-      .then(() => {
-        seleccionarOrdenReparacionFormDispatch();
+        if (response.data.cerrada) {
+          abrirOrdenReparacionFormDispatch();
+        } else {
+          seleccionarOrdenReparacionFormDispatch();
+        }
       })
       .catch((error) => error.response.status === 404
       && handleOpenError(error.response.data.mensaje));
+  };
+
+  const ObtenerOrdenReparacionPorIdParaActualizar = (id) => {
+    obtenerOrdenReparacionPorIdCompleta(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_ordenes_reparacion_por_id', payload: response.data });
+      });
   };
 
   const cerrarFormsPiezasMO = () => {
@@ -101,18 +131,21 @@ function TallerEdicionOrdenes() {
     dispatch({ type: 'cerrar_formularios_mano_de_obra', payload: false });
     dispatch({ type: 'cerrar_formularios_cierre_orden', payload: false });
     dispatch({ type: 'cerrar_informacion_orden_reparacion', payload: false });
+    dispatch({ type: 'cerrar_formulario_abrir_orden_reparacion', payload: false });
   };
 
   const EdicionOrdenesProviderValue = useMemo(
     () => ({
       state,
       ObtenerOrdenReparacionPorIdParaCompletar,
+      ObtenerOrdenReparacionPorIdParaActualizar,
       cerrarFormsPiezasMO,
     }
     ),
     [
       state,
       ObtenerOrdenReparacionPorIdParaCompletar,
+      ObtenerOrdenReparacionPorIdParaActualizar,
       cerrarFormsPiezasMO,
     ],
   );
