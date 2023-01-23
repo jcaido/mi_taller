@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -7,7 +7,8 @@ import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
-import ModalErrores from '../../../utils/ModalErrores';
+import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
+import { modificarOrdenReparacionHoras } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   horas: yup
@@ -17,22 +18,29 @@ const validationSchema = yup.object({
 });
 
 function ImputarManoDeObraForm() {
+  const { state, ObtenerOrdenReparacionPorIdParaActualizar } = useContext(EdicionOrdenesContext);
+
   const horasRef = useRef();
 
   const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   // const [openError, setOpenError] = useState(false);
   // const [message, setMessage] = useState('');
-  //  const handleOpenError = (messag) => {
-  //  setOpenError(true);
-  //  setMessage(messag);
+  // const handleOpenError = (messag) => {
+  //   setOpenError(true);
+  //   setMessage(messag);
   // };
   // const handleCloseError = () => setOpenError(false);
 
   const handleSubmitForm = () => {
-    // kkkk
+    modificarOrdenReparacionHoras(state.ordenReparacionPorId.id, horasRef.current.value)
+      .then(() => {
+        formik.resetForm();
+        handleOpen();
+        ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
+      });
   };
 
   const formik = useFormik({
@@ -69,7 +77,6 @@ function ImputarManoDeObraForm() {
           <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
         </Box>
         <ModalOK open={open} handleClose={handleClose} />
-        <ModalErrores />
       </form>
     </Box>
   );

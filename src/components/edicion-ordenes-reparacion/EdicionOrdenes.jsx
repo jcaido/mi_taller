@@ -6,6 +6,7 @@ import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import ImputarPiezasForm from './forms/ImputarPiezasForm';
 import AbrirOrdenForm from './forms/AbrirOrdenForm';
+import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
 
 function EdicionOrdenes() {
   const {
@@ -37,7 +38,7 @@ function EdicionOrdenes() {
       </Grid>
       <Grid item md={3}>
         <Box>
-          { state.formManoDeObra ? <p>imputar mano de obra</p> : null }
+          { state.formManoDeObra ? <ImputarManoDeObraForm /> : null }
         </Box>
       </Grid>
       <Grid item md={3}>
