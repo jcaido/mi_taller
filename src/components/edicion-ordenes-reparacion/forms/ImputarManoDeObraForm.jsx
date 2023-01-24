@@ -26,14 +26,6 @@ function ImputarManoDeObraForm() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const [openError, setOpenError] = useState(false);
-  // const [message, setMessage] = useState('');
-  // const handleOpenError = (messag) => {
-  //   setOpenError(true);
-  //   setMessage(messag);
-  // };
-  // const handleCloseError = () => setOpenError(false);
-
   const handleSubmitForm = () => {
     modificarOrdenReparacionHoras(state.ordenReparacionPorId.id, horasRef.current.value)
       .then(() => {

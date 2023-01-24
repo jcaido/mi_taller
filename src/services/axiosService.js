@@ -174,3 +174,11 @@ export const modificarOrdenReparacionHoras = (idOrden, horas) => {
   };
   return axios.put('http://localhost:8080/api/ordenesReparacion/horas', body);
 };
+
+export const modificarOrdenReparacionCierre = (idOrden, fechaCierre) => {
+  const body = {
+    id: idOrden,
+    fechaCierre,
+  };
+  return axios.put('http://localhost:8080/api/ordenesReparacion/cierre', body);
+};

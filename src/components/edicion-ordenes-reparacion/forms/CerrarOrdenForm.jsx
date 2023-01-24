@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -11,7 +11,8 @@ import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
-import ModalErrores from '../../../utils/ModalErrores';
+import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
+import { modificarOrdenReparacionCierre } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   fechaCierre: yup
@@ -21,19 +22,17 @@ const validationSchema = yup.object({
 });
 
 function CerrarOrdenForm() {
+  const {
+    state,
+    ObtenerOrdenReparacionPorIdParaActualizar,
+    abrirOrdenReparacionFormDispatch,
+  } = useContext(EdicionOrdenesContext);
+
   const fechaCierreRef = useRef();
 
   const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // const [openError, setOpenError] = useState(false);
-  // const [message, setMessage] = useState('');
-  //  const handleOpenError = (messag) => {
-  //  setOpenError(true);
-  //  setMessage(messag);
-  // };
-  // const handleCloseError = () => setOpenError(false);
 
   const [value, setValue] = useState(new Date());
 
@@ -42,7 +41,13 @@ function CerrarOrdenForm() {
   };
 
   const handleSubmitForm = () => {
-    // kkkk
+    modificarOrdenReparacionCierre(state.ordenReparacionPorId.id, fechaCierreRef.current.value)
+      .then(() => {
+        formik.resetForm();
+        handleOpen();
+        ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
+        abrirOrdenReparacionFormDispatch();
+      });
   };
 
   const formik = useFormik({
@@ -57,7 +62,7 @@ function CerrarOrdenForm() {
     <Box m={2}>
       <Box>
         <Divider>
-          <Chip label="Imputar Mano de Obra" />
+          <Chip label="Cerrar orden de reparación" />
         </Divider>
       </Box>
       <form onSubmit={formik.handleSubmit}>
@@ -80,10 +85,9 @@ function CerrarOrdenForm() {
           </LocalizationProvider>
         </Box>
         <Box m={1}>
-          <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
+          <Button type="submit" color="primary" variant="contained" fullWidth>Cerrar</Button>
         </Box>
         <ModalOK open={open} handleClose={handleClose} />
-        <ModalErrores />
       </form>
     </Box>
   );

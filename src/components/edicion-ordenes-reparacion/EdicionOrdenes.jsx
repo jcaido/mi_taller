@@ -7,6 +7,7 @@ import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import ImputarPiezasForm from './forms/ImputarPiezasForm';
 import AbrirOrdenForm from './forms/AbrirOrdenForm';
 import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
+import CerrarOrdenForm from './forms/CerrarOrdenForm';
 
 function EdicionOrdenes() {
   const {
@@ -43,7 +44,7 @@ function EdicionOrdenes() {
       </Grid>
       <Grid item md={3}>
         <Box>
-          { state.formCierreOrden ? <p>cerrar orden</p> : null }
+          { state.formCierreOrden ? <CerrarOrdenForm /> : null }
         </Box>
       </Grid>
       <Grid container>
