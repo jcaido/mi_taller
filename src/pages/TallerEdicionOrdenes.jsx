@@ -140,6 +140,7 @@ function TallerEdicionOrdenes() {
       ObtenerOrdenReparacionPorIdParaCompletar,
       ObtenerOrdenReparacionPorIdParaActualizar,
       abrirOrdenReparacionFormDispatch,
+      seleccionarOrdenReparacionFormDispatch,
       cerrarFormsPiezasMO,
     }
     ),
@@ -148,6 +149,7 @@ function TallerEdicionOrdenes() {
       ObtenerOrdenReparacionPorIdParaCompletar,
       ObtenerOrdenReparacionPorIdParaActualizar,
       abrirOrdenReparacionFormDispatch,
+      seleccionarOrdenReparacionFormDispatch,
       cerrarFormsPiezasMO,
     ],
   );

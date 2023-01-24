@@ -5,9 +5,9 @@ import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/f
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import ImputarPiezasForm from './forms/ImputarPiezasForm';
-import AbrirOrdenForm from './forms/AbrirOrdenForm';
 import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
 import CerrarOrdenForm from './forms/CerrarOrdenForm';
+import AbrirOrdenForm from './forms/AbrirOrdenForm';
 
 function EdicionOrdenes() {
   const {
@@ -48,8 +48,10 @@ function EdicionOrdenes() {
         </Box>
       </Grid>
       <Grid container>
-        { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
-        { state.formAbrirOrdenReparacion ? <AbrirOrdenForm /> : null }
+        <Box>
+          { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
+          { state.formAbrirOrdenReparacion ? <AbrirOrdenForm /> : null }
+        </Box>
       </Grid>
     </Grid>
   );

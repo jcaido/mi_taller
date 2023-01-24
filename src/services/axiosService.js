@@ -182,3 +182,10 @@ export const modificarOrdenReparacionCierre = (idOrden, fechaCierre) => {
   };
   return axios.put('http://localhost:8080/api/ordenesReparacion/cierre', body);
 };
+
+export const modificarOrdenReparacionAbrir = (idOrden) => {
+  const body = {
+    id: idOrden,
+  };
+  return axios.put('http://localhost:8080/api/ordenesReparacion/abrir', body);
+};

@@ -24,5 +24,6 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'import/no-cycle': 'off',
     'no-console': 'off',
+    'no-alert': 'off',
   },
 };
