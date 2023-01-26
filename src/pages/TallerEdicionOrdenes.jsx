@@ -115,7 +115,7 @@ function TallerEdicionOrdenes() {
           seleccionarOrdenReparacionFormDispatch();
         }
       })
-      .catch((error) => error.response.status === 404
+      .catch((error) => (error.response.status === 404 || error.response.status === 400)
       && handleOpenError(error.response.data.mensaje));
   };
 

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Box, Grid } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
@@ -7,7 +8,6 @@ import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import ImputarPiezasForm from './forms/ImputarPiezasForm';
 import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
 import CerrarOrdenForm from './forms/CerrarOrdenForm';
-import AbrirOrdenForm from './forms/AbrirOrdenForm';
 
 function EdicionOrdenes() {
   const {
@@ -17,7 +17,7 @@ function EdicionOrdenes() {
   } = useContext(EdicionOrdenesContext);
 
   return (
-    <Grid container>
+    <Grid container rowSpacing={1}>
       <Grid item md={12}>
         <Box mt={1}>
           <NavigationButtonEdiOrdenes />
@@ -47,11 +47,11 @@ function EdicionOrdenes() {
           { state.formCierreOrden ? <CerrarOrdenForm /> : null }
         </Box>
       </Grid>
+      <Grid item md={12} mb={2}>
+        <Divider />
+      </Grid>
       <Grid container>
-        <Box>
-          { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
-          { state.formAbrirOrdenReparacion ? <AbrirOrdenForm /> : null }
-        </Box>
+        { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
       </Grid>
     </Grid>
   );

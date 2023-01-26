@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { Box } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import TablaPiezas from './TablaPiezas';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 
 function InformacionPiezasReparacion() {
@@ -7,17 +9,12 @@ function InformacionPiezasReparacion() {
 
   return (
     <Box>
+      <Typography sx={{ fontWeight: 'bold' }} gutterBottom variant="h7" component="div">
+        PIEZAS IMPUTADAS
+      </Typography>
       { state.ordenReparacionPorId.piezasReparacion.length === 0
         ? <p>No hay piezas</p>
-        : state.ordenReparacionPorId.piezasReparacion.map(
-          (datosPieza) => (
-            <p key={datosPieza.id}>
-              {datosPieza.pieza.referencia}
-              {datosPieza.pieza.nombre}
-              {datosPieza.cantidad}
-            </p>
-          ),
-        )}
+        : <TablaPiezas />}
     </Box>
   );
 }

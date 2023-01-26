@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
+import BlindsIcon from '@mui/icons-material/Blinds';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionAbrir } from '../../../services/axiosService';
 
@@ -19,7 +20,7 @@ function AbrirOrdenForm() {
   };
 
   return (
-    <Button onClick={handleClick} color="primary" variant="contained">Abrir Orden de Reparacion</Button>
+    <Button onClick={handleClick} color="primary" variant="contained" startIcon={<BlindsIcon />}>Abrir</Button>
   );
 }
 

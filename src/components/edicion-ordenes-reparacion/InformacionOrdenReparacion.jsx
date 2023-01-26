@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Grid } from '@mui/material';
 import InformacionGeneral from './InformacionGeneral';
 import InformacionVehiculo from './InformacionVehiculo';
 import InformacionPropietario from './InformacionPropietario';
@@ -11,30 +10,24 @@ import InformacionCierre from './InformacionCierre';
 function InformacionOrdenReparacion() {
   return (
     <>
-      <Grid item md={12}>
-        <Box sx={{ textAlign: 'center', mt: 1 }}>
-          <Typography variant="h7" gutterBottom>INFORMACION ORDEN DE REPARACION</Typography>
-        </Box>
-      </Grid>
-      <Grid item md={12}>
+      <Grid item md={3} m={1}>
         <InformacionGeneral />
       </Grid>
-      <Grid item md={12}>
+      <Grid item md={2} m={1}>
         <InformacionVehiculo />
       </Grid>
-      <Grid item md={12}>
+      <Grid item md={2} m={1}>
         <InformacionPropietario />
       </Grid>
-      <Grid item md={12}>
-        <InformacionPiezasReparacion />
-      </Grid>
-      <Grid item md={12}>
+      <Grid item md={2} m={1}>
         <InformacionManoDeObra />
       </Grid>
-      <Grid item md={12}>
+      <Grid item md={2} m={1}>
         <InformacionCierre />
       </Grid>
-
+      <Grid item md={6} m={1}>
+        <InformacionPiezasReparacion />
+      </Grid>
     </>
   );
 }
