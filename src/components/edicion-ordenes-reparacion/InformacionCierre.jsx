@@ -16,14 +16,12 @@ function InformacionCierre() {
           <Typography sx={{ fontWeight: 'bold' }} gutterBottom variant="h7" component="div">
             CIERRE
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            { state.ordenReparacionPorId.cerrada ? (
-              <p>
-                { 'Fecha de cierre: ' }
-                {state.ordenReparacionPorId.fechaCierre}
-              </p>
-            ) : <p>Orden de reparacion abierta</p> }
-          </Typography>
+          { state.ordenReparacionPorId.cerrada ? (
+            <Typography variant="body2" color="text.secondary">
+              { 'Fecha de cierre: ' }
+              {state.ordenReparacionPorId.fechaCierre}
+            </Typography>
+          ) : <Typography variant="body2" color="text.secondary">Orden de reparacion abierta</Typography> }
           <Box mt={6}>
             { state.formAbrirOrdenReparacion ? <AbrirOrdenForm /> : null }
           </Box>

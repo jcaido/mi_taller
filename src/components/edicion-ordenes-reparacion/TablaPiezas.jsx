@@ -8,9 +8,21 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 import EliminarPieza from './EliminarPieza';
+import { eliminarPiezaReparacion } from '../../services/axiosService';
 
 function TablaPiezas() {
-  const { state } = useContext(EdicionOrdenesContext);
+  const { state, ObtenerOrdenReparacionPorIdParaActualizar } = useContext(EdicionOrdenesContext);
+
+  const eliminarPieza = (idPiezaReparacion) => {
+    eliminarPiezaReparacion(idPiezaReparacion)
+      .then(() => {
+        ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
+      })
+      .catch((error) => {
+        alert(`something went wrong: ${error}`);
+      });
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -29,7 +41,7 @@ function TablaPiezas() {
                 <TableCell align="left">{datosPieza.pieza.referencia}</TableCell>
                 <TableCell align="left">{datosPieza.pieza.nombre}</TableCell>
                 <TableCell align="left">{datosPieza.cantidad}</TableCell>
-                <TableCell align="left"><EliminarPieza /></TableCell>
+                <TableCell align="left"><EliminarPieza eliminarPieza={() => eliminarPieza(datosPieza.id)} /></TableCell>
               </TableRow>
             ),
           )}

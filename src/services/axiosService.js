@@ -167,6 +167,8 @@ export const nuevaPiezaReparacion = (idOrden, idPieza, cantidad) => {
   return axios.post(`http://localhost:8080/api/piezas-reparacion/${idOrden}/${idPieza}`, body);
 };
 
+export const eliminarPiezaReparacion = (id) => axios.delete(`http://localhost:8080/api/piezas-reparacion/${id}`);
+
 export const modificarOrdenReparacionHoras = (idOrden, horas) => {
   const body = {
     id: idOrden,

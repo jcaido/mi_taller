@@ -15,15 +15,13 @@ function InformacionManoDeObra() {
           <Typography sx={{ fontWeight: 'bold' }} gutterBottom variant="h7" component="div">
             MANO DE OBRA
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {state.ordenReparacionPorId.horas ? (
-              <p>
-                {state.ordenReparacionPorId.horas}
-                {' '}
-                horas
-              </p>
-            ) : <p>No hay mano de obra imputada</p>}
-          </Typography>
+          {state.ordenReparacionPorId.horas ? (
+            <Typography variant="body2" color="text.secondary">
+              {state.ordenReparacionPorId.horas}
+              {' '}
+              horas
+            </Typography>
+          ) : <Typography variant="body2" color="text.secondary">No hay mano de obra imputada</Typography>}
         </CardContent>
       </Card>
     </Box>
