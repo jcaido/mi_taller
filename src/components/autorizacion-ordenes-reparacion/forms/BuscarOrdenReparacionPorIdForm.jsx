@@ -10,8 +10,9 @@ function BuscarOrdenReparacionPorIdForm({ label, obtener, cerrar }) {
   const idRef = useRef();
 
   const handleSubmitForm = () => {
-    obtener(idRef.current.value);
-    formik.resetForm();
+    if (idRef.current.value !== '') {
+      obtener(idRef.current.value);
+    }
   };
 
   const formik = useFormik({

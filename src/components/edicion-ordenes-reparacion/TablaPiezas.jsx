@@ -41,7 +41,12 @@ function TablaPiezas() {
                 <TableCell align="left">{datosPieza.pieza.referencia}</TableCell>
                 <TableCell align="left">{datosPieza.pieza.nombre}</TableCell>
                 <TableCell align="left">{datosPieza.cantidad}</TableCell>
-                <TableCell align="left"><EliminarPieza eliminarPieza={() => eliminarPieza(datosPieza.id)} /></TableCell>
+                <TableCell align="left">
+                  <EliminarPieza
+                    isCerrada={state.ordenReparacionPorId.cerrada}
+                    eliminarPieza={() => eliminarPieza(datosPieza.id)}
+                  />
+                </TableCell>
               </TableRow>
             ),
           )}
