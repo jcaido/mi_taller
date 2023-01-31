@@ -115,8 +115,10 @@ function TallerEdicionOrdenes() {
           seleccionarOrdenReparacionFormDispatch();
         }
       })
-      .catch((error) => (error.response.status === 404 || error.response.status === 400)
-      && handleOpenError(error.response.data.mensaje));
+      .catch((error) => {
+        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
+      });
   };
 
   const ObtenerOrdenReparacionPorIdParaActualizar = (id) => {

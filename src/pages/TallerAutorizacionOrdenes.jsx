@@ -369,8 +369,10 @@ function TallerAutorizacionOrdenes() {
       .then(() => {
         ImprimirAutorizacionOrdenReparacionPdfDispatch();
       })
-      .catch((error) => (error.response.status === 404 || error.response.status === 404)
-      && handleOpenError(error.response.data.mensaje));
+      .catch((error) => {
+        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
+      });
   };
 
   const ObtenerOrdenReparacionPorIdParaEditar = (id) => {
@@ -381,8 +383,10 @@ function TallerAutorizacionOrdenes() {
       .then(() => {
         editarOrdenReparacionFormDispatch();
       })
-      .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      .catch((error) => {
+        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
+      });
   };
 
   const ObtenerOrdenReparacionPorIdParaEliminar = (id) => {
@@ -393,8 +397,10 @@ function TallerAutorizacionOrdenes() {
       .then(() => {
         eliminarOrdenReparacionFormDispatch();
       })
-      .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      .catch((error) => {
+        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
+      });
   };
 
   const CerrarFormEditarOrdenReparacion = () => {
