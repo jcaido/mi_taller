@@ -3,16 +3,26 @@ import { Box, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
 import OrdenesAbiertasPDF from './OrdenesAbiertasPDF';
+import OrdenesCerradasEntreFechasForm from './forms/OrdenesCerradasEntreFechasForm';
+import { obtenerOrdenesCerradasEntreFechas } from '../../services/axiosService';
+import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
 
 function InformesOrdenes() {
   const [tablaOrdenesReparacionAbiertas, setTablaOrdenesReparacionAbiertas] = useState(false);
   const [formEntreFechas, setFormEntreFechas] = useState(false);
+  const [tablaOrdenesCerradasEntreFechas, setTablaOrdenesCerradasEntreFechas] = useState(false);
   const [formSeleccionarOrdenReparacion, setFormSeleccionarOrdenReparacion] = useState(false);
   const [formSeleccionarVehiculo, setFormSeleccionarVehiculo] = useState(false);
+
+  const [
+    listaOrdenesReparacionCerradasEntreFechas,
+    setListaOrdenesReparacionCerradasEntreFechas,
+  ] = useState([]);
 
   const handleClickOrdenesReparacionAbiertas = () => {
     setTablaOrdenesReparacionAbiertas(true);
     setFormEntreFechas(false);
+    setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
     setFormSeleccionarVehiculo(false);
   };
@@ -20,6 +30,7 @@ function InformesOrdenes() {
   const handleClickOrdenesReparacionCerradas = () => {
     setTablaOrdenesReparacionAbiertas(false);
     setFormEntreFechas(true);
+    setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
     setFormSeleccionarVehiculo(false);
   };
@@ -27,6 +38,7 @@ function InformesOrdenes() {
   const handleClickOrdenReparacionValorada = () => {
     setTablaOrdenesReparacionAbiertas(false);
     setFormEntreFechas(false);
+    setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(true);
     setFormSeleccionarVehiculo(false);
   };
@@ -34,8 +46,23 @@ function InformesOrdenes() {
   const handleClickHistoricoOrdenesVehiculo = () => {
     setTablaOrdenesReparacionAbiertas(false);
     setFormEntreFechas(false);
+    setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
     setFormSeleccionarVehiculo(true);
+  };
+
+  const [fechaInicialProp, setFechaInicialProp] = useState();
+  const [fechaFinalProp, setFechaFinalProp] = useState();
+
+  const ordenesCerradasEntreFechas = (fechaInicial, fechaFinal) => {
+    obtenerOrdenesCerradasEntreFechas(fechaInicial, fechaFinal)
+      .then((response) => {
+        setFormEntreFechas(false);
+        setTablaOrdenesCerradasEntreFechas(true);
+        setListaOrdenesReparacionCerradasEntreFechas(response.data);
+        setFechaInicialProp(fechaInicial);
+        setFechaFinalProp(fechaFinal);
+      });
   };
 
   return (
@@ -56,7 +83,22 @@ function InformesOrdenes() {
       <Grid item md={9}>
         <Box>
           { tablaOrdenesReparacionAbiertas ? <OrdenesAbiertasPDF /> : null }
-          { formEntreFechas ? <p>formulario buscar ordenes cerradas entre fechas</p> : null }
+          { formEntreFechas
+            ? (
+              <OrdenesCerradasEntreFechasForm
+                ordenesCerradasEntreFechas={ordenesCerradasEntreFechas}
+              />
+            )
+            : null }
+          { tablaOrdenesCerradasEntreFechas
+            ? (
+              <OrdenesCerradasEntreFechasPDF
+                listaOrdenes={listaOrdenesReparacionCerradasEntreFechas}
+                fecInicial={fechaInicialProp}
+                fecFinal={fechaFinalProp}
+              />
+            )
+            : null }
           { formSeleccionarOrdenReparacion ? <p>formulario buscar orden</p> : null }
           { formSeleccionarVehiculo ? <p>formulario buscar vehiculo</p> : null }
         </Box>

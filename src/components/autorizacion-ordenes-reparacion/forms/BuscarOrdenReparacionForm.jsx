@@ -51,9 +51,6 @@ function BuscarOrdenReparacionForm() {
       default:
         break;
     }
-  // value === 'fecha-apertura'
-  // && ListarOrdenesReparacionAbiertasPorFechaApertura(fechaAperturaRef.current.value);
-  // value === 'vehiculo' && ListarOrdenesReparacionAbiertasPorVehiculo(matriculaRef.current.value);
   };
 
   const formik = useFormik({

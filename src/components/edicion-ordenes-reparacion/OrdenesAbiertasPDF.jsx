@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   Page, Text, View, Document, StyleSheet, PDFViewer,
 } from '@react-pdf/renderer';
-import axios from 'axios';
+import { obtenerOrdenesReparacionAbiertasSort } from '../../services/axiosService';
 
 function OrdenesAbiertasPDF() {
   const [listaOrdenesReparacionAbiertas, setListaOrdenesReparacionAbiertas] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial-sort/false')
+    obtenerOrdenesReparacionAbiertasSort()
       .then((response) => {
         setListaOrdenesReparacionAbiertas(response.data);
       });

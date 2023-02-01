@@ -131,6 +131,8 @@ export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, idM
 
 export const obtenerOrdenesReparacionAbiertas = () => axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false');
 
+export const obtenerOrdenesReparacionAbiertasSort = () => axios.get('http://localhost:8080/api/ordenesReparacion/cerrada-parcial-sort/false');
+
 export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false/${fechaApertura}`);
 
 export const obtenerOrdenesReparacionAbiertasPorVehiculo = (idVehiculo) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${idVehiculo}`);
@@ -191,3 +193,5 @@ export const modificarOrdenReparacionAbrir = (idOrden) => {
   };
   return axios.put('http://localhost:8080/api/ordenesReparacion/abrir', body);
 };
+
+export const obtenerOrdenesCerradasEntreFechas = (fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada/true/${fechaInicial}/${fechaFinal}`);
