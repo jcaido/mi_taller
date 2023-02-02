@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
-import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
+import NavigationButtonEdiOrdenes from '../edicion-ordenes-reparacion/NavigationButtonEdiOrdenes';
 import OrdenesAbiertasPDF from './OrdenesAbiertasPDF';
 import OrdenesCerradasEntreFechasForm from './forms/OrdenesCerradasEntreFechasForm';
-import { obtenerOrdenesCerradasEntreFechas } from '../../services/axiosService';
+import { obtenerOrdenesCerradasEntreFechas, obtenerOrdenReparacionPorIdCompleta } from '../../services/axiosService';
 import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
+import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
+import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
 
 function InformesOrdenes() {
   const [tablaOrdenesReparacionAbiertas, setTablaOrdenesReparacionAbiertas] = useState(false);
   const [formEntreFechas, setFormEntreFechas] = useState(false);
   const [tablaOrdenesCerradasEntreFechas, setTablaOrdenesCerradasEntreFechas] = useState(false);
   const [formSeleccionarOrdenReparacion, setFormSeleccionarOrdenReparacion] = useState(false);
+  const [ordenCerradaPorId, setOrdenCerradaPorId] = useState(false);
   const [formSeleccionarVehiculo, setFormSeleccionarVehiculo] = useState(false);
 
   const [
@@ -19,11 +22,14 @@ function InformesOrdenes() {
     setListaOrdenesReparacionCerradasEntreFechas,
   ] = useState([]);
 
+  const [ordenReparacionCerradaPorId, setOrdenReparacionCerradaPorId] = useState([]);
+
   const handleClickOrdenesReparacionAbiertas = () => {
     setTablaOrdenesReparacionAbiertas(true);
     setFormEntreFechas(false);
     setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
+    setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
   };
 
@@ -32,6 +38,7 @@ function InformesOrdenes() {
     setFormEntreFechas(true);
     setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
+    setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
   };
 
@@ -40,6 +47,7 @@ function InformesOrdenes() {
     setFormEntreFechas(false);
     setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(true);
+    setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
   };
 
@@ -48,6 +56,7 @@ function InformesOrdenes() {
     setFormEntreFechas(false);
     setTablaOrdenesCerradasEntreFechas(false);
     setFormSeleccionarOrdenReparacion(false);
+    setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(true);
   };
 
@@ -57,11 +66,28 @@ function InformesOrdenes() {
   const ordenesCerradasEntreFechas = (fechaInicial, fechaFinal) => {
     obtenerOrdenesCerradasEntreFechas(fechaInicial, fechaFinal)
       .then((response) => {
+        setTablaOrdenesReparacionAbiertas(false);
         setFormEntreFechas(false);
         setTablaOrdenesCerradasEntreFechas(true);
+        setFormSeleccionarOrdenReparacion(false);
+        setOrdenCerradaPorId(false);
+        setFormSeleccionarVehiculo(false);
         setListaOrdenesReparacionCerradasEntreFechas(response.data);
         setFechaInicialProp(fechaInicial);
         setFechaFinalProp(fechaFinal);
+      });
+  };
+
+  const ordenReparacionPorId = (id) => {
+    obtenerOrdenReparacionPorIdCompleta(id)
+      .then((response) => {
+        setTablaOrdenesReparacionAbiertas(false);
+        setFormEntreFechas(false);
+        setTablaOrdenesCerradasEntreFechas(false);
+        setFormSeleccionarOrdenReparacion(false);
+        setOrdenCerradaPorId(true);
+        setFormSeleccionarVehiculo(false);
+        setOrdenReparacionCerradaPorId(response.data);
       });
   };
 
@@ -99,7 +125,23 @@ function InformesOrdenes() {
               />
             )
             : null }
-          { formSeleccionarOrdenReparacion ? <p>formulario buscar orden</p> : null }
+          { formSeleccionarOrdenReparacion
+            ? (
+              <Box sx={{ width: '30%' }}>
+                <BuscarOrdenReparacionPorIdForm
+                  label="Seleccionar orden de reparacion"
+                  obtener={ordenReparacionPorId}
+                />
+              </Box>
+            )
+            : null }
+          { ordenCerradaPorId
+            ? (
+              <OrdenCerradaPorIdPDF
+                ordenCerrada={ordenReparacionCerradaPorId}
+              />
+            )
+            : null }
           { formSeleccionarVehiculo ? <p>formulario buscar vehiculo</p> : null }
         </Box>
       </Grid>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import InformesOrdenes from '../components/edicion-ordenes-reparacion/InformesOrdenes';
+import InformesOrdenes from '../components/informes-ordenes-reparacion/InformesOrdenes';
 
 function TallerInformesOrdenes() {
   return (
