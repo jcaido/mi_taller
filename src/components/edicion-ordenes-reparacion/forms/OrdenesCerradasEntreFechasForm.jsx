@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 
@@ -40,8 +41,8 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
 
   const formik = useFormik({
     initialValues: {
-      fechaCierreInicial: new Date(),
-      fechaCierreFinal: new Date(),
+      fechaCierreInicial: valueInicial,
+      fechaCierreFinal: valueFinal,
     },
     validationSchema,
     onSubmit: () => handleSubmitForm(),
@@ -103,8 +104,17 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
             </Stack>
           </LocalizationProvider>
         </Box>
+        { valueFinal < valueInicial
+          ? (
+            <Stack sx={{ width: '92%', marginLeft: 2 }} spacing={3}>
+              <Alert severity="error">La fecha final no puede ser inferior a la fecha inicial</Alert>
+            </Stack>
+          )
+          : null }
         <Box m={1}>
-          <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
+          {valueFinal < valueInicial
+            ? (<Button type="submit" color="primary" variant="contained" fullWidth disabled>Aceptar</Button>)
+            : (<Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>)}
         </Box>
       </form>
     </Box>
