@@ -91,7 +91,7 @@ function OrdenesCerradasEntreFechasPDF({ listaOrdenes, fecInicial, fecFinal }) {
                   {orden.vehiculo.modelo}
                   {'      '}
                   {'KILÓMETROS: '}
-                  {orden.kilometros}
+                  {orden.kilometros.toLocaleString('es-ES')}
                 </Text>
                 <Text style={styles.datos}>
                   {'FECHA DE APERTURA : '}

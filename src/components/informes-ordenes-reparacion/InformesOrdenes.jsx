@@ -8,8 +8,19 @@ import { obtenerOrdenesCerradasEntreFechas, obtenerOrdenReparacionPorIdCompleta 
 import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
+import ModalErrores from '../../utils/ModalErrores';
 
 function InformesOrdenes() {
+  const [openError, setOpenError] = useState(false);
+  const [message, setMensaje] = useState('');
+
+  const handleOpenError = (messag) => {
+    setOpenError(true);
+    setMensaje(messag);
+  };
+
+  const handleCloseError = () => setOpenError(false);
+
   const [tablaOrdenesReparacionAbiertas, setTablaOrdenesReparacionAbiertas] = useState(false);
   const [formEntreFechas, setFormEntreFechas] = useState(false);
   const [tablaOrdenesCerradasEntreFechas, setTablaOrdenesCerradasEntreFechas] = useState(false);
@@ -81,13 +92,17 @@ function InformesOrdenes() {
   const ordenReparacionPorId = (id) => {
     obtenerOrdenReparacionPorIdCompleta(id)
       .then((response) => {
-        setTablaOrdenesReparacionAbiertas(false);
-        setFormEntreFechas(false);
-        setTablaOrdenesCerradasEntreFechas(false);
-        setFormSeleccionarOrdenReparacion(false);
-        setOrdenCerradaPorId(true);
-        setFormSeleccionarVehiculo(false);
-        setOrdenReparacionCerradaPorId(response.data);
+        if (!response.data.cerrada) {
+          handleOpenError('La orden de reparación no está cerrada');
+        } else {
+          setTablaOrdenesReparacionAbiertas(false);
+          setFormEntreFechas(false);
+          setTablaOrdenesCerradasEntreFechas(false);
+          setFormSeleccionarOrdenReparacion(false);
+          setOrdenCerradaPorId(true);
+          setFormSeleccionarVehiculo(false);
+          setOrdenReparacionCerradaPorId(response.data);
+        }
       });
   };
 
@@ -144,6 +159,7 @@ function InformesOrdenes() {
             : null }
           { formSeleccionarVehiculo ? <p>formulario buscar vehiculo</p> : null }
         </Box>
+        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
       </Grid>
     </Grid>
   );

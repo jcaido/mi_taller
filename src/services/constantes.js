@@ -1,0 +1,1 @@
+export const PRECIO_HORA_CLIENTE_TALLER = 30;

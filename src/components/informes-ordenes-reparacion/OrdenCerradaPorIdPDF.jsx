@@ -2,8 +2,20 @@ import React from 'react';
 import {
   Page, Text, View, Document, StyleSheet, PDFViewer,
 } from '@react-pdf/renderer';
+import * as myConst from '../../services/constantes';
 
 function OrdenCerradaPorIdPDF({ ordenCerrada }) {
+  function totalPiezas() {
+    let total = 0;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const pieza of ordenCerrada.piezasReparacion) {
+      total += pieza.cantidad * pieza.pieza.precio;
+    }
+    return total;
+  }
+
+  const precioHora = myConst.PRECIO_HORA_CLIENTE_TALLER;
+
   const styles = StyleSheet.create({
     page: {
       paddingTop: 35,
@@ -13,6 +25,7 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
     titleContainer: {
       flexDirection: 'row',
       marginTop: 24,
+      marginBottom: 10,
     },
     reportTitle: {
       color: '#F10000',
@@ -22,12 +35,18 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
       textTransform: 'uppercase',
       marginBottom: 5,
     },
-    referencia: {
+    header1: {
       fontSize: 12,
-      fontStyle: 'bold',
-      textAlign: 'right',
+      textAlign: 'left',
+      color: 'gray',
+      marginBottom: 10,
+    },
+    header2: {
+      fontSize: 12,
+      textAlign: 'left',
       color: 'gray',
       marginBottom: 20,
+      paddingRight: 125,
     },
     titulo: {
       fontSize: 10,
@@ -71,6 +90,15 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
       backgroundColor: '#F9A300',
       color: 'white',
     },
+    subtituloCierre: {
+      width: 70,
+      borderRadius: 5,
+      marginTop: 6,
+      marginBottom: 3,
+      padding: 4,
+      backgroundColor: '#F9A300',
+      color: 'white',
+    },
     datos: {
       fontSize: 8,
       marginLeft: 5,
@@ -84,6 +112,19 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
       paddingBottom: 6,
       color: 'gray',
     },
+    subtotal: {
+      textAlign: 'right',
+      color: 'red',
+    },
+    total: {
+      borderTopWidth: 2,
+      borderColor: '#bff0fd',
+    },
+    totalText: {
+      marginTop: 20,
+      textAlign: 'center',
+      fontSize: 15,
+    },
   });
 
   return (
@@ -94,14 +135,20 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
             <Text style={styles.reportTitle}>INFORME ORDEN DE REPARACIÓN CERRADA</Text>
           </View>
           <View>
-            <Text style={styles.referencia}>
+            <Text style={styles.header1}>
               {'Referencia: '}
               {ordenCerrada.id}
+              {'    '}
+              {'Fecha de apertura:  '}
+              {ordenCerrada.fechaApertura}
+            </Text>
+            <Text style={styles.header2}>
+              {ordenCerrada.descripcion}
             </Text>
           </View>
           <View style={styles.titulo}>
             <Text style={styles.subtituloVehiculo}>
-              VEHÍCULO:
+              VEHÍCULO
             </Text>
             <Text style={styles.datos}>
               {'MATRÍCULA: '}
@@ -121,12 +168,12 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
             </Text>
             <Text style={styles.datos}>
               {'KILÓMETROS: '}
-              {ordenCerrada.kilometros}
+              {ordenCerrada.kilometros.toLocaleString('es-ES')}
             </Text>
           </View>
           <View style={styles.titulo}>
             <Text style={styles.subtituloPropietario}>
-              PROPIETARIO:
+              PROPIETARIO
             </Text>
             <Text style={styles.datos}>
               {'NOMBRE: '}
@@ -149,13 +196,14 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
               {ordenCerrada.vehiculo.propietario.codigoPostal.codigo}
               {' .- '}
               {ordenCerrada.vehiculo.propietario.codigoPostal.localidad}
-              {' .- '}
+              {' ('}
               {ordenCerrada.vehiculo.propietario.codigoPostal.provincia}
+              {') '}
             </Text>
           </View>
           <View style={styles.titulo}>
             <Text style={styles.subtituloPiezas}>
-              PIEZAS:
+              PIEZAS
             </Text>
             {ordenCerrada.piezasReparacion.map(
               (pieza) => (
@@ -167,20 +215,51 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
                   {'    '}
                   {pieza.cantidad}
                   {' uds'}
-                  {'    '}
+                  {'  x  '}
                   {pieza.pieza.precio}
-                  {' $/ud '}
+                  {' €/ud '}
+                  {'  -------------->  '}
+                  {pieza.cantidad * pieza.pieza.precio}
+                  {' €'}
                 </Text>
               ),
             )}
+            <Text style={styles.subtotal}>
+              {'TOTAL PIEZAS: '}
+              {totalPiezas()}
+              {' €'}
+            </Text>
           </View>
           <View style={styles.titulo}>
             <Text style={styles.subtituloManoDeObra}>
-              MANO DE OBRA:
+              MANO DE OBRA
             </Text>
             <Text style={styles.datos}>
               {ordenCerrada.horas}
-              {'  horas'}
+              {'  horas  x  '}
+              {precioHora}
+              {' €/hora'}
+            </Text>
+            <Text style={styles.subtotal}>
+              {'TOTAL MANO DE OBRA: '}
+              {ordenCerrada.horas * precioHora}
+              {' €'}
+            </Text>
+          </View>
+          <View style={styles.titulo}>
+            <Text style={styles.subtituloManoDeObra}>
+              CIERRE
+            </Text>
+            <Text style={styles.datos}>
+              {'FECHA DE CIERRE:  '}
+              {ordenCerrada.fechaCierre}
+            </Text>
+          </View>
+          <View style={styles.total}>
+            <Text style={styles.totalText}>
+              {'TOTAL REPARACIÓN:  '}
+              {totalPiezas() + ordenCerrada.horas * precioHora}
+              {' €'}
             </Text>
           </View>
         </Page>

@@ -25,5 +25,6 @@ module.exports = {
     'import/no-cycle': 'off',
     'no-console': 'off',
     'no-alert': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
