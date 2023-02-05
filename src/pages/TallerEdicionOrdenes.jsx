@@ -28,6 +28,8 @@ function TallerEdicionOrdenes() {
     formCierreOrden: false,
     informacionOrdenReparacion: false,
     formAbrirOrdenReparacion: false,
+    formPrecioManoDeObra: false,
+    formSeleccionarOrdenReparacion: true,
     ordenReparacionPorId: [],
   };
 
@@ -41,6 +43,8 @@ function TallerEdicionOrdenes() {
           formCierreOrden: action.payload.formCierreOrden,
           informacionOrdenReparacion: action.payload.informacionOrdenReparacion,
           formAbrirOrdenReparacion: action.payload.formAbrirOrdenReparacion,
+          formPrecioManoDeObra: action.payload.formPrecioManoDeObra,
+          formSeleccionarOrdenReparacion: action.payload.formSeleccionarOrdenReparacion,
         };
       case 'actualizar_lista_ordenes_reparacion_por_id':
         return {
@@ -72,6 +76,11 @@ function TallerEdicionOrdenes() {
           ...state,
           formAbrirOrdenReparacion: action.payload,
         };
+      case 'cerrar_formulario_precio_mano_de_obra':
+        return {
+          ...state,
+          formPrecioManoDeObra: action.payload,
+        };
       default:
         return state;
     }
@@ -88,6 +97,23 @@ function TallerEdicionOrdenes() {
         formCierreOrden: true,
         informacionOrdenReparacion: true,
         formAbrirOrdenReparacion: false,
+        formPrecioManoDeObra: false,
+        formSeleccionarOrdenReparacion: true,
+      },
+    });
+  }
+
+  function buscarOrdenReparacionFormDispatch() {
+    dispatch({
+      type: 'edicionOrdenReparacion',
+      payload: {
+        formPiezas: false,
+        formManoDeObra: false,
+        formCierreOrden: false,
+        informacionOrdenReparacion: false,
+        formAbrirOrdenReparacion: false,
+        formPrecioManoDeObra: false,
+        formSeleccionarOrdenReparacion: true,
       },
     });
   }
@@ -101,6 +127,23 @@ function TallerEdicionOrdenes() {
         formCierreOrden: false,
         informacionOrdenReparacion: true,
         formAbrirOrdenReparacion: true,
+        formPrecioManoDeObra: false,
+        formSeleccionarOrdenReparacion: true,
+      },
+    });
+  }
+
+  function establecerPrecioManoDeObraFormDispatch() {
+    dispatch({
+      type: 'edicionOrdenReparacion',
+      payload: {
+        formPiezas: false,
+        formManoDeObra: false,
+        formCierreOrden: false,
+        informacionOrdenReparacion: false,
+        formAbrirOrdenReparacion: false,
+        formPrecioManoDeObra: true,
+        formSeleccionarOrdenReparacion: false,
       },
     });
   }
@@ -143,6 +186,8 @@ function TallerEdicionOrdenes() {
       ObtenerOrdenReparacionPorIdParaActualizar,
       abrirOrdenReparacionFormDispatch,
       seleccionarOrdenReparacionFormDispatch,
+      establecerPrecioManoDeObraFormDispatch,
+      buscarOrdenReparacionFormDispatch,
       cerrarFormsPiezasMO,
     }
     ),
@@ -152,6 +197,8 @@ function TallerEdicionOrdenes() {
       ObtenerOrdenReparacionPorIdParaActualizar,
       abrirOrdenReparacionFormDispatch,
       seleccionarOrdenReparacionFormDispatch,
+      establecerPrecioManoDeObraFormDispatch,
+      buscarOrdenReparacionFormDispatch,
       cerrarFormsPiezasMO,
     ],
   );
