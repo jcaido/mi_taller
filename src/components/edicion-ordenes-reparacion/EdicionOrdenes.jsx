@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
@@ -10,6 +10,7 @@ import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
 import CerrarOrdenForm from './forms/CerrarOrdenForm';
 import EstablecerPrecioManoDeObraForm from './forms/EstablecerPrecioManoDeObraForm';
 import InformacionPrecioManoDeObraActual from './InformacionPrecioManoDeObraActual';
+import { establecerPrecioManoDeObra, obtenerPrecioManDeObraActual } from '../../services/axiosService';
 
 function EdicionOrdenes() {
   const {
@@ -19,6 +20,23 @@ function EdicionOrdenes() {
     establecerPrecioManoDeObraFormDispatch,
     buscarOrdenReparacionFormDispatch,
   } = useContext(EdicionOrdenesContext);
+
+  const [manodeObraActual, setManodeObraActual] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const establecerManoDeObraActual = (precioManoDeObra) => {
+    establecerPrecioManoDeObra(precioManoDeObra)
+      .then(() => {
+        handleOpen();
+        obtenerPrecioManDeObraActual()
+          .then((response) => {
+            setManodeObraActual(response.data);
+          });
+      });
+  };
 
   return (
     <Grid container rowSpacing={1}>
@@ -40,10 +58,21 @@ function EdicionOrdenes() {
                 cerrar={cerrarFormsPiezasMO}
               />
             ) : null}
-          {state.formPrecioManoDeObra ? <EstablecerPrecioManoDeObraForm /> : null}
+          {state.formPrecioManoDeObra ? (
+            <EstablecerPrecioManoDeObraForm
+              establecerManoDeObraActual={establecerManoDeObraActual}
+              open={open}
+              handleClose={handleClose}
+            />
+          ) : null}
         </Box>
         <Box>
-          {state.formPrecioManoDeObra ? <InformacionPrecioManoDeObraActual /> : null}
+          {state.formPrecioManoDeObra ? (
+            <InformacionPrecioManoDeObraActual
+              manodeObraActual={manodeObraActual}
+              setManodeObraActual={setManodeObraActual}
+            />
+          ) : null}
         </Box>
       </Grid>
       <Grid item md={3}>

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Page, Text, View, Document, StyleSheet, PDFViewer,
 } from '@react-pdf/renderer';
-import * as myConst from '../../services/constantes';
 
 function OrdenCerradaPorIdPDF({ ordenCerrada }) {
   function totalPiezas() {
@@ -13,8 +12,6 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
     }
     return total;
   }
-
-  const precioHora = myConst.PRECIO_HORA_CLIENTE_TALLER;
 
   const styles = StyleSheet.create({
     page: {
@@ -216,17 +213,17 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
                   {pieza.cantidad}
                   {' uds'}
                   {'  x  '}
-                  {pieza.pieza.precio}
+                  {pieza.pieza.precio.toLocaleString('en')}
                   {' €/ud '}
                   {'  -------------->  '}
-                  {pieza.cantidad * pieza.pieza.precio}
+                  {(pieza.cantidad * pieza.pieza.precio).toLocaleString('en')}
                   {' €'}
                 </Text>
               ),
             )}
             <Text style={styles.subtotal}>
               {'TOTAL PIEZAS: '}
-              {totalPiezas()}
+              {totalPiezas().toLocaleString('en')}
               {' €'}
             </Text>
           </View>
@@ -237,12 +234,12 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
             <Text style={styles.datos}>
               {ordenCerrada.horas}
               {'  horas  x  '}
-              {precioHora}
+              {ordenCerrada.manoDeObra.precioHoraClienteTaller.toLocaleString('en')}
               {' €/hora'}
             </Text>
             <Text style={styles.subtotal}>
               {'TOTAL MANO DE OBRA: '}
-              {ordenCerrada.horas * precioHora}
+              {(ordenCerrada.horas * ordenCerrada.manoDeObra.precioHoraClienteTaller).toLocaleString('en')}
               {' €'}
             </Text>
           </View>
@@ -258,7 +255,7 @@ function OrdenCerradaPorIdPDF({ ordenCerrada }) {
           <View style={styles.total}>
             <Text style={styles.totalText}>
               {'TOTAL REPARACIÓN:  '}
-              {totalPiezas() + ordenCerrada.horas * precioHora}
+              { (totalPiezas() + ordenCerrada.horas * ordenCerrada.manoDeObra.precioHoraClienteTaller).toLocaleString('en') }
               {' €'}
             </Text>
           </View>

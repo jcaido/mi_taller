@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -7,7 +7,6 @@ import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
-import { establecerPrecioManoDeObra } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   precio: yup
@@ -16,19 +15,12 @@ const validationSchema = yup.object({
     .required('El precio/hora es obligatorio'),
 });
 
-function EstablecerPrecioManoDeObraForm() {
+function EstablecerPrecioManoDeObraForm({ establecerManoDeObraActual, open, handleClose }) {
   const PrecioManoDeObraRef = useRef();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const handleSubmitForm = () => {
-    establecerPrecioManoDeObra(PrecioManoDeObraRef.current.value)
-      .then(() => {
-        formik.resetForm();
-        handleOpen();
-      });
+    establecerManoDeObraActual(PrecioManoDeObraRef.current.value);
+    formik.resetForm();
   };
 
   const formik = useFormik({
