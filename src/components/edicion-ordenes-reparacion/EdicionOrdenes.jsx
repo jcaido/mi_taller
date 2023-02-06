@@ -9,6 +9,7 @@ import ImputarPiezasForm from './forms/ImputarPiezasForm';
 import ImputarManoDeObraForm from './forms/ImputarManoDeObraForm';
 import CerrarOrdenForm from './forms/CerrarOrdenForm';
 import EstablecerPrecioManoDeObraForm from './forms/EstablecerPrecioManoDeObraForm';
+import InformacionPrecioManoDeObraActual from './InformacionPrecioManoDeObraActual';
 
 function EdicionOrdenes() {
   const {
@@ -40,6 +41,9 @@ function EdicionOrdenes() {
               />
             ) : null}
           {state.formPrecioManoDeObra ? <EstablecerPrecioManoDeObraForm /> : null}
+        </Box>
+        <Box>
+          {state.formPrecioManoDeObra ? <InformacionPrecioManoDeObraActual /> : null}
         </Box>
       </Grid>
       <Grid item md={3}>

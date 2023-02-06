@@ -195,3 +195,13 @@ export const modificarOrdenReparacionAbrir = (idOrden) => {
 };
 
 export const obtenerOrdenesCerradasEntreFechas = (fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada/true/${fechaInicial}/${fechaFinal}`);
+
+export const establecerPrecioManoDeObra = (precioHoraClienteTaller) => {
+  const body = {
+    precioHoraClienteTaller,
+  };
+
+  return axios.post('http://localhost:8080/api/mano-de-obra', body);
+};
+
+export const obtenerPrecioManDeObraActual = () => axios.get('http://localhost:8080/api/mano-de-obra/precio-actual/true');
