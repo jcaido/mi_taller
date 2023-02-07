@@ -3,12 +3,19 @@ import { Box, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import OrdenesAbiertasPDF from './OrdenesAbiertasPDF';
 import OrdenesCerradasEntreFechasForm from './forms/OrdenesCerradasEntreFechasForm';
-import { obtenerOrdenesCerradasEntreFechas, obtenerOrdenReparacionPorIdCompleta } from '../../services/axiosService';
+import {
+  obtenerOrdenesCerradasEntreFechas,
+  obtenerOrdenesReparacionCerradasPorVehiculo,
+  obtenerOrdenReparacionPorIdCompleta,
+  obtenerVehiculosPorMatricula,
+} from '../../services/axiosService';
 import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
 import ModalErrores from '../../utils/ModalErrores';
 import NavigationButtonInfoOrdenes from './NavigationButtonInfoOrdenes';
+import BuscarOrdenReparacionPorMatriculaForm from './forms/BuscarOrdenReparacionPorMatriculaForm';
+import HistoricoOrdenesCerradasPorVehiculoPDF from './HistoricoOrdenesCerradasPorVehiculoPDF';
 
 function InformesOrdenes() {
   const [openError, setOpenError] = useState(false);
@@ -27,6 +34,7 @@ function InformesOrdenes() {
   const [formSeleccionarOrdenReparacion, setFormSeleccionarOrdenReparacion] = useState(false);
   const [ordenCerradaPorId, setOrdenCerradaPorId] = useState(false);
   const [formSeleccionarVehiculo, setFormSeleccionarVehiculo] = useState(false);
+  const [historicoOrdenesVehiculo, setHistoricoOrdenesVehiculo] = useState(false);
 
   const [
     listaOrdenesReparacionCerradasEntreFechas,
@@ -35,6 +43,11 @@ function InformesOrdenes() {
 
   const [ordenReparacionCerradaPorId, setOrdenReparacionCerradaPorId] = useState([]);
 
+  const [
+    historiosOrdenesCerradasPorVehiculo,
+    setHistoriosOrdenesCerradasPorVehiculo,
+  ] = useState([]);
+
   const handleClickOrdenesReparacionAbiertas = () => {
     setTablaOrdenesReparacionAbiertas(true);
     setFormEntreFechas(false);
@@ -42,6 +55,7 @@ function InformesOrdenes() {
     setFormSeleccionarOrdenReparacion(false);
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
+    setHistoricoOrdenesVehiculo(false);
   };
 
   const handleClickOrdenesReparacionCerradas = () => {
@@ -51,6 +65,7 @@ function InformesOrdenes() {
     setFormSeleccionarOrdenReparacion(false);
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
+    setHistoricoOrdenesVehiculo(false);
   };
 
   const handleClickOrdenReparacionValorada = () => {
@@ -60,6 +75,7 @@ function InformesOrdenes() {
     setFormSeleccionarOrdenReparacion(true);
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
+    setHistoricoOrdenesVehiculo(false);
   };
 
   const handleClickHistoricoOrdenesVehiculo = () => {
@@ -69,6 +85,7 @@ function InformesOrdenes() {
     setFormSeleccionarOrdenReparacion(false);
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(true);
+    setHistoricoOrdenesVehiculo(false);
   };
 
   const [fechaInicialProp, setFechaInicialProp] = useState();
@@ -83,6 +100,7 @@ function InformesOrdenes() {
         setFormSeleccionarOrdenReparacion(false);
         setOrdenCerradaPorId(false);
         setFormSeleccionarVehiculo(false);
+        setHistoricoOrdenesVehiculo(false);
         setListaOrdenesReparacionCerradasEntreFechas(response.data);
         setFechaInicialProp(fechaInicial);
         setFechaFinalProp(fechaFinal);
@@ -101,8 +119,26 @@ function InformesOrdenes() {
           setFormSeleccionarOrdenReparacion(false);
           setOrdenCerradaPorId(true);
           setFormSeleccionarVehiculo(false);
+          setHistoricoOrdenesVehiculo(false);
           setOrdenReparacionCerradaPorId(response.data);
         }
+      });
+  };
+
+  const ordenReparacionPorVehiculo = (matricula) => {
+    obtenerVehiculosPorMatricula(matricula)
+      .then((response) => {
+        obtenerOrdenesReparacionCerradasPorVehiculo(response.data.id)
+          .then((res) => {
+            setTablaOrdenesReparacionAbiertas(false);
+            setFormEntreFechas(false);
+            setTablaOrdenesCerradasEntreFechas(false);
+            setFormSeleccionarOrdenReparacion(false);
+            setOrdenCerradaPorId(false);
+            setFormSeleccionarVehiculo(false);
+            setHistoricoOrdenesVehiculo(true);
+            setHistoriosOrdenesCerradasPorVehiculo(res.data);
+          });
       });
   };
 
@@ -157,7 +193,20 @@ function InformesOrdenes() {
               />
             )
             : null }
-          { formSeleccionarVehiculo ? <p>formulario buscar vehiculo</p> : null }
+          { formSeleccionarVehiculo
+            ? (
+              <Box sx={{ width: '30%' }}>
+                <BuscarOrdenReparacionPorMatriculaForm
+                  obtener={ordenReparacionPorVehiculo}
+                />
+              </Box>
+            ) : null }
+          {historicoOrdenesVehiculo
+            ? (
+              <HistoricoOrdenesCerradasPorVehiculoPDF
+                historico={historiosOrdenesCerradasPorVehiculo}
+              />
+            ) : null }
         </Box>
         <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
       </Grid>

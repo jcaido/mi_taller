@@ -136,6 +136,7 @@ export const obtenerOrdenesReparacionAbiertasSort = () => axios.get('http://loca
 export const obtenerOrdenesReparacionAbiertasPorFechaApertura = (fechaApertura) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial/false/${fechaApertura}`);
 
 export const obtenerOrdenesReparacionAbiertasPorVehiculo = (idVehiculo) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-parcial-vehiculo/false/${idVehiculo}`);
+export const obtenerOrdenesReparacionCerradasPorVehiculo = (idVehiculo) => axios.get(`http://localhost:8080/api/ordenesReparacion/cerrada-vehiculo/true/${idVehiculo}`);
 
 export const obtenerOrdenReparacionPorId = (id) => axios.get(`http://localhost:8080/api/ordenesReparacion/parcial/${id}`);
 
