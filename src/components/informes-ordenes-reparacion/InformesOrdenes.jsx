@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
-import NavigationButtonEdiOrdenes from '../edicion-ordenes-reparacion/NavigationButtonEdiOrdenes';
 import OrdenesAbiertasPDF from './OrdenesAbiertasPDF';
 import OrdenesCerradasEntreFechasForm from './forms/OrdenesCerradasEntreFechasForm';
 import { obtenerOrdenesCerradasEntreFechas, obtenerOrdenReparacionPorIdCompleta } from '../../services/axiosService';
@@ -9,6 +8,7 @@ import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
 import ModalErrores from '../../utils/ModalErrores';
+import NavigationButtonInfoOrdenes from './NavigationButtonInfoOrdenes';
 
 function InformesOrdenes() {
   const [openError, setOpenError] = useState(false);
@@ -110,7 +110,7 @@ function InformesOrdenes() {
     <Grid container rowSpacing={1}>
       <Grid item md={12}>
         <Box mt={1}>
-          <NavigationButtonEdiOrdenes />
+          <NavigationButtonInfoOrdenes />
         </Box>
       </Grid>
       <Grid item md={3}>
