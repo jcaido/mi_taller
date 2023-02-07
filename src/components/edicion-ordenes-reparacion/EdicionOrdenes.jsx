@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
@@ -11,6 +11,7 @@ import CerrarOrdenForm from './forms/CerrarOrdenForm';
 import EstablecerPrecioManoDeObraForm from './forms/EstablecerPrecioManoDeObraForm';
 import InformacionPrecioManoDeObraActual from './InformacionPrecioManoDeObraActual';
 import { establecerPrecioManoDeObra, obtenerPrecioManDeObraActual } from '../../services/axiosService';
+import ModalErrores from '../../utils/ModalErrores';
 
 function EdicionOrdenes() {
   const {
@@ -21,7 +22,20 @@ function EdicionOrdenes() {
     buscarOrdenReparacionFormDispatch,
   } = useContext(EdicionOrdenesContext);
 
-  const [manodeObraActual, setManodeObraActual] = useState([]);
+  const [openError, setOpenError] = useState(false);
+  const [message, setMensaje] = useState('');
+  const handleOpenError = (messag) => {
+    setOpenError(true);
+    setMensaje(messag);
+  };
+  const handleCloseError = () => setOpenError(false);
+
+  const [manodeObraActual, setManodeObraActual] = useState();
+
+  useEffect(() => {
+    obtenerPrecioManDeObraActual()
+      .then((response) => setManodeObraActual(response.data.precioHoraClienteTaller));
+  }, []);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -33,8 +47,11 @@ function EdicionOrdenes() {
         handleOpen();
         obtenerPrecioManDeObraActual()
           .then((response) => {
-            setManodeObraActual(response.data);
+            setManodeObraActual(response.data.precioHoraClienteTaller);
           });
+      })
+      .catch((error) => {
+        if (error.response.status === 409) { handleOpenError(error.response.data.mensaje); }
       });
   };
 
@@ -59,19 +76,16 @@ function EdicionOrdenes() {
               />
             ) : null}
           {state.formPrecioManoDeObra ? (
-            <EstablecerPrecioManoDeObraForm
-              establecerManoDeObraActual={establecerManoDeObraActual}
-              open={open}
-              handleClose={handleClose}
-            />
-          ) : null}
-        </Box>
-        <Box>
-          {state.formPrecioManoDeObra ? (
-            <InformacionPrecioManoDeObraActual
-              manodeObraActual={manodeObraActual}
-              setManodeObraActual={setManodeObraActual}
-            />
+            <>
+              <EstablecerPrecioManoDeObraForm
+                establecerManoDeObraActual={establecerManoDeObraActual}
+                open={open}
+                handleClose={handleClose}
+              />
+              <InformacionPrecioManoDeObraActual
+                precioManodeObraActual={manodeObraActual}
+              />
+            </>
           ) : null}
         </Box>
       </Grid>
@@ -96,6 +110,7 @@ function EdicionOrdenes() {
       <Grid container>
         { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
       </Grid>
+      <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
     </Grid>
   );
 }

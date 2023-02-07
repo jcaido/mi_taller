@@ -1,17 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { obtenerPrecioManDeObraActual } from '../../services/axiosService';
 
-function InformacionPrecioManoDeObraActual({ manodeObraActual, setManodeObraActual }) {
-  useEffect(() => {
-    obtenerPrecioManDeObraActual()
-      .then((response) => {
-        setManodeObraActual(response.data);
-      });
-  }, []);
-
+function InformacionPrecioManoDeObraActual({ precioManodeObraActual }) {
   return (
     <Card sx={{ minWidth: 150, height: '80px', marginTop: 3 }}>
       <CardContent>
@@ -20,7 +12,7 @@ function InformacionPrecioManoDeObraActual({ manodeObraActual, setManodeObraActu
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'precio de la mano de obra actual:  ' }
-          { manodeObraActual.precioHoraClienteTaller }
+          { precioManodeObraActual }
           { ' €/hora' }
         </Typography>
       </CardContent>
