@@ -206,3 +206,4 @@ export const establecerPrecioManoDeObra = (precioHoraClienteTaller) => {
 };
 
 export const obtenerPrecioManDeObraActual = () => axios.get('http://localhost:8080/api/mano-de-obra/precio-actual/true');
+export const obtenerPreciosManoDeObra = () => axios.get('http://localhost:8080/api/mano-de-obra');

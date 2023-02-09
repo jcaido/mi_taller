@@ -16,6 +16,7 @@ import ModalErrores from '../../utils/ModalErrores';
 import NavigationButtonInfoOrdenes from './NavigationButtonInfoOrdenes';
 import BuscarOrdenReparacionPorMatriculaForm from './forms/BuscarOrdenReparacionPorMatriculaForm';
 import HistoricoOrdenesCerradasPorVehiculoPDF from './HistoricoOrdenesCerradasPorVehiculoPDF';
+import PreciosManoDeObraPDF from './PreciosManoDeObraPDF';
 
 function InformesOrdenes() {
   const [openError, setOpenError] = useState(false);
@@ -35,6 +36,7 @@ function InformesOrdenes() {
   const [ordenCerradaPorId, setOrdenCerradaPorId] = useState(false);
   const [formSeleccionarVehiculo, setFormSeleccionarVehiculo] = useState(false);
   const [historicoOrdenesVehiculo, setHistoricoOrdenesVehiculo] = useState(false);
+  const [historicoPreciosManoDeObra, setHistoricoPreciosManoDeObra] = useState(false);
 
   const [
     listaOrdenesReparacionCerradasEntreFechas,
@@ -56,6 +58,7 @@ function InformesOrdenes() {
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
     setHistoricoOrdenesVehiculo(false);
+    setHistoricoPreciosManoDeObra(false);
   };
 
   const handleClickOrdenesReparacionCerradas = () => {
@@ -66,6 +69,7 @@ function InformesOrdenes() {
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
     setHistoricoOrdenesVehiculo(false);
+    setHistoricoPreciosManoDeObra(false);
   };
 
   const handleClickOrdenReparacionValorada = () => {
@@ -76,6 +80,7 @@ function InformesOrdenes() {
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(false);
     setHistoricoOrdenesVehiculo(false);
+    setHistoricoPreciosManoDeObra(false);
   };
 
   const handleClickHistoricoOrdenesVehiculo = () => {
@@ -86,6 +91,18 @@ function InformesOrdenes() {
     setOrdenCerradaPorId(false);
     setFormSeleccionarVehiculo(true);
     setHistoricoOrdenesVehiculo(false);
+    setHistoricoPreciosManoDeObra(false);
+  };
+
+  const handleClickHistoricoPrecioManoDeObra = () => {
+    setTablaOrdenesReparacionAbiertas(false);
+    setFormEntreFechas(false);
+    setTablaOrdenesCerradasEntreFechas(false);
+    setFormSeleccionarOrdenReparacion(false);
+    setOrdenCerradaPorId(false);
+    setFormSeleccionarVehiculo(false);
+    setHistoricoOrdenesVehiculo(false);
+    setHistoricoPreciosManoDeObra(true);
   };
 
   const [fechaInicialProp, setFechaInicialProp] = useState();
@@ -180,6 +197,7 @@ function InformesOrdenes() {
           <Button variant="text" onClick={handleClickOrdenesReparacionCerradas}>ORDENES DE REPARACION CERRADAS</Button>
           <Button variant="text" onClick={handleClickOrdenReparacionValorada}>ORDEN DE REPARACION VALORADA</Button>
           <Button variant="text" onClick={handleClickHistoricoOrdenesVehiculo}>HISTORICO ORDENES CERRADAS (VEHICULO)</Button>
+          <Button variant="text" onClick={handleClickHistoricoPrecioManoDeObra}>HISTORICO DE PRECIOS DE MANO DE OBRA </Button>
         </Box>
       </Grid>
       <Grid item md={9}>
@@ -226,12 +244,13 @@ function InformesOrdenes() {
                 />
               </Box>
             ) : null }
-          {historicoOrdenesVehiculo
+          { historicoOrdenesVehiculo
             ? (
               <HistoricoOrdenesCerradasPorVehiculoPDF
                 historico={historiosOrdenesCerradasPorVehiculo}
               />
             ) : null }
+          { historicoPreciosManoDeObra ? <PreciosManoDeObraPDF /> : null }
         </Box>
         <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
       </Grid>
