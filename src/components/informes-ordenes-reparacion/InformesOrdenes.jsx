@@ -104,6 +104,13 @@ function InformesOrdenes() {
         setListaOrdenesReparacionCerradasEntreFechas(response.data);
         setFechaInicialProp(fechaInicial);
         setFechaFinalProp(fechaFinal);
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          handleOpenError('error en las fechas');
+        } else {
+          handleOpenError(`error: ${error}`);
+        }
       });
   };
 
@@ -122,6 +129,10 @@ function InformesOrdenes() {
           setHistoricoOrdenesVehiculo(false);
           setOrdenReparacionCerradaPorId(response.data);
         }
+      })
+      .catch((error) => {
+        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
       });
   };
 
@@ -130,15 +141,29 @@ function InformesOrdenes() {
       .then((response) => {
         obtenerOrdenesReparacionCerradasPorVehiculo(response.data.id)
           .then((res) => {
-            setTablaOrdenesReparacionAbiertas(false);
-            setFormEntreFechas(false);
-            setTablaOrdenesCerradasEntreFechas(false);
-            setFormSeleccionarOrdenReparacion(false);
-            setOrdenCerradaPorId(false);
-            setFormSeleccionarVehiculo(false);
-            setHistoricoOrdenesVehiculo(true);
-            setHistoriosOrdenesCerradasPorVehiculo(res.data);
+            if (res.data.length === 0) {
+              handleOpenError('El vehículo indicado no tiene ordenes de reparación cerradas');
+            } else {
+              setTablaOrdenesReparacionAbiertas(false);
+              setFormEntreFechas(false);
+              setTablaOrdenesCerradasEntreFechas(false);
+              setFormSeleccionarOrdenReparacion(false);
+              setOrdenCerradaPorId(false);
+              setFormSeleccionarVehiculo(false);
+              setHistoricoOrdenesVehiculo(true);
+              setHistoriosOrdenesCerradasPorVehiculo(res.data);
+            }
+          })
+          .catch((error) => {
+            handleOpenError(`Error: ${error}`);
           });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          handleOpenError('La matrícula indicada no existe');
+        } else {
+          handleOpenError(`error: ${error}`);
+        }
       });
   };
 
