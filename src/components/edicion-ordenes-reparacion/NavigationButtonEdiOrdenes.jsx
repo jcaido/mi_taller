@@ -11,7 +11,7 @@ function NavigationButtonEdiOrdenes({
   establecerPrecioManoDeObra,
   buscarOrdenReparacion,
 }) {
-  const [value, setValue] = useState('modificarPiezas');
+  const [value, setValue] = useState('seleccionar');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
