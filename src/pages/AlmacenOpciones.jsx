@@ -1,15 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button,
 } from '@mui/material';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import BuildIcon from '@mui/icons-material/Build';
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import EuroIcon from '@mui/icons-material/Euro';
-import BalanceIcon from '@mui/icons-material/Balance';
-import { useNavigate } from 'react-router-dom';
+import FactoryIcon from '@mui/icons-material/Factory';
+import ToysIcon from '@mui/icons-material/Toys';
+import EMobiledataIcon from '@mui/icons-material/EMobiledata';
+import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 
-function Home() {
+export default function AlmacenOpciones() {
   const navigate = useNavigate();
 
   return (
@@ -20,125 +19,102 @@ function Home() {
           borderColor="grey.300"
           color="text.secondary"
           textAlign="center"
-          fontSize={90}
+          fontSize={50}
           mb={8}
-          p={8}
+          p={6}
           boxShadow={5}
         >
-          MiTaller
+          Gestión de almacén - stock
         </Box>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={3}>
         <Box p={2}>
           <Card>
             <CardMedia sx={{ textAlign: 'center', padding: 4 }}>
-              <AutoStoriesIcon
+              <FactoryIcon
                 color="primary"
                 sx={{ fontSize: 100 }}
               />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Datos generales
+                Proveedores
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Datos personales, vehiculos, etc...
+                Edición de proveedores, altas, etc...
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/datos')}>ACCESO</Button>
+              <Button size="small" onClick={() => navigate('/almacen/proveedores')}>ACCESO</Button>
             </CardActions>
           </Card>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={3}>
         <Box p={2}>
           <Card>
             <CardMedia sx={{ textAlign: 'center', padding: 4 }}>
-              <BuildIcon
+              <ToysIcon
                 color="primary"
                 sx={{ fontSize: 100 }}
               />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Taller
+                Piezas
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Ordenes de reparacion, piezas, informes, etc...
+                Edición de piezas, altas, modificaciones, etc...
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/taller/opciones')}>ACCESO</Button>
+              <Button size="small" onClick={() => navigate('/almacen/piezas')}>ACCESO</Button>
             </CardActions>
           </Card>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={3}>
         <Box p={2}>
           <Card>
             <CardMedia sx={{ textAlign: 'center', padding: 4 }}>
-              <CorporateFareIcon
+              <EMobiledataIcon
                 color="primary"
                 sx={{ fontSize: 100 }}
               />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Almacén
+                Entradas
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Proveedores, piezas, entradas, etc...
+                Edición de entradas de almacén, albaranes, etc...
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/almacen/opciones')}>ACCESO</Button>
+              <Button size="small" onClick={() => navigate('/almacen/entradas')}>ACCESO</Button>
             </CardActions>
           </Card>
         </Box>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={3}>
         <Box p={2}>
           <Card>
             <CardMedia sx={{ textAlign: 'center', padding: 4 }}>
-              <EuroIcon
+              <ViewComfyIcon
                 color="primary"
                 sx={{ fontSize: 100 }}
               />
             </CardMedia>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Facturación
+                Informes
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Emisión de facturas, proveedores, etc...
+                Informes de almacén, stock, etc...
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => navigate('/facturacion')}>ACCESO</Button>
-            </CardActions>
-          </Card>
-        </Box>
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Box p={2}>
-          <Card>
-            <CardMedia sx={{ textAlign: 'center', padding: 4 }}>
-              <BalanceIcon
-                color="primary"
-                sx={{ fontSize: 100 }}
-              />
-            </CardMedia>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Contabilidad
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Plan de cuentas, diarios, mayor, balances, etc...
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => navigate('/contabilidad')}>ACCESO</Button>
+              <Button size="small" onClick={() => navigate('/almacen/informes')}>ACCESO</Button>
             </CardActions>
           </Card>
         </Box>
@@ -146,5 +122,3 @@ function Home() {
     </Grid>
   );
 }
-
-export default Home;

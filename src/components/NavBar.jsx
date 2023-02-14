@@ -31,6 +31,8 @@ function NavBar({ pages, pagina }) {
         return navigate('/datos');
       case 'TALLER':
         return navigate('/taller/opciones');
+      case 'ALMACÉN':
+        return navigate('/almacen/opciones');
       case 'FACTURACION':
         return navigate('/facturacion');
       case 'CONTABILIDAD':

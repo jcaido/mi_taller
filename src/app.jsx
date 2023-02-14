@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Almacen from './pages/Almacen';
+import AlmacenOpciones from './pages/AlmacenOpciones';
 import Contabilidad from './pages/Contabilidad';
 import DatosGenerales from './pages/DatosGenerales';
 import Facturacion from './pages/Facturacion';
@@ -22,6 +24,13 @@ function App() {
           <Route path="autorizacion-ordenes" element={<TallerAutorizacionOrdenes />} />
           <Route path="edicion-ordenes" element={<TallerEdicionOrdenes />} />
           <Route path="informes-ordenes" element={<TallerInformesOrdenes />} />
+        </Route>
+        <Route path="/almacen/" element={<Almacen />}>
+          <Route path="opciones" element={<AlmacenOpciones />} />
+          <Route path="proveedores" element={<p>proveedores</p>} />
+          <Route path="piezas" element={<p>piezas</p>} />
+          <Route path="entradas" element={<p>entradas</p>} />
+          <Route path="informes" element={<p>informes</p>} />
         </Route>
         <Route path="/facturacion" element={<Facturacion />} />
         <Route path="/contabilidad" element={<Contabilidad />} />

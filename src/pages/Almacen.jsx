@@ -3,21 +3,18 @@ import { Box, Grid } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 
-function Taller() {
+export default function Almacen() {
   return (
     <Grid container>
       <Grid item xs={12}>
         <Box>
           <NavBar
-            pages={['INICIO', 'DATOS GENERALES', 'ALMACÉN', 'FACTURACIÓN', 'CONTABILIDAD']}
-            pagina="TALLER"
+            pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'FACTURACIÓN', 'CONTABILIDAD']}
+            pagina="ALMACÉN"
           />
         </Box>
       </Grid>
       <Outlet />
     </Grid>
-
   );
 }
-
-export default Taller;

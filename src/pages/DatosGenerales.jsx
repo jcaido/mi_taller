@@ -1076,7 +1076,7 @@ function DatosGenerales() {
         <Grid item xs={12}>
           <Box>
             <NavBar
-              pages={['INICIO', 'TALLER', 'FACTURACION', 'CONTABILIDAD']}
+              pages={['INICIO', 'TALLER', 'ALMACÉN', 'FACTURACIÓN', 'CONTABILIDAD']}
               pagina="DATOS GENERALES"
             />
           </Box>

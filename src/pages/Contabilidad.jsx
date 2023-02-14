@@ -5,7 +5,7 @@ function Contabilidad() {
   return (
     <div>
       <NavBar
-        pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'FACTURACION']}
+        pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'ALMACÉN', 'FACTURACION']}
         pagina="CONTABILIDAD"
       />
     </div>

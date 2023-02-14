@@ -5,7 +5,7 @@ function Facturacion() {
   return (
     <div>
       <NavBar
-        pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'CONTABILIDAD']}
+        pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'ALMACÉN', 'CONTABILIDAD']}
         pagina="FACTURACION"
       />
     </div>
