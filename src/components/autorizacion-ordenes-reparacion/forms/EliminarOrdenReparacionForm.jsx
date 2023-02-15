@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import { eliminarOrdenReparacion } from '../../../services/axiosService';
+import CabeceraForms from '../../CabeceraForms';
 
 function EliminarOrdenReparacionForm() {
   const { state } = useContext(AutorizacionOrdenesContext);
@@ -48,11 +47,7 @@ function EliminarOrdenReparacionForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Eliminar orden de reparacion" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Eliminar orden de reparacion" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

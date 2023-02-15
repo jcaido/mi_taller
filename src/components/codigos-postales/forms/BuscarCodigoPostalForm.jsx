@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -10,6 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarCodigoPostalForm() {
   const
@@ -41,9 +40,6 @@ function BuscarCodigoPostalForm() {
       default:
         break;
     }
-    // value === 'codigo' && ListarCodigosPostalesPorCodigo(codigoRef.current.value);
-    // value === 'localidad' && ListarCodigosPostalesPorLocalidad(codigoRef.current.value);
-    // value === 'provincia' && ListarCodigosPostalesPorProvincia(codigoRef.current.value);
     formik.resetForm();
   };
 
@@ -57,11 +53,7 @@ function BuscarCodigoPostalForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Buscar codigo postal" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Buscar codigo postal" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <FormControl>

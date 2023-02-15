@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarCodigoPostalPorCodigoForm({ label, obtener, cerrar }) {
   const codigoRef = useRef();
@@ -24,11 +23,12 @@ function BuscarCodigoPostalPorCodigoForm({ label, obtener, cerrar }) {
 
   return (
     <Box m={2}>
-      <Box>
+      {/* <Box>
         <Divider>
           <Chip label={label} />
         </Divider>
-      </Box>
+      </Box> */}
+      <CabeceraForms label={label} />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

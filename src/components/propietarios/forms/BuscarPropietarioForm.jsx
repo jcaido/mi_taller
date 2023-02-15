@@ -1,8 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,6 +8,7 @@ import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarPropietarioForm() {
   const {
@@ -40,9 +39,6 @@ function BuscarPropietarioForm() {
       default:
         break;
     }
-    // value === 'dni' && ListarPropietariosPorDni(valorRef.current.value);
-    // value === 'primer_apellido' && ListarPropietariosPorPrimerApellido(valorRef.current.value);
-    // value === 'codigo_postal' && ListarPropietariosPorCodigoPostal(valorRef.current.value);
   };
 
   const formik = useFormik({
@@ -55,11 +51,7 @@ function BuscarPropietarioForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Buscar propietarios" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Buscar propietarios" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <FormControl>

@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarOrdenReparacionPorMatriculaForm({ obtener }) {
   const matriculaRef = useRef();
@@ -25,11 +24,7 @@ function BuscarOrdenReparacionPorMatriculaForm({ obtener }) {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Seleccionar vehículo" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Seleccionar vehículo" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

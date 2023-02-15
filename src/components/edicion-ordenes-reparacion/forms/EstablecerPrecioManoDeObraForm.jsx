@@ -2,11 +2,10 @@ import React, { useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   precio: yup
@@ -33,11 +32,7 @@ function EstablecerPrecioManoDeObraForm({ establecerManoDeObraActual, open, hand
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Precio/hora mano de obra" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Precio/hora mano de obra" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

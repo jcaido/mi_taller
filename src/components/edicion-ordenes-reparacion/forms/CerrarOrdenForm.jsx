@@ -2,8 +2,6 @@ import React, { useContext, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
@@ -13,6 +11,7 @@ import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionCierre } from '../../../services/axiosService';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   fechaCierre: yup
@@ -60,11 +59,7 @@ function CerrarOrdenForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Cerrar orden de reparación" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Cerrar orden de reparación" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>

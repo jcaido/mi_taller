@@ -2,13 +2,12 @@ import React, { useContext, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionHoras } from '../../../services/axiosService';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   horas: yup
@@ -45,11 +44,7 @@ function ImputarManoDeObraForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Imputar Mano de Obra" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Imputar Mano de Obra" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

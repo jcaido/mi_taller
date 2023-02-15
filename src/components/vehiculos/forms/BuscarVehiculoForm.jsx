@@ -1,8 +1,6 @@
 import React, { useRef, useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,6 +8,7 @@ import Radio from '@mui/material/Radio';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarVehiculoForm() {
   const {
@@ -40,9 +39,6 @@ function BuscarVehiculoForm() {
       default:
         break;
     }
-    // value === 'matricula' && ListarVehiculosPorMatricula(valorRef.current.value);
-    // value === 'marca-modelo' && ListarVehiculosPorMarcaModelo(valorRef.current.value);
-    // value === 'propietario' && ListarVehiculosPorDniPropietario(valorRef.current.value);
   };
 
   const formik = useFormik({
@@ -55,11 +51,7 @@ function BuscarVehiculoForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Buscar vehiculos" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Buscar vehiculos" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <FormControl>

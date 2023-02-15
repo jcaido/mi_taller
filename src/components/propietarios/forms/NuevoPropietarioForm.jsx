@@ -2,14 +2,13 @@ import React, { useRef, useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { nuevoPropietario, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   nombre: yup
@@ -93,11 +92,7 @@ function NuevoPropietarioForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Nuevo propietario" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Nuevo propietario" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

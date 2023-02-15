@@ -2,14 +2,13 @@ import React, { useContext, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { nuevaPiezaReparacion, obtenerPiezaPorReferencia } from '../../../services/axiosService';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   referenciaPieza: yup
@@ -51,7 +50,6 @@ function ImputarPiezasForm() {
             formik.resetForm();
             handleOpen();
             ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
-            // Añadir pieza a informacion
           })
           .catch((error) => error.response.status === 409
           && handleOpenError(error.response.data.mensaje));
@@ -71,11 +69,7 @@ function ImputarPiezasForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Imputar piezas" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Imputar piezas" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

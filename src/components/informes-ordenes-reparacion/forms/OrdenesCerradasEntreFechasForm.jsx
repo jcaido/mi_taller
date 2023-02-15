@@ -2,8 +2,6 @@ import React, { useRef, useState } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -11,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   fechaCierreInicial: yup
@@ -58,11 +57,7 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
 
   return (
     <Box m={2} sx={{ width: '40%' }}>
-      <Box>
-        <Divider>
-          <Chip label="Buscar órdenes de reparación cerradas" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Buscar órdenes de reparación cerradas" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>

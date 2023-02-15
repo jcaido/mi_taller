@@ -2,8 +2,6 @@ import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,6 +12,7 @@ import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import { modificarOrdenReparacion, obtenerVehiculosPorMatricula } from '../../../services/axiosService';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   fechaApertura: yup
@@ -101,11 +100,7 @@ function EditarOrdenReparacionForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Editar orden de reparacion" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Editar orden de reparacion" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>

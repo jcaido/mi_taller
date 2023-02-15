@@ -2,14 +2,13 @@ import React, { useState, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { nuevoVehiculo, obtenerPropietarioPorDni } from '../../../services/axiosService';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   matricula: yup
@@ -87,11 +86,7 @@ function NuevoVehiculoForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Nuevo vehiculo" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Nuevo vehiculo" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField

@@ -1,8 +1,7 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
+import CabeceraForms from '../CabeceraForms';
 
 const columns = [
 
@@ -18,11 +17,7 @@ const columns = [
 function TablaOrdenesReparacionBusqueda({ lista, tablaOnChange }) {
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Ordenes de reparacion abiertas" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Ordenes de reparacion abiertas" />
       <Box m={1} sx={{ height: 315, width: '100%' }}>
         <DataGrid
           sx={{

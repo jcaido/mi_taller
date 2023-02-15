@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
+import CabeceraForms from '../../CabeceraForms';
 
 function BuscarOrdenReparacionForm() {
   const {
@@ -63,11 +62,7 @@ function BuscarOrdenReparacionForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Buscar orden de reparacion" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Buscar orden de reparacion" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <FormControl>

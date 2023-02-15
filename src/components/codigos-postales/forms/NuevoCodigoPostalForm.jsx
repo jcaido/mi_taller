@@ -2,14 +2,13 @@ import React, { useState, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { nuevoCodigoPostal } from '../../../services/axiosService';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import ModalErrores from '../../../utils/ModalErrores';
 import ModalOK from '../../../utils/ModalOK';
+import CabeceraForms from '../../CabeceraForms';
 
 const validationSchema = yup.object({
   codigo: yup
@@ -70,11 +69,7 @@ function NuevoCodigoPostalForm() {
 
   return (
     <Box m={2}>
-      <Box>
-        <Divider>
-          <Chip label="Nuevo codigo postal" />
-        </Divider>
-      </Box>
+      <CabeceraForms label="Nuevo código postal" />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>
           <TextField
