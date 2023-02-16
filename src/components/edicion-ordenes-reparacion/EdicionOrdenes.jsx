@@ -12,6 +12,7 @@ import EstablecerPrecioManoDeObraForm from './forms/EstablecerPrecioManoDeObraFo
 import InformacionPrecioManoDeObraActual from './InformacionPrecioManoDeObraActual';
 import { establecerPrecioManoDeObra, obtenerPrecioManDeObraActual } from '../../services/axiosService';
 import ModalErrores from '../../utils/ModalErrores';
+import useModal from '../../hooks/useModal';
 
 function EdicionOrdenes() {
   const {
@@ -22,13 +23,7 @@ function EdicionOrdenes() {
     buscarOrdenReparacionFormDispatch,
   } = useContext(EdicionOrdenesContext);
 
-  const [openError, setOpenError] = useState(false);
-  const [message, setMensaje] = useState('');
-  const handleOpenError = (messag) => {
-    setOpenError(true);
-    setMensaje(messag);
-  };
-  const handleCloseError = () => setOpenError(false);
+  const modal = useModal();
 
   const [manodeObraActual, setManodeObraActual] = useState();
 
@@ -51,7 +46,7 @@ function EdicionOrdenes() {
           });
       })
       .catch((error) => {
-        if (error.response.status === 409) { handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 409) { modal.handleOpenError(error.response.data.mensaje); }
       });
   };
 
@@ -110,7 +105,11 @@ function EdicionOrdenes() {
       <Grid container>
         { state.informacionOrdenReparacion ? <InformacionOrdenReparacion /> : null }
       </Grid>
-      <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
+      <ModalErrores
+        openError={modal.openError}
+        message={modal.message}
+        handleCloseError={modal.handleCloseError}
+      />
     </Grid>
   );
 }

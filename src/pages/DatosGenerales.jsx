@@ -1,7 +1,6 @@
 import React, {
   useReducer,
   createContext,
-  useState,
   useMemo,
 } from 'react';
 import { Grid, Box } from '@mui/material';
@@ -25,19 +24,12 @@ import {
 } from '../services/axiosService';
 import ModalErrores from '../utils/ModalErrores';
 import NavBar from '../components/NavBar';
+import useModal from '../hooks/useModal';
 
 export const DatosGeneralesFormContext = createContext();
 
 function DatosGenerales() {
-  const [openError, setOpenError] = useState(false);
-  const [message, setMensaje] = useState('');
-
-  const handleOpenError = (messag) => {
-    setOpenError(true);
-    setMensaje(messag);
-  };
-
-  const handleCloseError = () => setOpenError(false);
+  const modal = useModal();
 
   const DatosGeneralesFormInicial = {
     formNuevoVehiculo: false,
@@ -754,7 +746,7 @@ function DatosGenerales() {
         buscarCodigoPostalPorCodigoDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarPropietariosPorDni = (dni) => {
@@ -766,7 +758,7 @@ function DatosGenerales() {
         buscarPropietarioPorDniDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarVehiculosPorMatricula = (matricula) => {
@@ -778,7 +770,7 @@ function DatosGenerales() {
         buscarVehiculoPorMatriculaDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarVehiculosPorMarcaModelo = (marcaModelo) => {
@@ -790,7 +782,7 @@ function DatosGenerales() {
         buscarVehiculosPorMarcaModeloDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarPropietariosPorPrimerApellido = (primerApellido) => {
@@ -802,7 +794,7 @@ function DatosGenerales() {
         buscarPropietariosPorPrimerApellidoDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarPropietariosPorCodigoPostal = (codigo) => {
@@ -817,7 +809,7 @@ function DatosGenerales() {
           });
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarVehiculosPorDniPropietario = (dni) => {
@@ -832,7 +824,7 @@ function DatosGenerales() {
           });
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ObtenerCodigoPostalPorCodigoParaEditar = (codigo) => {
@@ -844,7 +836,7 @@ function DatosGenerales() {
         editarCodigoPostalFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ObtenerPropietarioPorDniParaEditar = (dni) => {
@@ -856,7 +848,7 @@ function DatosGenerales() {
         editarPropietarioFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ObtenerVehiculoPorMatriculaParaEditar = (matricula) => {
@@ -868,7 +860,7 @@ function DatosGenerales() {
         editarVehiculoFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ObtenerCodigoPostalPorCodigoParaEliminar = (codigo) => {
@@ -880,7 +872,7 @@ function DatosGenerales() {
         eliminarCodigoPostalFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const obtenerPropietarioPorDniParaEliminar = (dni) => {
@@ -892,7 +884,7 @@ function DatosGenerales() {
         eliminarPropietarioFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const obtenerVehiculoPorMatriculaParaEliminar = (matricula) => {
@@ -904,7 +896,7 @@ function DatosGenerales() {
         eliminarVehiculoFormDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarCodigosPostalesPorLocalidad = (localidad) => {
@@ -916,7 +908,7 @@ function DatosGenerales() {
         buscarCodigoPostalPorLocalidadDispatch();
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const ListarCodigosPostalesPorProvincia = (provincia) => {
@@ -1105,7 +1097,11 @@ function DatosGenerales() {
             <CodigosPostales />
           </Box>
         </Grid>
-        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </Grid>
     </DatosGeneralesFormContext.Provider>
   );

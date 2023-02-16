@@ -13,6 +13,7 @@ import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import CabeceraForms from '../../CabeceraForms';
+import useModal from '../../../hooks/useModal';
 
 const validationSchema = yup.object({
   fechaApertura: yup
@@ -39,17 +40,7 @@ function NuevaOrdenReparacionForm() {
   const descripcionRef = useRef();
   const kilometrosRef = useRef();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const [openError, setOpenError] = useState(false);
-  const [message, setMessage] = useState('');
-  const handleOpenError = (messag) => {
-    setOpenError(true);
-    setMessage(messag);
-  };
-  const handleCloseError = () => setOpenError(false);
+  const modal = useModal();
 
   const [value, setValue] = useState(new Date());
 
@@ -68,20 +59,20 @@ function NuevaOrdenReparacionForm() {
         )
           .then(() => {
             formik.resetForm();
-            handleOpen();
+            modal.handleOpen();
             ListarOrdenesReparacionAbiertas();
           })
           .catch((error) => (error.response.status === 400
             && error.response.data.fechaApertura === 'la fecha de apertura no puede ser nula')
-            && handleOpenError(error.response.data.fechaApertura))
+            && modal.handleOpenError(error.response.data.fechaApertura))
           .catch((error) => error.response.status === 400
           && error.response.data.descripcion === 'debe introducir la descripcion'
-          && handleOpenError(error.response.data.descripcion))
+          && modal.handleOpenError(error.response.data.descripcion))
           .catch((error) => error.response.status === 409
-          && handleOpenError(error.response.data.mensaje));
+          && modal.handleOpenError(error.response.data.mensaje));
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({
@@ -162,8 +153,12 @@ function NuevaOrdenReparacionForm() {
         <Box m={1}>
           <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
         </Box>
-        <ModalOK open={open} handleClose={handleClose} />
-        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
+        <ModalOK open={modal.open} handleClose={modal.handleClose} />
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </form>
     </Box>
   );

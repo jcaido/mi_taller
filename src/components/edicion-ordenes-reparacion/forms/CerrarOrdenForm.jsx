@@ -12,6 +12,7 @@ import ModalOK from '../../../utils/ModalOK';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionCierre } from '../../../services/axiosService';
 import CabeceraForms from '../../CabeceraForms';
+import useModal from '../../../hooks/useModal';
 
 const validationSchema = yup.object({
   fechaCierre: yup
@@ -29,9 +30,7 @@ function CerrarOrdenForm() {
 
   const fechaCierreRef = useRef();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const modal = useModal();
 
   const [value, setValue] = useState(new Date());
 
@@ -43,7 +42,7 @@ function CerrarOrdenForm() {
     modificarOrdenReparacionCierre(state.ordenReparacionPorId.id, fechaCierreRef.current.value)
       .then(() => {
         formik.resetForm();
-        handleOpen();
+        modal.handleOpen();
         ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
         abrirOrdenReparacionFormDispatch();
       });
@@ -82,7 +81,7 @@ function CerrarOrdenForm() {
         <Box m={1}>
           <Button type="submit" color="primary" variant="contained" fullWidth>Cerrar</Button>
         </Box>
-        <ModalOK open={open} handleClose={handleClose} />
+        <ModalOK open={modal.open} handleClose={modal.handleClose} />
       </form>
     </Box>
   );

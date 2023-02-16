@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -8,6 +8,7 @@ import ModalOK from '../../../utils/ModalOK';
 import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionHoras } from '../../../services/axiosService';
 import CabeceraForms from '../../CabeceraForms';
+import useModal from '../../../hooks/useModal';
 
 const validationSchema = yup.object({
   horas: yup
@@ -21,15 +22,13 @@ function ImputarManoDeObraForm() {
 
   const horasRef = useRef();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const modal = useModal();
 
   const handleSubmitForm = () => {
     modificarOrdenReparacionHoras(state.ordenReparacionPorId.id, horasRef.current.value)
       .then(() => {
         formik.resetForm();
-        handleOpen();
+        modal.handleOpen();
         ObtenerOrdenReparacionPorIdParaActualizar(state.ordenReparacionPorId.id);
       });
   };
@@ -63,7 +62,7 @@ function ImputarManoDeObraForm() {
         <Box m={1}>
           <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
         </Box>
-        <ModalOK open={open} handleClose={handleClose} />
+        <ModalOK open={modal.open} handleClose={modal.handleClose} />
       </form>
     </Box>
   );

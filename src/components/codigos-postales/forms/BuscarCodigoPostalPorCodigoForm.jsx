@@ -23,11 +23,6 @@ function BuscarCodigoPostalPorCodigoForm({ label, obtener, cerrar }) {
 
   return (
     <Box m={2}>
-      {/* <Box>
-        <Divider>
-          <Chip label={label} />
-        </Divider>
-      </Box> */}
       <CabeceraForms label={label} />
       <form onSubmit={formik.handleSubmit}>
         <Box m={1}>

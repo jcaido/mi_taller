@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
@@ -8,6 +8,7 @@ import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import { modificarPropietario, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
+import useModal from '../../../hooks/useModal';
 
 const validationSchema = yup.object({
   nombre: yup
@@ -40,17 +41,7 @@ function EditarPropietarioForm() {
   const domicilioRef = useRef();
   const codigoPostalRef = useRef();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const [openError, setOpenError] = useState(false);
-  const [message, setMensaje] = useState('');
-  const handleOpenError = (messag) => {
-    setOpenError(true);
-    setMensaje(messag);
-  };
-  const handleCloseError = () => setOpenError(false);
+  const modal = useModal();
 
   const handleSubmitForm = () => {
     obtenerCodigoPostalPorCodigo(codigoPostalRef.current.value)
@@ -66,13 +57,13 @@ function EditarPropietarioForm() {
         )
           .then(() => {
             formik.resetForm();
-            handleOpen();
+            modal.handleOpen();
           })
           .catch((error) => (error.response.status === 409 || error.response.status === 400)
-          && handleOpenError(error.response.data.mensaje));
+          && modal.handleOpenError(error.response.data.mensaje));
       })
       .catch((error) => error.response.status === 404
-      && handleOpenError(error.response.data.mensaje));
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({
@@ -179,8 +170,12 @@ function EditarPropietarioForm() {
         <Box m={1}>
           <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
         </Box>
-        <ModalOK open={open} handleClose={handleClose} />
-        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
+        <ModalOK open={modal.open} handleClose={modal.handleClose} />
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </form>
     </Box>
   );
