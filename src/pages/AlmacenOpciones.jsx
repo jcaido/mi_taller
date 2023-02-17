@@ -11,7 +11,7 @@ export default function AlmacenOpciones() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <EncabezadoOpciones titulo="Gestión de almacén - stock" />
+        <EncabezadoOpciones titulo="Gestión de almacén - stock" fontSize={50} />
       </Grid>
       <Grid item xs={3}>
         <Box p={2}>

@@ -10,7 +10,7 @@ function TallerOpciones() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <EncabezadoOpciones titulo="Reparaciones - Taller" />
+        <EncabezadoOpciones titulo="Reparaciones - Taller" fontSize={50} />
       </Grid>
       <Grid item xs={4}>
         <Box p={2}>
