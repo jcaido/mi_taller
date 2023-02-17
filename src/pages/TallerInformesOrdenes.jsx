@@ -8,7 +8,7 @@ function TallerInformesOrdenes() {
     <Grid container>
       <Grid item xs={12}>
         <Box sx={{ textAlign: 'center', mt: 1 }}>
-          <Typography variant="h7" gutterBottom>INFORMES ORDENES DE REPARACION</Typography>
+          <Typography variant="h7" gutterBottom>INFORMES DE TALLER</Typography>
         </Box>
         <Box>
           <InformesOrdenes />
