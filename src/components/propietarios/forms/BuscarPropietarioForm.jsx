@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import CabeceraForms from '../../CabeceraForms';
+import useChangeRadioGroup from '../../../hooks/useChangeRadioGroup';
 
 function BuscarPropietarioForm() {
   const {
@@ -19,14 +20,10 @@ function BuscarPropietarioForm() {
 
   const valorRef = useRef();
 
-  const [value, setValue] = useState('dni');
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  const changeRadioGroup = useChangeRadioGroup('dni');
 
   const handleSubmitForm = () => {
-    switch (value) {
+    switch (changeRadioGroup.value) {
       case 'dni':
         ListarPropietariosPorDni(valorRef.current.value);
         break;
@@ -58,8 +55,8 @@ function BuscarPropietarioForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
+              value={changeRadioGroup.value}
+              onChange={changeRadioGroup.handleChange}
             >
               <FormControlLabel value="dni" control={<Radio />} label="DNI" />
               <FormControlLabel value="primer_apellido" control={<Radio />} label="primer apellido" />

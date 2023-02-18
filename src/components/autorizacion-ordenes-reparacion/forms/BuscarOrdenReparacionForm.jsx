@@ -13,25 +13,18 @@ import Stack from '@mui/material/Stack';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import CabeceraForms from '../../CabeceraForms';
+import useChangeRadioGroupAutOrdenes from '../../../hooks/useChangeRadioGroupAutOrdenes';
 
 function BuscarOrdenReparacionForm() {
   const {
     ListarOrdenesReparacionAbiertasPorFechaApertura,
     ListarOrdenesReparacionAbiertasPorVehiculo,
-    CerrarTablaOrdenesReparacionAbiertas,
-    CerrarAutorizacionPdf,
   } = useContext(AutorizacionOrdenesContext);
 
   const matriculaRef = useRef();
   const fechaAperturaRef = useRef();
 
-  const [value, setValue] = useState('fecha-apertura');
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    CerrarTablaOrdenesReparacionAbiertas();
-    CerrarAutorizacionPdf();
-  };
+  const changeRadioGroup = useChangeRadioGroupAutOrdenes('fecha-apertura');
 
   const [valueFechaApertura, setValueFechaApertura] = useState(new Date());
 
@@ -40,7 +33,7 @@ function BuscarOrdenReparacionForm() {
   };
 
   const handleSubmitForm = () => {
-    switch (value) {
+    switch (changeRadioGroup.value) {
       case 'fecha-apertura':
         ListarOrdenesReparacionAbiertasPorFechaApertura(fechaAperturaRef.current.value);
         break;
@@ -69,8 +62,8 @@ function BuscarOrdenReparacionForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
+              value={changeRadioGroup.value}
+              onChange={changeRadioGroup.handleChangeCierre}
             >
               <FormControlLabel value="fecha-apertura" control={<Radio />} label="fecha apertura" />
               <FormControlLabel value="vehiculo" control={<Radio />} label="vehiculo(matricula)" />
@@ -79,7 +72,7 @@ function BuscarOrdenReparacionForm() {
         </Box>
         <Box m={1}>
           {
-            value === 'fecha-apertura' && (
+            changeRadioGroup.value === 'fecha-apertura' && (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Stack spacing={3}>
                 <DesktopDatePicker
@@ -101,7 +94,7 @@ function BuscarOrdenReparacionForm() {
             )
           }
           {
-            value === 'vehiculo' && (
+            changeRadioGroup.value === 'vehiculo' && (
             <TextField
               fullWidth
               id="matricula"

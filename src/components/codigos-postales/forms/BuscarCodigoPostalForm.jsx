@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -9,6 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import CabeceraForms from '../../CabeceraForms';
+import useChangeRadioGroup from '../../../hooks/useChangeRadioGroup';
 
 function BuscarCodigoPostalForm() {
   const
@@ -20,14 +21,10 @@ function BuscarCodigoPostalForm() {
 
   const codigoRef = useRef();
 
-  const [value, setValue] = useState('codigo');
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  const changeRadioGroup = useChangeRadioGroup('codigo');
 
   const handleSubmitForm = () => {
-    switch (value) {
+    switch (changeRadioGroup.value) {
       case 'codigo':
         ListarCodigosPostalesPorCodigo(codigoRef.current.value);
         break;
@@ -60,8 +57,8 @@ function BuscarCodigoPostalForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
+              value={changeRadioGroup.value}
+              onChange={changeRadioGroup.handleChange}
             >
               <FormControlLabel value="codigo" control={<Radio />} label="codigo" />
               <FormControlLabel value="localidad" control={<Radio />} label="localidad" />

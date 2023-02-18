@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { DatosGeneralesFormContext } from '../../../pages/DatosGenerales';
 import CabeceraForms from '../../CabeceraForms';
+import useChangeRadioGroup from '../../../hooks/useChangeRadioGroup';
 
 function BuscarVehiculoForm() {
   const {
@@ -19,14 +20,10 @@ function BuscarVehiculoForm() {
 
   const valorRef = useRef();
 
-  const [value, setValue] = useState('matricula');
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  const changeRadioGroup = useChangeRadioGroup('matricula');
 
   const handleSubmitForm = () => {
-    switch (value) {
+    switch (changeRadioGroup.value) {
       case 'matricula':
         ListarVehiculosPorMatricula(valorRef.current.value);
         break;
@@ -58,8 +55,8 @@ function BuscarVehiculoForm() {
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
-              value={value}
-              onChange={handleChange}
+              value={changeRadioGroup.value}
+              onChange={changeRadioGroup.handleChange}
             >
               <FormControlLabel value="matricula" control={<Radio />} label="matricula" />
               <FormControlLabel value="marca-modelo" control={<Radio />} label="marca-modelo" />
