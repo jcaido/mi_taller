@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box } from '@mui/material';
@@ -14,6 +14,7 @@ import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrd
 import { modificarOrdenReparacion, obtenerVehiculosPorMatricula } from '../../../services/axiosService';
 import CabeceraForms from '../../CabeceraForms';
 import useModal from '../../../hooks/useModal';
+import useChangeFecha from '../../../hooks/useChangeFecha';
 
 const validationSchema = yup.object({
   fechaApertura: yup
@@ -44,11 +45,7 @@ function EditarOrdenReparacionForm() {
 
   const fecha = state.listaOrdenReparacionPorId.fechaApertura.split('-');
 
-  const [value, setValue] = useState(`${fecha[1]}-${fecha[0]}-${fecha[2]}`);
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  const changeFecha = useChangeFecha(`${fecha[1]}-${fecha[0]}-${fecha[2]}`);
 
   const handleSubmitForm = () => {
     obtenerVehiculosPorMatricula(matriculaRef.current.value)
@@ -80,7 +77,7 @@ function EditarOrdenReparacionForm() {
   const formik = useFormik({
 
     initialValues: {
-      fechaApertura: value,
+      fechaApertura: changeFecha.value,
       matricula: state.listaOrdenReparacionPorId.vehiculoMatricula,
       descripcion: state.listaOrdenReparacionPorId.descripcion,
       kilometros: state.listaOrdenReparacionPorId.kilometros,
@@ -101,8 +98,8 @@ function EditarOrdenReparacionForm() {
                 name="fechaApertura"
                 label="fecha de apertura"
                 inputFormat="DD-MM-YYYY"
-                value={value}
-                onChange={handleChange}
+                value={changeFecha.value}
+                onChange={changeFecha.handleChange}
                 error={formik.touched.fechaApertura && Boolean(formik.errors.fechaApertura)}
                 helperText={formik.touched.fechaApertura && formik.errors.fechaApertura}
                 renderInput={(params) => <TextField {...params} />}

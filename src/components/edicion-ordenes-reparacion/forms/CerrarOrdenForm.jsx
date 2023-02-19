@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -13,6 +13,7 @@ import { EdicionOrdenesContext } from '../../../pages/TallerEdicionOrdenes';
 import { modificarOrdenReparacionCierre } from '../../../services/axiosService';
 import CabeceraForms from '../../CabeceraForms';
 import useModal from '../../../hooks/useModal';
+import useChangeFecha from '../../../hooks/useChangeFecha';
 
 const validationSchema = yup.object({
   fechaCierre: yup
@@ -32,11 +33,7 @@ function CerrarOrdenForm() {
 
   const modal = useModal();
 
-  const [value, setValue] = useState(new Date());
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  const changeFecha = useChangeFecha(new Date());
 
   const handleSubmitForm = () => {
     modificarOrdenReparacionCierre(state.ordenReparacionPorId.id, fechaCierreRef.current.value)
@@ -50,7 +47,7 @@ function CerrarOrdenForm() {
 
   const formik = useFormik({
     initialValues: {
-      fechaCierre: value,
+      fechaCierre: changeFecha.value,
     },
     validationSchema,
     onSubmit: () => handleSubmitForm(),
@@ -68,8 +65,8 @@ function CerrarOrdenForm() {
                 name="fechaCierre"
                 label="fecha de cierre"
                 inputFormat="DD-MM-YYYY"
-                value={value}
-                onChange={handleChange}
+                value={changeFecha.value}
+                onChange={changeFecha.handleChange}
                 error={formik.touched.fechaCierre && Boolean(formik.errors.fechaCierre)}
                 helperText={formik.touched.fechaCierre && formik.errors.fechaCierre}
                 renderInput={(params) => <TextField {...params} />}

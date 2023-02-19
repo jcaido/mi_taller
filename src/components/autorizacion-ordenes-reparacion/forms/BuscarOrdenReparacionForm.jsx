@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -14,6 +14,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import CabeceraForms from '../../CabeceraForms';
 import useChangeRadioGroupAutOrdenes from '../../../hooks/useChangeRadioGroupAutOrdenes';
+import useChangeFecha from '../../../hooks/useChangeFecha';
 
 function BuscarOrdenReparacionForm() {
   const {
@@ -26,11 +27,7 @@ function BuscarOrdenReparacionForm() {
 
   const changeRadioGroup = useChangeRadioGroupAutOrdenes('fecha-apertura');
 
-  const [valueFechaApertura, setValueFechaApertura] = useState(new Date());
-
-  const handleChangeFechaApertura = (newValue) => {
-    setValueFechaApertura(newValue);
-  };
+  const changeFecha = useChangeFecha(new Date());
 
   const handleSubmitForm = () => {
     switch (changeRadioGroup.value) {
@@ -80,8 +77,8 @@ function BuscarOrdenReparacionForm() {
                   name="fechaApertura"
                   label="fecha de apertura"
                   inputFormat="YYYY-MM-DD"
-                  value={valueFechaApertura}
-                  onChange={handleChangeFechaApertura}
+                  value={changeFecha.value}
+                  onChange={changeFecha.handleChange}
                   error={formik.touched.fechaApertura
                   && Boolean(formik.errors.fechaApertura)}
                   helperText={formik.touched.fechaApertura

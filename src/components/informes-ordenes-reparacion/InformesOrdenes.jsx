@@ -18,17 +18,10 @@ import BuscarOrdenReparacionPorMatriculaForm from './forms/BuscarOrdenReparacion
 import HistoricoOrdenesCerradasPorVehiculoPDF from './HistoricoOrdenesCerradasPorVehiculoPDF';
 import PreciosManoDeObraPDF from './PreciosManoDeObraPDF';
 import ResumenOrdenesCerradasEntreFechasPDF from './ResumenOrdenesCerradasEntreFechasPDF';
+import useModal from '../../hooks/useModal';
 
 function InformesOrdenes() {
-  const [openError, setOpenError] = useState(false);
-  const [message, setMensaje] = useState('');
-
-  const handleOpenError = (messag) => {
-    setOpenError(true);
-    setMensaje(messag);
-  };
-
-  const handleCloseError = () => setOpenError(false);
+  const modal = useModal();
 
   const [tablaOrdenesReparacionAbiertas, setTablaOrdenesReparacionAbiertas] = useState(false);
   const [formEntreFechas, setFormEntreFechas] = useState(false);
@@ -152,9 +145,9 @@ function InformesOrdenes() {
       })
       .catch((error) => {
         if (error.response.status === 400) {
-          handleOpenError('error en las fechas');
+          modal.handleOpenError('error en las fechas');
         } else {
-          handleOpenError(`error: ${error}`);
+          modal.handleOpenError(`error: ${error}`);
         }
       });
   };
@@ -177,9 +170,9 @@ function InformesOrdenes() {
       })
       .catch((error) => {
         if (error.response.status === 400) {
-          handleOpenError('error en las fechas');
+          modal.handleOpenError('error en las fechas');
         } else {
-          handleOpenError(`error: ${error}`);
+          modal.handleOpenError(`error: ${error}`);
         }
       });
   };
@@ -188,7 +181,7 @@ function InformesOrdenes() {
     obtenerOrdenReparacionPorIdCompleta(id)
       .then((response) => {
         if (!response.data.cerrada) {
-          handleOpenError('La orden de reparación no está cerrada');
+          modal.handleOpenError('La orden de reparación no está cerrada');
         } else {
           setTablaOrdenesReparacionAbiertas(false);
           setFormEntreFechas(false);
@@ -203,8 +196,8 @@ function InformesOrdenes() {
         }
       })
       .catch((error) => {
-        if (error.response.status === 404) { handleOpenError(error.response.data.mensaje); }
-        if (error.response.status === 400) { handleOpenError('referencia incorrecta'); }
+        if (error.response.status === 404) { modal.handleOpenError(error.response.data.mensaje); }
+        if (error.response.status === 400) { modal.handleOpenError('referencia incorrecta'); }
       });
   };
 
@@ -214,7 +207,7 @@ function InformesOrdenes() {
         obtenerOrdenesReparacionCerradasPorVehiculo(response.data.id)
           .then((res) => {
             if (res.data.length === 0) {
-              handleOpenError('El vehículo indicado no tiene ordenes de reparación cerradas');
+              modal.handleOpenError('El vehículo indicado no tiene ordenes de reparación cerradas');
             } else {
               setTablaOrdenesReparacionAbiertas(false);
               setFormEntreFechas(false);
@@ -229,14 +222,14 @@ function InformesOrdenes() {
             }
           })
           .catch((error) => {
-            handleOpenError(`Error: ${error}`);
+            modal.handleOpenError(`Error: ${error}`);
           });
       })
       .catch((error) => {
         if (error.response.status === 404) {
-          handleOpenError('La matrícula indicada no existe');
+          modal.handleOpenError('La matrícula indicada no existe');
         } else {
-          handleOpenError(`error: ${error}`);
+          modal.handleOpenError(`error: ${error}`);
         }
       });
   };
@@ -325,7 +318,11 @@ function InformesOrdenes() {
               />
             ) : null }
         </Box>
-        <ModalErrores openError={openError} message={message} handleCloseError={handleCloseError} />
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </Grid>
     </Grid>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -14,6 +14,7 @@ import ModalErrores from '../../../utils/ModalErrores';
 import { AutorizacionOrdenesContext } from '../../../pages/TallerAutorizacionOrdenes';
 import CabeceraForms from '../../CabeceraForms';
 import useModal from '../../../hooks/useModal';
+import useChangeFecha from '../../../hooks/useChangeFecha';
 
 const validationSchema = yup.object({
   fechaApertura: yup
@@ -42,11 +43,7 @@ function NuevaOrdenReparacionForm() {
 
   const modal = useModal();
 
-  const [value, setValue] = useState(new Date());
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  const changeFecha = useChangeFecha(new Date());
 
   const handleSubmitForm = () => {
     obtenerVehiculosPorMatricula(matriculaRef.current.value)
@@ -77,7 +74,7 @@ function NuevaOrdenReparacionForm() {
 
   const formik = useFormik({
     initialValues: {
-      fechaApertura: value,
+      fechaApertura: changeFecha.value,
       matricula: '',
       descripcion: '',
       kilometros: '',
@@ -98,8 +95,8 @@ function NuevaOrdenReparacionForm() {
                 name="fechaApertura"
                 label="fecha de apertura"
                 inputFormat="DD-MM-YYYY"
-                value={value}
-                onChange={handleChange}
+                value={changeFecha.value}
+                onChange={changeFecha.handleChange}
                 error={formik.touched.fechaApertura && Boolean(formik.errors.fechaApertura)}
                 helperText={formik.touched.fechaApertura && formik.errors.fechaApertura}
                 renderInput={(params) => <TextField {...params} />}

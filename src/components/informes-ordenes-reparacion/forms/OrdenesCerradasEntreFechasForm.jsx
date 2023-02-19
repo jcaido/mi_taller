@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import CabeceraForms from '../../CabeceraForms';
+import useChangeFecha from '../../../hooks/useChangeFecha';
 
 const validationSchema = yup.object({
   fechaCierreInicial: yup
@@ -26,22 +27,14 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
   const fechaCierreInicialRef = useRef();
   const fechaCierreFinalRef = useRef();
 
-  const [valueInicial, setValueInicial] = useState(new Date());
+  const changeFechaInicial = useChangeFecha(new Date());
 
-  const handleChangeFechaInicial = (newValue) => {
-    setValueInicial(newValue);
-  };
-
-  const [valueFinal, setValueFinal] = useState(new Date());
-
-  const handleChangeFechaFinal = (newValue) => {
-    setValueFinal(newValue);
-  };
+  const changeFechaFinal = useChangeFecha(new Date());
 
   const formik = useFormik({
     initialValues: {
-      fechaCierreInicial: valueInicial,
-      fechaCierreFinal: valueFinal,
+      fechaCierreInicial: changeFechaInicial.value,
+      fechaCierreFinal: changeFechaFinal.value,
     },
     validationSchema,
     onSubmit: () => handleSubmitForm(),
@@ -67,8 +60,8 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
                 name="fechaCierreInicial"
                 label="fecha de cierre inicial"
                 inputFormat="DD-MM-YYYY"
-                value={valueInicial}
-                onChange={handleChangeFechaInicial}
+                value={changeFechaInicial.value}
+                onChange={changeFechaInicial.handleChange}
                 error={formik.touched.fechaCierreInicial
                 && Boolean(formik.errors.fechaCierreInicial)}
                 helperText={formik.touched.fechaCierreInicial
@@ -87,8 +80,8 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
                 name="fechaCierreFinal"
                 label="fecha de cierre final"
                 inputFormat="DD-MM-YYYY"
-                value={valueFinal}
-                onChange={handleChangeFechaFinal}
+                value={changeFechaFinal.value}
+                onChange={changeFechaFinal.handleChange}
                 error={formik.touched.fechaCierreFinal
                 && Boolean(formik.errors.fechaCierreFinal)}
                 helperText={formik.touched.fechaCierreFinal
@@ -99,7 +92,7 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
             </Stack>
           </LocalizationProvider>
         </Box>
-        { valueFinal < valueInicial
+        { changeFechaFinal.value < changeFechaInicial.value
           ? (
             <Stack sx={{ width: '92%', marginLeft: 2 }} spacing={3}>
               <Alert severity="error">La fecha final no puede ser inferior a la fecha inicial</Alert>
@@ -107,7 +100,7 @@ function OrdenesCerradasEntreFechasForm({ ordenesCerradasEntreFechas }) {
           )
           : null }
         <Box m={1}>
-          {valueFinal < valueInicial
+          {changeFechaFinal.value < changeFechaInicial.value
             ? (<Button type="submit" color="primary" variant="contained" fullWidth disabled>Aceptar</Button>)
             : (<Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>)}
         </Box>
