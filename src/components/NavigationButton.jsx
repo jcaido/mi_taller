@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
@@ -6,6 +6,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
+import useNavigationButton from '../hooks/useNavigationButton';
 
 function NavigationButton({
   nuevo,
@@ -17,14 +18,10 @@ function NavigationButton({
   editarTitle,
   eliminarTitle,
 }) {
-  const [value, setValue] = useState('nuevo');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const changeButton = useNavigationButton('nuevo');
 
   return (
-    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={value} onChange={handleChange}>
+    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={changeButton.value} onChange={changeButton.handleChange}>
       <Tooltip title={nuevoTitle}>
         <BottomNavigationAction
           label="Nuevo"

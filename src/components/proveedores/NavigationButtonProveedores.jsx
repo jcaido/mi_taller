@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import Tooltip from '@mui/material/Tooltip';
@@ -8,20 +8,17 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import useNavigationButton from '../../hooks/useNavigationButton';
 
 export default function NavigationButtonProveedores({
   crearProveedor, buscarProveedor, editarProveedor, eliminarProveedor,
 }) {
-  const [value, setValue] = useState('seleccionar');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const changeButton = useNavigationButton('seleccionar');
 
   const navigate = useNavigate();
 
   return (
-    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={value} onChange={handleChange}>
+    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={changeButton.value} onChange={changeButton.handleChange}>
       <Tooltip title="crear proveedor">
         <BottomNavigationAction
           label="crear"

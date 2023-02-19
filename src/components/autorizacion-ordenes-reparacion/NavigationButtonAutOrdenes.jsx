@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -9,20 +9,17 @@ import FindInPageIcon from '@mui/icons-material/FindInPage';
 import PrintIcon from '@mui/icons-material/Print';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useNavigationButton from '../../hooks/useNavigationButton';
 
 function NavigationButtonAutOrdenes({
   nueva, buscar, buscarParaEditar, buscarParaEliminar, imprimir,
 }) {
-  const [value, setValue] = useState('nuevo');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const changeButton = useNavigationButton('nuevo');
 
   const navigate = useNavigate();
 
   return (
-    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={value} onChange={handleChange}>
+    <BottomNavigation sx={{ width: 500, height: 30, backgroundColor: '#fefae0' }} value={changeButton.value} onChange={changeButton.handleChange}>
       <Tooltip title="nueva orden de reparacion">
         <BottomNavigationAction
           label="Nuevo"

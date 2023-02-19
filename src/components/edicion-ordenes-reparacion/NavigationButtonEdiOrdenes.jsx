@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import Tooltip from '@mui/material/Tooltip';
@@ -6,21 +6,18 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import EuroIcon from '@mui/icons-material/Euro';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import useNavigationButton from '../../hooks/useNavigationButton';
 
 function NavigationButtonEdiOrdenes({
   establecerPrecioManoDeObra,
   buscarOrdenReparacion,
 }) {
-  const [value, setValue] = useState('seleccionar');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const changeButton = useNavigationButton('seleccionar');
 
   const navigate = useNavigate();
 
   return (
-    <BottomNavigation sx={{ width: 200, height: 30, backgroundColor: '#fefae0' }} value={value} onChange={handleChange}>
+    <BottomNavigation sx={{ width: 200, height: 30, backgroundColor: '#fefae0' }} value={changeButton.value} onChange={changeButton.handleChange}>
       <Tooltip title="seleccionar orden de reparación">
         <BottomNavigationAction
           label="Seleccionar"
