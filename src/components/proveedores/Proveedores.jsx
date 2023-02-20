@@ -6,6 +6,7 @@ import NuevoProveedorForm from './forms/NuevoProveedorForm';
 import TablaProveedores from './TablaProveedores';
 import BuscarProveedorForm from './forms/BuscarProveedorForm';
 import Proveedor from './Proveedor';
+import TablaProveedoresBusquedas from './TablaProveedoresBusquedas';
 
 export default function Proveedores() {
   const {
@@ -39,6 +40,8 @@ export default function Proveedores() {
       <Grid item md={8}>
         {state.formCrearProveedor ? <TablaProveedores /> : null}
         {state.proveedorPorDniCif ? <Proveedor /> : null}
+        {state.proveedoresPorNombre
+          ? <TablaProveedoresBusquedas lista={state.listaProveedores} /> : null}
       </Grid>
     </Grid>
   );

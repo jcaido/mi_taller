@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Proveedores from '../components/proveedores/Proveedores';
-import { obtenerProveedores, obtenerProveedorPorDniCif } from '../services/axiosService';
+import { obtenerProveedores, obtenerProveedoresPorNombre, obtenerProveedorPorDniCif } from '../services/axiosService';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 
@@ -17,6 +17,7 @@ export default function AlmacenProveedores() {
     formEditarProveedor: false,
     formEliminarProveedor: false,
     proveedorPorDniCif: false,
+    proveedoresPorNombre: false,
     listaProveedores: [],
   };
 
@@ -30,6 +31,7 @@ export default function AlmacenProveedores() {
           formEditarProveedor: action.payload.formEditarProveedor,
           formEliminarProveedor: action.payload.formEliminarProveedor,
           proveedorPorDniCif: action.payload.proveedorPorDniCif,
+          proveedoresPorNombre: action.payload.proveedoresPorNombre,
         };
       case 'actualizar_lista_proveedores':
         return {
@@ -52,6 +54,7 @@ export default function AlmacenProveedores() {
         formEditarProveedor: false,
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
       },
     });
   }
@@ -65,6 +68,7 @@ export default function AlmacenProveedores() {
         formEditarProveedor: false,
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
       },
     });
   }
@@ -78,6 +82,7 @@ export default function AlmacenProveedores() {
         formEditarProveedor: true,
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
       },
     });
   }
@@ -91,6 +96,21 @@ export default function AlmacenProveedores() {
         formEditarProveedor: false,
         formEliminarProveedor: false,
         proveedorPorDniCif: true,
+        proveedoresPorNombre: false,
+      },
+    });
+  }
+
+  function buscarProveedorPorNombreDispatch() {
+    dispatch({
+      type: 'proveedores',
+      payload: {
+        formCrearProveedor: false,
+        formBuscarProveedor: true,
+        formEditarProveedor: false,
+        formEliminarProveedor: false,
+        proveedorPorDniCif: false,
+        proveedoresPorNombre: true,
       },
     });
   }
@@ -104,6 +124,7 @@ export default function AlmacenProveedores() {
         formEditarProveedor: false,
         formEliminarProveedor: true,
         proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
       },
     });
   }
@@ -130,6 +151,18 @@ export default function AlmacenProveedores() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ListarProveedoresPorNombre = (nombre) => {
+    obtenerProveedoresPorNombre(nombre)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_proveedores', payload: response.data });
+      })
+      .then(() => {
+        buscarProveedorPorNombreDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const proveedoresProviderValue = useMemo(
     () => ({
       state,
@@ -139,6 +172,7 @@ export default function AlmacenProveedores() {
       eliminarProveedorFormDispatch,
       ListarProveedores,
       ListarProveedoresPorDniCif,
+      ListarProveedoresPorNombre,
     }
     ),
     [
@@ -149,6 +183,7 @@ export default function AlmacenProveedores() {
       eliminarProveedorFormDispatch,
       ListarProveedores,
       ListarProveedoresPorDniCif,
+      ListarProveedoresPorNombre,
     ],
   );
 

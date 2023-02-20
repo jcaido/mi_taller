@@ -12,7 +12,10 @@ import CabeceraForms from '../../CabeceraForms';
 import { AlmacenProveedoresContext } from '../../../pages/AlmacenProveedores';
 
 function BuscarProveedorForm() {
-  const { ListarProveedoresPorDniCif } = useContext(AlmacenProveedoresContext);
+  const {
+    ListarProveedoresPorDniCif,
+    ListarProveedoresPorNombre,
+  } = useContext(AlmacenProveedoresContext);
   const valorRef = useRef();
 
   const changeRadioGroup = useChangeRadioGroup('dni_cif');
@@ -23,7 +26,7 @@ function BuscarProveedorForm() {
         ListarProveedoresPorDniCif(valorRef.current.value);
         break;
       case 'nombre':
-        //
+        ListarProveedoresPorNombre(valorRef.current.value);
         break;
       default:
         break;
