@@ -18,6 +18,7 @@ export default function AlmacenProveedores() {
     formEliminarProveedor: false,
     proveedorPorDniCif: false,
     proveedoresPorNombre: false,
+    editarProveedor: false,
     listaProveedores: [],
   };
 
@@ -32,11 +33,17 @@ export default function AlmacenProveedores() {
           formEliminarProveedor: action.payload.formEliminarProveedor,
           proveedorPorDniCif: action.payload.proveedorPorDniCif,
           proveedoresPorNombre: action.payload.proveedoresPorNombre,
+          editarProveedor: action.payload.editarProveedor,
         };
       case 'actualizar_lista_proveedores':
         return {
           ...state,
           listaProveedores: action.payload,
+        };
+      case 'cerrar_formulario_editar_proveedor':
+        return {
+          ...state,
+          editarProveedor: action.payload,
         };
       default:
         return state;
@@ -55,6 +62,7 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
+        editarProveedor: false,
       },
     });
   }
@@ -69,6 +77,37 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
+        editarProveedor: false,
+      },
+    });
+  }
+
+  function buscarProveedorParaEditarDispatch() {
+    dispatch({
+      type: 'proveedores',
+      payload: {
+        formCrearProveedor: false,
+        formBuscarProveedor: false,
+        formEditarProveedor: true,
+        formEliminarProveedor: false,
+        proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
+        editarProveedor: false,
+      },
+    });
+  }
+
+  function buscarProveedorParaEliminarDispatch() {
+    dispatch({
+      type: 'proveedores',
+      payload: {
+        formCrearProveedor: false,
+        formBuscarProveedor: false,
+        formEditarProveedor: false,
+        formEliminarProveedor: true,
+        proveedorPorDniCif: false,
+        proveedoresPorNombre: false,
+        editarProveedor: false,
       },
     });
   }
@@ -83,6 +122,7 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
+        editarProveedor: true,
       },
     });
   }
@@ -97,6 +137,7 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: false,
         proveedorPorDniCif: true,
         proveedoresPorNombre: false,
+        editarProveedor: false,
       },
     });
   }
@@ -111,6 +152,7 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: false,
         proveedorPorDniCif: false,
         proveedoresPorNombre: true,
+        editarProveedor: false,
       },
     });
   }
@@ -125,6 +167,7 @@ export default function AlmacenProveedores() {
         formEliminarProveedor: true,
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
+        editarProveedor: false,
       },
     });
   }
@@ -163,27 +206,51 @@ export default function AlmacenProveedores() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerProveedorPorDniCifParaEditar = (dniCif) => {
+    obtenerProveedorPorDniCif(dniCif)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_proveedores', payload: response.data });
+      })
+      .then(() => {
+        editarProveedorFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const CerrarFormEditarProveedor = () => {
+    dispatch({ type: 'cerrar_formulario_editar_proveedor', payload: false });
+  };
+
   const proveedoresProviderValue = useMemo(
     () => ({
       state,
       crearProveedorFormDispatch,
       buscarProveedorFormDispatch,
+      buscarProveedorParaEditarDispatch,
+      buscarProveedorParaEliminarDispatch,
       editarProveedorFormDispatch,
       eliminarProveedorFormDispatch,
       ListarProveedores,
       ListarProveedoresPorDniCif,
       ListarProveedoresPorNombre,
+      ObtenerProveedorPorDniCifParaEditar,
+      CerrarFormEditarProveedor,
     }
     ),
     [
       state,
       crearProveedorFormDispatch,
       buscarProveedorFormDispatch,
+      buscarProveedorParaEditarDispatch,
+      buscarProveedorParaEliminarDispatch,
       editarProveedorFormDispatch,
       eliminarProveedorFormDispatch,
       ListarProveedores,
       ListarProveedoresPorDniCif,
       ListarProveedoresPorNombre,
+      ObtenerProveedorPorDniCifParaEditar,
+      CerrarFormEditarProveedor,
     ],
   );
 

@@ -229,3 +229,19 @@ export const nuevoProveedor = (
 export const obtenerProveedorPorDniCif = (dniCif) => axios.get(`http://localhost:8080/api/proveedores/dni-cif/${dniCif}`);
 
 export const obtenerProveedoresPorNombre = (nombre) => axios.get(`http://localhost:8080/api/proveedores/nombre-parcial/${nombre}`);
+
+export const modificarPropveedor = (
+  id,
+  nombre,
+  dniCif,
+  domicilio,
+  idCodigoPostal,
+) => {
+  const body = {
+    id,
+    nombre,
+    dniCif,
+    domicilio,
+  };
+  return axios.put(`http://localhost:8080/api/proveedores/${idCodigoPostal}`, body);
+};

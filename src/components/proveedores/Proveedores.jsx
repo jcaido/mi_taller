@@ -7,14 +7,18 @@ import TablaProveedores from './TablaProveedores';
 import BuscarProveedorForm from './forms/BuscarProveedorForm';
 import Proveedor from './Proveedor';
 import TablaProveedoresBusquedas from './TablaProveedoresBusquedas';
+import BuscarProveedorPorDniCifForm from './forms/BuscarProveedorPorDniCifForm';
+import EditarProveedorForm from './forms/EditarProveedorForm';
 
 export default function Proveedores() {
   const {
     state,
     crearProveedorFormDispatch,
     buscarProveedorFormDispatch,
-    editarProveedorFormDispatch,
-    eliminarProveedorFormDispatch,
+    buscarProveedorParaEditarDispatch,
+    buscarProveedorParaEliminarDispatch,
+    ObtenerProveedorPorDniCifParaEditar,
+    CerrarFormEditarProveedor,
   } = useContext(AlmacenProveedoresContext);
 
   return (
@@ -24,8 +28,8 @@ export default function Proveedores() {
           <NavigationButtonProveedores
             crearProveedor={crearProveedorFormDispatch}
             buscarProveedor={buscarProveedorFormDispatch}
-            editarProveedor={editarProveedorFormDispatch}
-            eliminarProveedor={eliminarProveedorFormDispatch}
+            editarProveedor={buscarProveedorParaEditarDispatch}
+            eliminarProveedor={buscarProveedorParaEliminarDispatch}
           />
         </Box>
       </Grid>
@@ -33,7 +37,14 @@ export default function Proveedores() {
         <Box>
           {state.formCrearProveedor ? <NuevoProveedorForm /> : null}
           {state.formBuscarProveedor ? <BuscarProveedorForm /> : null}
-          {state.formEditarProveedor ? <p>formulario editar proveedor</p> : null}
+          {state.formEditarProveedor
+            ? (
+              <BuscarProveedorPorDniCifForm
+                label="Editar Proveedor"
+                obtener={ObtenerProveedorPorDniCifParaEditar}
+                cerrar={CerrarFormEditarProveedor}
+              />
+            ) : null }
           {state.formEliminarProveedor ? <p>forumulario eliminar proveedor</p> : null}
         </Box>
       </Grid>
@@ -42,6 +53,7 @@ export default function Proveedores() {
         {state.proveedorPorDniCif ? <Proveedor /> : null}
         {state.proveedoresPorNombre
           ? <TablaProveedoresBusquedas lista={state.listaProveedores} /> : null}
+        {state.editarProveedor ? <EditarProveedorForm /> : null}
       </Grid>
     </Grid>
   );
