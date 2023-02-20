@@ -2,16 +2,21 @@ import React, { createContext, useReducer, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Proveedores from '../components/proveedores/Proveedores';
-import { obtenerProveedores } from '../services/axiosService';
+import { obtenerProveedores, obtenerProveedorPorDniCif } from '../services/axiosService';
+import useModal from '../hooks/useModal';
+import ModalErrores from '../utils/ModalErrores';
 
 export const AlmacenProveedoresContext = createContext();
 
 export default function AlmacenProveedores() {
+  const modal = useModal();
+
   const proveedoresInicial = {
     formCrearProveedor: false,
     formBuscarProveedor: false,
     formEditarProveedor: false,
     formEliminarProveedor: false,
+    proveedorPorDniCif: false,
     listaProveedores: [],
   };
 
@@ -24,6 +29,7 @@ export default function AlmacenProveedores() {
           formBuscarProveedor: action.payload.formBuscarProveedor,
           formEditarProveedor: action.payload.formEditarProveedor,
           formEliminarProveedor: action.payload.formEliminarProveedor,
+          proveedorPorDniCif: action.payload.proveedorPorDniCif,
         };
       case 'actualizar_lista_proveedores':
         return {
@@ -45,6 +51,7 @@ export default function AlmacenProveedores() {
         formBuscarProveedor: false,
         formEditarProveedor: false,
         formEliminarProveedor: false,
+        proveedorPorDniCif: false,
       },
     });
   }
@@ -57,6 +64,7 @@ export default function AlmacenProveedores() {
         formBuscarProveedor: true,
         formEditarProveedor: false,
         formEliminarProveedor: false,
+        proveedorPorDniCif: false,
       },
     });
   }
@@ -69,6 +77,20 @@ export default function AlmacenProveedores() {
         formBuscarProveedor: false,
         formEditarProveedor: true,
         formEliminarProveedor: false,
+        proveedorPorDniCif: false,
+      },
+    });
+  }
+
+  function buscarProveedorPorDNICifDispatch() {
+    dispatch({
+      type: 'proveedores',
+      payload: {
+        formCrearProveedor: false,
+        formBuscarProveedor: true,
+        formEditarProveedor: false,
+        formEliminarProveedor: false,
+        proveedorPorDniCif: true,
       },
     });
   }
@@ -81,6 +103,7 @@ export default function AlmacenProveedores() {
         formBuscarProveedor: false,
         formEditarProveedor: false,
         formEliminarProveedor: true,
+        proveedorPorDniCif: false,
       },
     });
   }
@@ -95,6 +118,18 @@ export default function AlmacenProveedores() {
       });
   };
 
+  const ListarProveedoresPorDniCif = (dniCif) => {
+    obtenerProveedorPorDniCif(dniCif)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_proveedores', payload: response.data });
+      })
+      .then(() => {
+        buscarProveedorPorDNICifDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const proveedoresProviderValue = useMemo(
     () => ({
       state,
@@ -103,6 +138,7 @@ export default function AlmacenProveedores() {
       editarProveedorFormDispatch,
       eliminarProveedorFormDispatch,
       ListarProveedores,
+      ListarProveedoresPorDniCif,
     }
     ),
     [
@@ -112,6 +148,7 @@ export default function AlmacenProveedores() {
       editarProveedorFormDispatch,
       eliminarProveedorFormDispatch,
       ListarProveedores,
+      ListarProveedoresPorDniCif,
     ],
   );
 
@@ -126,6 +163,11 @@ export default function AlmacenProveedores() {
             <Proveedores />
           </Box>
         </Grid>
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </Grid>
     </AlmacenProveedoresContext.Provider>
   );

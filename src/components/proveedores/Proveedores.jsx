@@ -4,6 +4,8 @@ import NavigationButtonProveedores from './NavigationButtonProveedores';
 import { AlmacenProveedoresContext } from '../../pages/AlmacenProveedores';
 import NuevoProveedorForm from './forms/NuevoProveedorForm';
 import TablaProveedores from './TablaProveedores';
+import BuscarProveedorForm from './forms/BuscarProveedorForm';
+import Proveedor from './Proveedor';
 
 export default function Proveedores() {
   const {
@@ -29,13 +31,14 @@ export default function Proveedores() {
       <Grid item md={4}>
         <Box>
           {state.formCrearProveedor ? <NuevoProveedorForm /> : null}
-          {state.formBuscarProveedor ? <p>formulario buscar proveedor</p> : null}
+          {state.formBuscarProveedor ? <BuscarProveedorForm /> : null}
           {state.formEditarProveedor ? <p>formulario editar proveedor</p> : null}
           {state.formEliminarProveedor ? <p>forumulario eliminar proveedor</p> : null}
         </Box>
       </Grid>
       <Grid item md={8}>
         {state.formCrearProveedor ? <TablaProveedores /> : null}
+        {state.proveedorPorDniCif ? <Proveedor /> : null}
       </Grid>
     </Grid>
   );

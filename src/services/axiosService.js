@@ -225,3 +225,5 @@ export const nuevoProveedor = (
 
   return axios.post(`http://localhost:8080/api/proveedores/${idCodigoPostal}`, body);
 };
+
+export const obtenerProveedorPorDniCif = (dniCif) => axios.get(`http://localhost:8080/api/proveedores/dni-cif/${dniCif}`);
