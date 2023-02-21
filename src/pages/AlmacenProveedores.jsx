@@ -19,6 +19,7 @@ export default function AlmacenProveedores() {
     proveedorPorDniCif: false,
     proveedoresPorNombre: false,
     editarProveedor: false,
+    eliminarProveedor: false,
     listaProveedores: [],
   };
 
@@ -34,6 +35,7 @@ export default function AlmacenProveedores() {
           proveedorPorDniCif: action.payload.proveedorPorDniCif,
           proveedoresPorNombre: action.payload.proveedoresPorNombre,
           editarProveedor: action.payload.editarProveedor,
+          eliminarProveedor: action.payload.eliminarProveedor,
         };
       case 'actualizar_lista_proveedores':
         return {
@@ -44,6 +46,11 @@ export default function AlmacenProveedores() {
         return {
           ...state,
           editarProveedor: action.payload,
+        };
+      case 'cerrar_formulario_eliminar_proveedor':
+        return {
+          ...state,
+          eliminarProveedor: action.payload,
         };
       default:
         return state;
@@ -63,6 +70,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -78,6 +86,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -93,6 +102,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -108,6 +118,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -123,6 +134,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: true,
+        eliminarProveedor: false,
       },
     });
   }
@@ -138,6 +150,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: true,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -153,6 +166,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: true,
         editarProveedor: false,
+        eliminarProveedor: false,
       },
     });
   }
@@ -168,6 +182,7 @@ export default function AlmacenProveedores() {
         proveedorPorDniCif: false,
         proveedoresPorNombre: false,
         editarProveedor: false,
+        eliminarProveedor: true,
       },
     });
   }
@@ -218,8 +233,24 @@ export default function AlmacenProveedores() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerProveedorPorDniCifParaEliminar = (dniCif) => {
+    obtenerProveedorPorDniCif(dniCif)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_proveedores', payload: response.data });
+      })
+      .then(() => {
+        eliminarProveedorFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const CerrarFormEditarProveedor = () => {
     dispatch({ type: 'cerrar_formulario_editar_proveedor', payload: false });
+  };
+
+  const CerrarFormEliminarProveedor = () => {
+    dispatch({ type: 'cerrar_formulario_eliminar_proveedor', payload: false });
   };
 
   const proveedoresProviderValue = useMemo(
@@ -235,7 +266,9 @@ export default function AlmacenProveedores() {
       ListarProveedoresPorDniCif,
       ListarProveedoresPorNombre,
       ObtenerProveedorPorDniCifParaEditar,
+      ObtenerProveedorPorDniCifParaEliminar,
       CerrarFormEditarProveedor,
+      CerrarFormEliminarProveedor,
     }
     ),
     [
@@ -250,7 +283,9 @@ export default function AlmacenProveedores() {
       ListarProveedoresPorDniCif,
       ListarProveedoresPorNombre,
       ObtenerProveedorPorDniCifParaEditar,
+      ObtenerProveedorPorDniCifParaEliminar,
       CerrarFormEditarProveedor,
+      CerrarFormEliminarProveedor,
     ],
   );
 

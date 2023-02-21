@@ -9,6 +9,7 @@ import Proveedor from './Proveedor';
 import TablaProveedoresBusquedas from './TablaProveedoresBusquedas';
 import BuscarProveedorPorDniCifForm from './forms/BuscarProveedorPorDniCifForm';
 import EditarProveedorForm from './forms/EditarProveedorForm';
+import EliminarProveedorForm from './forms/EliminarProveedorForm';
 
 export default function Proveedores() {
   const {
@@ -18,7 +19,9 @@ export default function Proveedores() {
     buscarProveedorParaEditarDispatch,
     buscarProveedorParaEliminarDispatch,
     ObtenerProveedorPorDniCifParaEditar,
+    ObtenerProveedorPorDniCifParaEliminar,
     CerrarFormEditarProveedor,
+    CerrarFormEliminarProveedor,
   } = useContext(AlmacenProveedoresContext);
 
   return (
@@ -45,7 +48,14 @@ export default function Proveedores() {
                 cerrar={CerrarFormEditarProveedor}
               />
             ) : null }
-          {state.formEliminarProveedor ? <p>forumulario eliminar proveedor</p> : null}
+          {state.formEliminarProveedor
+            ? (
+              <BuscarProveedorPorDniCifForm
+                label="Eliminar Proveedor"
+                obtener={ObtenerProveedorPorDniCifParaEliminar}
+                cerrar={CerrarFormEliminarProveedor}
+              />
+            ) : null}
         </Box>
       </Grid>
       <Grid item md={8}>
@@ -54,6 +64,7 @@ export default function Proveedores() {
         {state.proveedoresPorNombre
           ? <TablaProveedoresBusquedas lista={state.listaProveedores} /> : null}
         {state.editarProveedor ? <EditarProveedorForm /> : null}
+        {state.eliminarProveedor ? <EliminarProveedorForm /> : null}
       </Grid>
     </Grid>
   );
