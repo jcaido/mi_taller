@@ -245,3 +245,19 @@ export const modificarPropveedor = (
   };
   return axios.put(`http://localhost:8080/api/proveedores/${idCodigoPostal}`, body);
 };
+
+export const obtenerPiezas = () => axios.get('http://localhost:8080/api/piezas');
+
+export const nuevaPieza = (
+  referencia,
+  nombre,
+  precio,
+) => {
+  const body = {
+    referencia,
+    nombre,
+    precio,
+  };
+
+  return axios.post('http://localhost:8080/api/piezas', body);
+};
