@@ -9,6 +9,7 @@ import Pieza from './Pieza';
 import TablaPiezasBusquedas from './TablaPiezasBusquedas';
 import BuscarPiezaPorReferenciaForm from './forms/BuscarPiezaPorReferenciaForm';
 import EditarPiezaForm from './forms/EditarPiezaForm';
+import EliminarPiezaForm from './forms/EliminarPiezaForm';
 
 export default function Piezas() {
   const {
@@ -19,6 +20,8 @@ export default function Piezas() {
     buscarPiezaParaEliminarDispatch,
     ObtenerPiezaPorReferenciaParaEditar,
     CerrarFormEditarPieza,
+    ObtenerPiezaPorReferenciaParaEliminar,
+    CerrarFormEliminarPieza,
   } = useContext(AlmacenPiezassContext);
 
   return (
@@ -45,6 +48,14 @@ export default function Piezas() {
                 cerrar={CerrarFormEditarPieza}
               />
             ) : null}
+          {state.formEliminarPiezas
+            ? (
+              <BuscarPiezaPorReferenciaForm
+                label="Editar Pieza"
+                obtener={ObtenerPiezaPorReferenciaParaEliminar}
+                cerrar={CerrarFormEliminarPieza}
+              />
+            ) : null}
         </Box>
       </Grid>
       <Grid item md={8}>
@@ -52,6 +63,7 @@ export default function Piezas() {
         {state.piezaPorReferencia ? <Pieza /> : null}
         {state.piezasPorNombre ? <TablaPiezasBusquedas lista={state.listaPiezas} /> : null}
         {state.editarPieza ? <EditarPiezaForm /> : null}
+        {state.eliminarPieza ? <EliminarPiezaForm /> : null}
       </Grid>
     </Grid>
   );

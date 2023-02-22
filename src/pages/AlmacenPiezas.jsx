@@ -171,7 +171,7 @@ export default function AlmacenPiezas() {
     });
   }
 
-  function eliminarProveedorFormDispatch() {
+  function eliminarPiezaFormDispatch() {
     dispatch({
       type: 'piezas',
       payload: {
@@ -233,8 +233,24 @@ export default function AlmacenPiezas() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerPiezaPorReferenciaParaEliminar = (referencia) => {
+    obtenerPiezaPorReferencia(referencia)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_piezas', payload: response.data });
+      })
+      .then(() => {
+        eliminarPiezaFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const CerrarFormEditarPieza = () => {
     dispatch({ type: 'cerrar_formulario_editar_pieza', payload: false });
+  };
+
+  const CerrarFormEliminarPieza = () => {
+    dispatch({ type: 'cerrar_formulario_eliminar_pieza', payload: false });
   };
 
   const piezasProviderValue = useMemo(
@@ -245,12 +261,14 @@ export default function AlmacenPiezas() {
       buscarPiezaParaEditarDispatch,
       buscarPiezaParaEliminarDispatch,
       editarPiezaFormDispatch,
-      eliminarProveedorFormDispatch,
+      eliminarPiezaFormDispatch,
       ListarPiezas,
       ListarPiezasPorReferencia,
       ListarPiezasPorNombre,
       ObtenerPiezaPorReferenciaParaEditar,
       CerrarFormEditarPieza,
+      ObtenerPiezaPorReferenciaParaEliminar,
+      CerrarFormEliminarPieza,
     }
     ),
     [
@@ -260,12 +278,14 @@ export default function AlmacenPiezas() {
       buscarPiezaParaEditarDispatch,
       buscarPiezaParaEliminarDispatch,
       editarPiezaFormDispatch,
-      eliminarProveedorFormDispatch,
+      eliminarPiezaFormDispatch,
       ListarPiezas,
       ListarPiezasPorReferencia,
       ListarPiezasPorNombre,
       ObtenerPiezaPorReferenciaParaEditar,
       CerrarFormEditarPieza,
+      ObtenerPiezaPorReferenciaParaEliminar,
+      CerrarFormEliminarPieza,
     ],
   );
 

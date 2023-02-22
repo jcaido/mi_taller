@@ -14,7 +14,7 @@ export default function EliminarProveedorForm() {
   const modal = useModal();
 
   const handleSubmitForm = () => {
-    //
+    // TODO: Validacion en backend si tiene entradas de almacén
   };
 
   const formik = useFormik({
