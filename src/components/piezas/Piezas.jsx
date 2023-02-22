@@ -4,6 +4,8 @@ import NavigationButtonPiezas from './NavigationButtonPiezas';
 import { AlmacenPiezassContext } from '../../pages/AlmacenPiezas';
 import NuevaPiezaForm from './forms/NuevaPiezaForm';
 import TablaPiezas from './TablaPiezas';
+import BuscarPiezaForm from './forms/BuscarPiezaForm';
+import Pieza from './Pieza';
 
 export default function Piezas() {
   const {
@@ -29,10 +31,12 @@ export default function Piezas() {
       <Grid item md={4}>
         <Box>
           {state.formCrearPiezas ? <NuevaPiezaForm /> : null}
+          {state.formBuscarPiezas ? <BuscarPiezaForm /> : null}
         </Box>
       </Grid>
       <Grid item md={8}>
         {state.formCrearPiezas ? <TablaPiezas /> : null}
+        {state.piezaPorReferencia ? <Pieza /> : null}
       </Grid>
     </Grid>
   );

@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 import Piezas from '../components/piezas/Piezas';
-import { obtenerPiezas } from '../services/axiosService';
+import { obtenerPiezaPorReferencia, obtenerPiezas } from '../services/axiosService';
 
 export const AlmacenPiezassContext = createContext();
 
@@ -18,6 +18,8 @@ export default function AlmacenPiezas() {
     formEliminarPiezas: false,
     editarPieza: false,
     eliminarPieza: false,
+    piezaPorReferencia: false,
+    piezasPorNombre: false,
     listaPiezas: [],
   };
 
@@ -32,6 +34,8 @@ export default function AlmacenPiezas() {
           formEliminarPiezas: action.payload.formEliminarPiezas,
           editarPieza: action.payload.editarPieza,
           eliminarPieza: action.payload.eliminarPieza,
+          piezaPorReferencia: action.payload.piezaPorReferencia,
+          piezasPorNombre: action.payload.piezasPorNombre,
         };
       case 'actualizar_lista_piezas':
         return {
@@ -65,6 +69,8 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: false,
         editarPieza: false,
         eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
       },
     });
   }
@@ -79,6 +85,8 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: false,
         editarPieza: false,
         eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
       },
     });
   }
@@ -93,6 +101,8 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: false,
         editarPieza: false,
         eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
       },
     });
   }
@@ -107,6 +117,8 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: true,
         editarPieza: false,
         eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
       },
     });
   }
@@ -121,6 +133,24 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: false,
         editarPieza: true,
         eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
+      },
+    });
+  }
+
+  function buscarPiezaPorReferenciaDispatch() {
+    dispatch({
+      type: 'piezas',
+      payload: {
+        formCrearPiezas: false,
+        formBuscarPiezas: true,
+        formEditarPiezas: false,
+        formEliminarPiezas: false,
+        editarPieza: false,
+        eliminarPieza: false,
+        piezaPorReferencia: true,
+        piezasPorNombre: false,
       },
     });
   }
@@ -135,6 +165,8 @@ export default function AlmacenPiezas() {
         formEliminarPiezas: true,
         editarPieza: false,
         eliminarPieza: true,
+        piezaPorReferencia: false,
+        piezasPorNombre: false,
       },
     });
   }
@@ -149,6 +181,22 @@ export default function AlmacenPiezas() {
       });
   };
 
+  const ListarPiezasPorReferencia = (referencia) => {
+    obtenerPiezaPorReferencia(referencia)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_piezas', payload: response.data });
+      })
+      .then(() => {
+        buscarPiezaPorReferenciaDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const ListarPiezasPorNombre = () => {
+    //
+  };
+
   const piezasProviderValue = useMemo(
     () => ({
       state,
@@ -159,6 +207,8 @@ export default function AlmacenPiezas() {
       editarPiezaFormDispatch,
       eliminarProveedorFormDispatch,
       ListarPiezas,
+      ListarPiezasPorReferencia,
+      ListarPiezasPorNombre,
     }
     ),
     [
@@ -170,6 +220,8 @@ export default function AlmacenPiezas() {
       editarPiezaFormDispatch,
       eliminarProveedorFormDispatch,
       ListarPiezas,
+      ListarPiezasPorReferencia,
+      ListarPiezasPorNombre,
     ],
   );
 
