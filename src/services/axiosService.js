@@ -263,3 +263,18 @@ export const nuevaPieza = (
 
   return axios.post('http://localhost:8080/api/piezas', body);
 };
+
+export const modificarPieza = (
+  id,
+  referencia,
+  nombre,
+  precio,
+) => {
+  const body = {
+    id,
+    referencia,
+    nombre,
+    precio,
+  };
+  return axios.put('http://localhost:8080/api/piezas', body);
+};

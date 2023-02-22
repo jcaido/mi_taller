@@ -221,6 +221,22 @@ export default function AlmacenPiezas() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerPiezaPorReferenciaParaEditar = (referencia) => {
+    obtenerPiezaPorReferencia(referencia)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_piezas', payload: response.data });
+      })
+      .then(() => {
+        editarPiezaFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const CerrarFormEditarPieza = () => {
+    dispatch({ type: 'cerrar_formulario_editar_pieza', payload: false });
+  };
+
   const piezasProviderValue = useMemo(
     () => ({
       state,
@@ -233,6 +249,8 @@ export default function AlmacenPiezas() {
       ListarPiezas,
       ListarPiezasPorReferencia,
       ListarPiezasPorNombre,
+      ObtenerPiezaPorReferenciaParaEditar,
+      CerrarFormEditarPieza,
     }
     ),
     [
@@ -246,6 +264,8 @@ export default function AlmacenPiezas() {
       ListarPiezas,
       ListarPiezasPorReferencia,
       ListarPiezasPorNombre,
+      ObtenerPiezaPorReferenciaParaEditar,
+      CerrarFormEditarPieza,
     ],
   );
 
