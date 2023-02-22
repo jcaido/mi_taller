@@ -163,6 +163,8 @@ export const eliminarOrdenReparacion = (id) => axios.delete(`http://localhost:80
 
 export const obtenerPiezaPorReferencia = (referencia) => axios.get(`http://localhost:8080/api/piezas/referencia/${referencia}`);
 
+export const obtenerPiezaPorNombre = (nombre) => axios.get(`http://localhost:8080/api/piezas/nombre/${nombre}`);
+
 export const nuevaPiezaReparacion = (idOrden, idPieza, cantidad) => {
   const body = {
     cantidad,

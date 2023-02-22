@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 import Piezas from '../components/piezas/Piezas';
-import { obtenerPiezaPorReferencia, obtenerPiezas } from '../services/axiosService';
+import { obtenerPiezaPorNombre, obtenerPiezaPorReferencia, obtenerPiezas } from '../services/axiosService';
 
 export const AlmacenPiezassContext = createContext();
 
@@ -155,6 +155,22 @@ export default function AlmacenPiezas() {
     });
   }
 
+  function buscarPiezaPorNombreDispatch() {
+    dispatch({
+      type: 'piezas',
+      payload: {
+        formCrearPiezas: false,
+        formBuscarPiezas: true,
+        formEditarPiezas: false,
+        formEliminarPiezas: false,
+        editarPieza: false,
+        eliminarPieza: false,
+        piezaPorReferencia: false,
+        piezasPorNombre: true,
+      },
+    });
+  }
+
   function eliminarProveedorFormDispatch() {
     dispatch({
       type: 'piezas',
@@ -193,8 +209,16 @@ export default function AlmacenPiezas() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
-  const ListarPiezasPorNombre = () => {
-    //
+  const ListarPiezasPorNombre = (nombre) => {
+    obtenerPiezaPorNombre(nombre)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_piezas', payload: response.data });
+      })
+      .then(() => {
+        buscarPiezaPorNombreDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const piezasProviderValue = useMemo(

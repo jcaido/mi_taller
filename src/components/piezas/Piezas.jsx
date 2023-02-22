@@ -6,6 +6,7 @@ import NuevaPiezaForm from './forms/NuevaPiezaForm';
 import TablaPiezas from './TablaPiezas';
 import BuscarPiezaForm from './forms/BuscarPiezaForm';
 import Pieza from './Pieza';
+import TablaPiezasBusquedas from './TablaPiezasBusquedas';
 
 export default function Piezas() {
   const {
@@ -37,6 +38,7 @@ export default function Piezas() {
       <Grid item md={8}>
         {state.formCrearPiezas ? <TablaPiezas /> : null}
         {state.piezaPorReferencia ? <Pieza /> : null}
+        {state.piezasPorNombre ? <TablaPiezasBusquedas lista={state.listaPiezas} /> : null}
       </Grid>
     </Grid>
   );
