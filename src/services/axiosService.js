@@ -280,3 +280,5 @@ export const modificarPieza = (
 };
 
 export const eliminarProveedor = (id) => axios.delete(`http://localhost:8080/api/proveedores/${id}`);
+
+export const eliminarPieza = (id) => axios.delete(`http://localhost:8080/api/piezas/${id}`);

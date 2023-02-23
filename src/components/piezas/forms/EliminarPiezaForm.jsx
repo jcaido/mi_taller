@@ -7,6 +7,7 @@ import { AlmacenPiezassContext } from '../../../pages/AlmacenPiezas';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import useModal from '../../../hooks/useModal';
+import { eliminarPieza } from '../../../services/axiosService';
 
 export default function EliminarPiezaForm() {
   const { state } = useContext(AlmacenPiezassContext);
@@ -14,8 +15,13 @@ export default function EliminarPiezaForm() {
   const modal = useModal();
 
   const handleSubmitForm = () => {
-    // TODO: Validacion en backend si tiene ordenes de reparación asociadas
-    // TODO: Validacion en backend si tiene entradas de almacen asociadas
+    eliminarPieza(state.listaPiezas.id)
+      .then(() => {
+        formik.resetForm();
+        modal.handleOpen();
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({

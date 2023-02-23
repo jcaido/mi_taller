@@ -51,7 +51,7 @@ export default function Piezas() {
           {state.formEliminarPiezas
             ? (
               <BuscarPiezaPorReferenciaForm
-                label="Editar Pieza"
+                label="Eliminar Pieza"
                 obtener={ObtenerPiezaPorReferenciaParaEliminar}
                 cerrar={CerrarFormEliminarPieza}
               />
