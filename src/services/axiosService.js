@@ -232,7 +232,7 @@ export const obtenerProveedorPorDniCif = (dniCif) => axios.get(`http://localhost
 
 export const obtenerProveedoresPorNombre = (nombre) => axios.get(`http://localhost:8080/api/proveedores/nombre-parcial/${nombre}`);
 
-export const modificarPropveedor = (
+export const modificarProveedor = (
   id,
   nombre,
   dniCif,
@@ -278,3 +278,5 @@ export const modificarPieza = (
   };
   return axios.put('http://localhost:8080/api/piezas', body);
 };
+
+export const eliminarProveedor = (id) => axios.delete(`http://localhost:8080/api/proveedores/${id}`);

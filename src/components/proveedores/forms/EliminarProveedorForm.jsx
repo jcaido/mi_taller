@@ -7,6 +7,7 @@ import useModal from '../../../hooks/useModal';
 import { AlmacenProveedoresContext } from '../../../pages/AlmacenProveedores';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
+import { eliminarProveedor } from '../../../services/axiosService';
 
 export default function EliminarProveedorForm() {
   const { state } = useContext(AlmacenProveedoresContext);
@@ -14,7 +15,13 @@ export default function EliminarProveedorForm() {
   const modal = useModal();
 
   const handleSubmitForm = () => {
-    // TODO: Validacion en backend si tiene entradas de almacén
+    eliminarProveedor(state.listaProveedores.id)
+      .then(() => {
+        formik.resetForm();
+        modal.handleOpen();
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({

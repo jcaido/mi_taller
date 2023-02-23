@@ -8,7 +8,7 @@ import useModal from '../../../hooks/useModal';
 import { AlmacenProveedoresContext } from '../../../pages/AlmacenProveedores';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
-import { modificarPropveedor, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
+import { modificarProveedor, obtenerCodigoPostalPorCodigo } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   nombre: yup
@@ -38,7 +38,7 @@ export default function EditarProveedorForm() {
   const handleSubmitForm = () => {
     obtenerCodigoPostalPorCodigo(codigoPostalRef.current.value)
       .then((response) => {
-        modificarPropveedor(
+        modificarProveedor(
           state.listaProveedores.id,
           nombreRef.current.value,
           dniCifRef.current.value,
