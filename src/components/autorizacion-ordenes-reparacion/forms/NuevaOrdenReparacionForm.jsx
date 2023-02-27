@@ -47,12 +47,12 @@ function NuevaOrdenReparacionForm() {
 
   const handleSubmitForm = () => {
     obtenerVehiculosPorMatricula(matriculaRef.current.value)
-      .then(() => {
+      .then((response) => {
         nuevaOrdenReparacion(
           fechaAperturaRef.current.value,
           descripcionRef.current.value,
           kilometrosRef.current.value,
-          3,
+          response.data.id,
         )
           .then(() => {
             formik.resetForm();
