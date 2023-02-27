@@ -2,13 +2,17 @@ import React, { useContext } from 'react';
 import { Box, Grid } from '@mui/material';
 import { AlmacenEntradasContext } from '../../pages/AlmacenEntradas';
 import NavigationButtonEntradas from './NavigationButtonEntradas';
+import NuevoAlbaranEntradasForm from './forms/NuevoAlbaranEntradasForm';
+import TablaAlbaranesEntrada from './TablaAlbaranesEntrada';
+import BuscarProveedorPorDniCifForm from '../proveedores/forms/BuscarProveedorPorDniCifForm';
+import ProveedorAlbaranesEntrada from './ProveedorAlbaranesEntrada';
 
 export default function Entradas() {
   const {
     state,
     crearAlbaranEntradasFormDispatch,
-    buscarProveedorFormDispatch,
-    buscarPiezaFormDispatch,
+    ObtenerProveedorPorDniCif,
+    CerrarFormBuscarProveedor,
   } = useContext(AlmacenEntradasContext);
 
   return (
@@ -17,22 +21,38 @@ export default function Entradas() {
         <Box mt={1}>
           <NavigationButtonEntradas
             crearAlbaran={crearAlbaranEntradasFormDispatch}
-            buscarProveedor={buscarProveedorFormDispatch}
-            buscarPieza={buscarPiezaFormDispatch}
           />
         </Box>
       </Grid>
-      <Grid item md={4}>
-        <Box>
-          {state.formCrearAlbaranEntradas ? <p>formulario crear albaran</p> : null}
-        </Box>
-      </Grid>
-      <Grid item md={4}>
-        <Box>
-          {state.formBuscarProveedor ? <p>formulario buscar proveedor</p> : null}
-          {state.formBuscarPieza ? <p>formulario buscar pieza</p> : null}
-        </Box>
-      </Grid>
+      {state.formCrearAlbaranEntradas
+        ? (
+          <>
+            <Grid item md={4}>
+              <Box>
+                <NuevoAlbaranEntradasForm />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box>
+                <BuscarProveedorPorDniCifForm
+                  label="Buscar proveedor"
+                  obtener={ObtenerProveedorPorDniCif}
+                  cerrar={CerrarFormBuscarProveedor}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box>
+                {state.proveedor ? <ProveedorAlbaranesEntrada /> : null}
+              </Box>
+            </Grid>
+            <Grid item md={12}>
+              <Box>
+                <TablaAlbaranesEntrada />
+              </Box>
+            </Grid>
+          </>
+        ) : null}
     </Grid>
   );
 }

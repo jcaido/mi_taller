@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { BottomNavigation } from '@mui/material';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import FactoryIcon from '@mui/icons-material/Factory';
-import ToysIcon from '@mui/icons-material/Toys';
 import Tooltip from '@mui/material/Tooltip';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import useNavigationButton from '../../hooks/useNavigationButton';
 
-export default function NavigationButtonEntradas({ crearAlbaran, buscarProveedor, buscarPieza }) {
+export default function NavigationButtonEntradas({ crearAlbaran }) {
   const changeButton = useNavigationButton('seleccionar');
 
   const navigate = useNavigate();
@@ -22,22 +20,6 @@ export default function NavigationButtonEntradas({ crearAlbaran, buscarProveedor
           value="crear"
           icon={<PlaylistAddIcon />}
           onClick={crearAlbaran}
-        />
-      </Tooltip>
-      <Tooltip title="proveedores">
-        <BottomNavigationAction
-          label="proveedores"
-          value="proveedores"
-          icon={<FactoryIcon />}
-          onClick={buscarProveedor}
-        />
-      </Tooltip>
-      <Tooltip title="piezas">
-        <BottomNavigationAction
-          label="piezas"
-          value="piezas"
-          icon={<ToysIcon />}
-          onClick={buscarPieza}
         />
       </Tooltip>
       <Tooltip title="volver opciones-almacen">

@@ -282,3 +282,14 @@ export const modificarPieza = (
 export const eliminarProveedor = (id) => axios.delete(`http://localhost:8080/api/proveedores/${id}`);
 
 export const eliminarPieza = (id) => axios.delete(`http://localhost:8080/api/piezas/${id}`);
+
+export const obtenerAlbaranesEntrada = () => axios.get('http://localhost:8080/api/albaranProveedor/parcial');
+
+export const nuevoAlbaranEntrada = (fechaAlbaran, numeroAlbaran, idProveedor) => {
+  const body = {
+    fechaAlbaran,
+    numeroAlbaran,
+  };
+
+  return axios.post(`http://localhost:8080/api/albaranProveedor/${idProveedor}`, body);
+};

@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 import Entradas from '../components/entradas/Entradas';
+import { obtenerAlbaranesEntrada, obtenerProveedorPorDniCif } from '../services/axiosService';
 
 export const AlmacenEntradasContext = createContext();
 
@@ -12,10 +13,10 @@ export default function AlmacenEntradas() {
 
   const entradasInicial = {
     formCrearAlbaranEntradas: false,
-    formBuscarProveedor: false,
-    formBuscarPieza: false,
+    proveedor: false,
     listaProveedores: [],
     listaPiezas: [],
+    listaAlbaranesEntrada: [],
   };
 
   const albaranEntradasReducer = (state, action) => {
@@ -24,8 +25,7 @@ export default function AlmacenEntradas() {
         return {
           ...state,
           formCrearAlbaranEntradas: action.payload.formCrearAlbaranEntradas,
-          formBuscarProveedor: action.payload.formBuscarProveedor,
-          formBuscarPieza: action.payload.formBuscarPieza,
+          proveedor: action.payload.proveedor,
         };
       case 'actualizar_lista_proveedores':
         return {
@@ -36,6 +36,16 @@ export default function AlmacenEntradas() {
         return {
           ...state,
           listaPiezas: action.payload,
+        };
+      case 'actualizar_lista_albaranes':
+        return {
+          ...state,
+          listaAlbaranesEntrada: action.payload,
+        };
+      case 'cerrar_formulario_buscar_proveedor':
+        return {
+          ...state,
+          proveedor: action.payload,
         };
       default:
         return state;
@@ -49,47 +59,68 @@ export default function AlmacenEntradas() {
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: true,
-        formBuscarProveedor: false,
-        formBuscarPieza: false,
+        proveedor: false,
       },
     });
   }
 
-  function buscarProveedorFormDispatch() {
+  function buscarProveedorPorDniCifDispatch() {
     dispatch({
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: true,
-        formBuscarProveedor: true,
-        formBuscarPieza: false,
+        proveedor: true,
       },
     });
   }
 
-  function buscarPiezaFormDispatch() {
-    dispatch({
-      type: 'albaranesEntrada',
-      payload: {
-        formCrearAlbaranEntradas: true,
-        formBuscarProveedor: false,
-        formBuscarPieza: true,
-      },
-    });
-  }
+  const ListarAlbaranesEntrada = () => {
+    obtenerAlbaranesEntrada()
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+      })
+      .catch(() => {
+        modal.handleOpenError('Something went wrong');
+      });
+  };
+
+  const ObtenerProveedorPorDniCif = (dniCif) => {
+    obtenerProveedorPorDniCif(dniCif)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_proveedores', payload: response.data });
+      })
+      .then(() => {
+        buscarProveedorPorDniCifDispatch();
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          modal.handleOpenError(error.response.data.mensaje);
+        }
+        if (error.response.status === 400) {
+          modal.handleOpenError('datos invalidos');
+        }
+      });
+  };
+
+  const CerrarFormBuscarProveedor = () => {
+    dispatch({ type: 'cerrar_formulario_buscar_proveedor', payload: false });
+  };
 
   const albaranesEntradaProvider = useMemo(
     () => ({
       state,
       crearAlbaranEntradasFormDispatch,
-      buscarProveedorFormDispatch,
-      buscarPiezaFormDispatch,
+      ListarAlbaranesEntrada,
+      ObtenerProveedorPorDniCif,
+      CerrarFormBuscarProveedor,
     }
     ),
     [
       state,
       crearAlbaranEntradasFormDispatch,
-      buscarProveedorFormDispatch,
-      buscarPiezaFormDispatch,
+      ListarAlbaranesEntrada,
+      ObtenerProveedorPorDniCif,
+      CerrarFormBuscarProveedor,
     ],
   );
 
