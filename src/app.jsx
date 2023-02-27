@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Almacen from './pages/Almacen';
+import AlmacenEntradas from './pages/AlmacenEntradas';
 import AlmacenOpciones from './pages/AlmacenOpciones';
 import AlmacenPiezas from './pages/AlmacenPiezas';
 import AlmacenProveedores from './pages/AlmacenProveedores';
@@ -31,7 +32,7 @@ function App() {
           <Route path="opciones" element={<AlmacenOpciones />} />
           <Route path="proveedores" element={<AlmacenProveedores />} />
           <Route path="piezas" element={<AlmacenPiezas />} />
-          <Route path="entradas" element={<p>entradas</p>} />
+          <Route path="entradas" element={<AlmacenEntradas />} />
           <Route path="informes" element={<p>informes</p>} />
         </Route>
         <Route path="/facturacion" element={<Facturacion />} />
