@@ -3,10 +3,9 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { AlmacenProveedoresContext } from '../../pages/AlmacenProveedores';
 
-export default function Proveedor() {
-  const { state } = useContext(AlmacenProveedoresContext);
+export default function Proveedor({ context }) {
+  const { state } = useContext(context);
 
   return (
     <Box m={3}>

@@ -5,7 +5,7 @@ import NavigationButtonEntradas from './NavigationButtonEntradas';
 import NuevoAlbaranEntradasForm from './forms/NuevoAlbaranEntradasForm';
 import TablaAlbaranesEntrada from './TablaAlbaranesEntrada';
 import BuscarProveedorPorDniCifForm from '../proveedores/forms/BuscarProveedorPorDniCifForm';
-import ProveedorAlbaranesEntrada from './ProveedorAlbaranesEntrada';
+import Proveedor from '../proveedores/Proveedor';
 
 export default function Entradas() {
   const {
@@ -43,7 +43,7 @@ export default function Entradas() {
             </Grid>
             <Grid item md={4}>
               <Box>
-                {state.proveedor ? <ProveedorAlbaranesEntrada /> : null}
+                {state.proveedor ? <Proveedor context={AlmacenEntradasContext} /> : null}
               </Box>
             </Grid>
             <Grid item md={12}>

@@ -60,7 +60,7 @@ export default function Proveedores() {
       </Grid>
       <Grid item md={8}>
         {state.formCrearProveedor ? <TablaProveedores /> : null}
-        {state.proveedorPorDniCif ? <Proveedor /> : null}
+        {state.proveedorPorDniCif ? <Proveedor context={AlmacenProveedoresContext} /> : null}
         {state.proveedoresPorNombre
           ? <TablaProveedoresBusquedas lista={state.listaProveedores} /> : null}
         {state.editarProveedor ? <EditarProveedorForm /> : null}
