@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 import Entradas from '../components/entradas/Entradas';
-import { obtenerAlbaranesEntrada, obtenerProveedorPorDniCif } from '../services/axiosService';
+import { obtenerAlbaranesEntrada, obtenerAlbaranPorId, obtenerProveedorPorDniCif } from '../services/axiosService';
 
 export const AlmacenEntradasContext = createContext();
 
@@ -14,6 +14,9 @@ export default function AlmacenEntradas() {
   const entradasInicial = {
     formCrearAlbaranEntradas: false,
     proveedor: false,
+    formSeleccionarAlbaran: false,
+    formNuevaEntrada: false,
+    viewDetalleAlbaran: false,
     listaProveedores: [],
     listaPiezas: [],
     listaAlbaranesEntrada: [],
@@ -26,6 +29,9 @@ export default function AlmacenEntradas() {
           ...state,
           formCrearAlbaranEntradas: action.payload.formCrearAlbaranEntradas,
           proveedor: action.payload.proveedor,
+          formSeleccionarAlbaran: action.payload.formSeleccionarAlbaran,
+          formNuevaEntrada: action.payload.formNuevaEntrada,
+          viewDetalleAlbaran: action.payload.viewDetalleAlbaran,
         };
       case 'actualizar_lista_proveedores':
         return {
@@ -47,6 +53,16 @@ export default function AlmacenEntradas() {
           ...state,
           proveedor: action.payload,
         };
+      case 'cerrar_formulario_nueva_entrada':
+        return {
+          ...state,
+          formNuevaEntrada: action.payload,
+        };
+      case 'cerrar_vista_detalle_albaran':
+        return {
+          ...state,
+          viewDetalleAlbaran: action.payload,
+        };
       default:
         return state;
     }
@@ -60,6 +76,9 @@ export default function AlmacenEntradas() {
       payload: {
         formCrearAlbaranEntradas: true,
         proveedor: false,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
       },
     });
   }
@@ -70,6 +89,35 @@ export default function AlmacenEntradas() {
       payload: {
         formCrearAlbaranEntradas: true,
         proveedor: true,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
+      },
+    });
+  }
+
+  function addEntradasFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        proveedor: false,
+        formSeleccionarAlbaran: true,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
+      },
+    });
+  }
+
+  function NuevaEntradaYDetalleFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        proveedor: false,
+        formSeleccionarAlbaran: true,
+        formNuevaEntrada: true,
+        viewDetalleAlbaran: true,
       },
     });
   }
@@ -106,6 +154,30 @@ export default function AlmacenEntradas() {
     dispatch({ type: 'cerrar_formulario_buscar_proveedor', payload: false });
   };
 
+  const ObtenerAlbaranPorId = (id) => {
+    obtenerAlbaranPorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+      })
+      .then(() => {
+        NuevaEntradaYDetalleFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const CerrarFormNuevaEntradaYDetalleAlbaran = () => {
+    dispatch({ type: 'cerrar_formulario_nueva_entrada', payload: false });
+    dispatch({ type: 'cerrar_vista_detalle_albaran', payload: false });
+  };
+
+  const ObtenerAlbaranPorIdParaActualizar = (id) => {
+    obtenerAlbaranPorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+      });
+  };
+
   const albaranesEntradaProvider = useMemo(
     () => ({
       state,
@@ -113,6 +185,10 @@ export default function AlmacenEntradas() {
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
+      addEntradasFormDispatch,
+      ObtenerAlbaranPorId,
+      CerrarFormNuevaEntradaYDetalleAlbaran,
+      ObtenerAlbaranPorIdParaActualizar,
     }
     ),
     [
@@ -121,6 +197,10 @@ export default function AlmacenEntradas() {
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
+      addEntradasFormDispatch,
+      ObtenerAlbaranPorId,
+      CerrarFormNuevaEntradaYDetalleAlbaran,
+      ObtenerAlbaranPorIdParaActualizar,
     ],
   );
 

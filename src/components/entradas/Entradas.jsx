@@ -6,6 +6,9 @@ import NuevoAlbaranEntradasForm from './forms/NuevoAlbaranEntradasForm';
 import TablaAlbaranesEntrada from './TablaAlbaranesEntrada';
 import BuscarProveedorPorDniCifForm from '../proveedores/forms/BuscarProveedorPorDniCifForm';
 import Proveedor from '../proveedores/Proveedor';
+import BuscarAlbaranPorIdForm from './forms/BuscarAlbaranPorIdForm';
+import NuevaEntradaPiezaForm from './forms/NuevaEntradaPiezaForm';
+import DetalleAlbaran from './DetalleAlbaran';
 
 export default function Entradas() {
   const {
@@ -13,6 +16,9 @@ export default function Entradas() {
     crearAlbaranEntradasFormDispatch,
     ObtenerProveedorPorDniCif,
     CerrarFormBuscarProveedor,
+    addEntradasFormDispatch,
+    ObtenerAlbaranPorId,
+    CerrarFormNuevaEntradaYDetalleAlbaran,
   } = useContext(AlmacenEntradasContext);
 
   return (
@@ -21,6 +27,7 @@ export default function Entradas() {
         <Box mt={1}>
           <NavigationButtonEntradas
             crearAlbaran={crearAlbaranEntradasFormDispatch}
+            addEntradas={addEntradasFormDispatch}
           />
         </Box>
       </Grid>
@@ -49,6 +56,32 @@ export default function Entradas() {
             <Grid item md={12}>
               <Box>
                 <TablaAlbaranesEntrada />
+              </Box>
+            </Grid>
+          </>
+        ) : null}
+      {state.formSeleccionarAlbaran
+        ? (
+          <>
+            <Grid item md={4}>
+              <Box>
+                <BuscarAlbaranPorIdForm
+                  label="Seleccionar albaran"
+                  obtener={ObtenerAlbaranPorId}
+                  cerrar={CerrarFormNuevaEntradaYDetalleAlbaran}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box>
+                {state.formNuevaEntrada
+                  ? <NuevaEntradaPiezaForm albaran={state.listaAlbaranesEntrada} /> : null}
+              </Box>
+            </Grid>
+            <Grid item md={12}>
+              <Box>
+                {state.viewDetalleAlbaran
+                  ? <DetalleAlbaran albaran={state.listaAlbaranesEntrada} /> : null}
               </Box>
             </Grid>
           </>
