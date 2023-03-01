@@ -9,16 +9,20 @@ import Proveedor from '../proveedores/Proveedor';
 import BuscarAlbaranPorIdForm from './forms/BuscarAlbaranPorIdForm';
 import NuevaEntradaPiezaForm from './forms/NuevaEntradaPiezaForm';
 import DetalleAlbaran from './DetalleAlbaran';
+import EditarAlbaranForm from './forms/EditarAlbaranForm';
 
 export default function Entradas() {
   const {
     state,
     crearAlbaranEntradasFormDispatch,
+    seleccionarParaEditarAlbaranFormDispatch,
     ObtenerProveedorPorDniCif,
     CerrarFormBuscarProveedor,
     addEntradasFormDispatch,
     ObtenerAlbaranPorId,
+    ObtenerAlbaranPorIdParaModificar,
     CerrarFormNuevaEntradaYDetalleAlbaran,
+    CerrarFormEditarAlbaran,
   } = useContext(AlmacenEntradasContext);
 
   return (
@@ -27,6 +31,7 @@ export default function Entradas() {
         <Box mt={1}>
           <NavigationButtonEntradas
             crearAlbaran={crearAlbaranEntradasFormDispatch}
+            editarAlbaran={seleccionarParaEditarAlbaranFormDispatch}
             addEntradas={addEntradasFormDispatch}
           />
         </Box>
@@ -66,7 +71,7 @@ export default function Entradas() {
             <Grid item md={4}>
               <Box>
                 <BuscarAlbaranPorIdForm
-                  label="Seleccionar albaran"
+                  label="Seleccionar albaran para añadir entradas"
                   obtener={ObtenerAlbaranPorId}
                   cerrar={CerrarFormNuevaEntradaYDetalleAlbaran}
                 />
@@ -83,6 +88,23 @@ export default function Entradas() {
                 {state.viewDetalleAlbaran
                   ? <DetalleAlbaran albaran={state.listaAlbaranesEntrada} /> : null}
               </Box>
+            </Grid>
+          </>
+        ) : null}
+      {state.formSeleccionarParaEditar
+        ? (
+          <>
+            <Grid item md={4}>
+              <Box>
+                <BuscarAlbaranPorIdForm
+                  label="Seleccionar albaran para editarlo"
+                  obtener={ObtenerAlbaranPorIdParaModificar}
+                  cerrar={CerrarFormEditarAlbaran}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              {state.formEditarAlbaran ? <EditarAlbaranForm /> : null}
             </Grid>
           </>
         ) : null}

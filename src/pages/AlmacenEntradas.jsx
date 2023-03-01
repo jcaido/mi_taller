@@ -13,6 +13,8 @@ export default function AlmacenEntradas() {
 
   const entradasInicial = {
     formCrearAlbaranEntradas: false,
+    formSeleccionarParaEditar: false,
+    formEditarAlbaran: false,
     proveedor: false,
     formSeleccionarAlbaran: false,
     formNuevaEntrada: false,
@@ -28,6 +30,8 @@ export default function AlmacenEntradas() {
         return {
           ...state,
           formCrearAlbaranEntradas: action.payload.formCrearAlbaranEntradas,
+          formSeleccionarParaEditar: action.payload.formSeleccionarParaEditar,
+          formEditarAlbaran: action.payload.formEditarAlbaran,
           proveedor: action.payload.proveedor,
           formSeleccionarAlbaran: action.payload.formSeleccionarAlbaran,
           formNuevaEntrada: action.payload.formNuevaEntrada,
@@ -63,6 +67,11 @@ export default function AlmacenEntradas() {
           ...state,
           viewDetalleAlbaran: action.payload,
         };
+      case 'cerrar_formulario_editar_albaran':
+        return {
+          ...state,
+          formEditarAlbaran: action.payload,
+        };
       default:
         return state;
     }
@@ -75,6 +84,8 @@ export default function AlmacenEntradas() {
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: true,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -88,6 +99,8 @@ export default function AlmacenEntradas() {
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: true,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
         proveedor: true,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -101,6 +114,8 @@ export default function AlmacenEntradas() {
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: true,
         formNuevaEntrada: false,
@@ -114,10 +129,42 @@ export default function AlmacenEntradas() {
       type: 'albaranesEntrada',
       payload: {
         formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: true,
         formNuevaEntrada: true,
         viewDetalleAlbaran: true,
+      },
+    });
+  }
+
+  function seleccionarParaEditarAlbaranFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: true,
+        formEditarAlbaran: false,
+        proveedor: false,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
+      },
+    });
+  }
+
+  function editarAlbaranFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: true,
+        formEditarAlbaran: true,
+        proveedor: false,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
       },
     });
   }
@@ -166,6 +213,20 @@ export default function AlmacenEntradas() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerAlbaranPorIdParaModificar = (id) => {
+    obtenerAlbaranPorId(id)
+      .then((response) => {
+        if (response.data.facturado === true) {
+          modal.handleOpenError('el  albarán ya está facturado');
+        } else {
+          dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+          editarAlbaranFormDispatch();
+        }
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const CerrarFormNuevaEntradaYDetalleAlbaran = () => {
     dispatch({ type: 'cerrar_formulario_nueva_entrada', payload: false });
     dispatch({ type: 'cerrar_vista_detalle_albaran', payload: false });
@@ -178,29 +239,39 @@ export default function AlmacenEntradas() {
       });
   };
 
+  const CerrarFormEditarAlbaran = () => {
+    dispatch({ type: 'cerrar_formulario_editar_albaran', payload: false });
+  };
+
   const albaranesEntradaProvider = useMemo(
     () => ({
       state,
       crearAlbaranEntradasFormDispatch,
+      seleccionarParaEditarAlbaranFormDispatch,
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
       addEntradasFormDispatch,
       ObtenerAlbaranPorId,
+      ObtenerAlbaranPorIdParaModificar,
       CerrarFormNuevaEntradaYDetalleAlbaran,
       ObtenerAlbaranPorIdParaActualizar,
+      CerrarFormEditarAlbaran,
     }
     ),
     [
       state,
       crearAlbaranEntradasFormDispatch,
+      seleccionarParaEditarAlbaranFormDispatch,
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
       addEntradasFormDispatch,
       ObtenerAlbaranPorId,
+      ObtenerAlbaranPorIdParaModificar,
       CerrarFormNuevaEntradaYDetalleAlbaran,
       ObtenerAlbaranPorIdParaActualizar,
+      CerrarFormEditarAlbaran,
     ],
   );
 

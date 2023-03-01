@@ -306,3 +306,17 @@ export const nuevaEntradaPieza = (cantidad, precioEntrada, idPieza, idAlbaranPro
 
   return axios.post(`http://localhost:8080/api/entrada-pieza/${idPieza}/${idAlbaranProveedor}`, body);
 };
+
+export const modificarAlbaranEntradas = (
+  id,
+  fechaAlbaran,
+  numeroAlbaran,
+  idProveedor,
+) => {
+  const body = {
+    id,
+    fechaAlbaran,
+    numeroAlbaran,
+  };
+  return axios.put(`http://localhost:8080/api/albaranProveedor/${idProveedor}`, body);
+};
