@@ -15,6 +15,8 @@ export default function AlmacenEntradas() {
     formCrearAlbaranEntradas: false,
     formSeleccionarParaEditar: false,
     formEditarAlbaran: false,
+    formSeleccionarParaEliminar: false,
+    formEliminarAlbaran: false,
     proveedor: false,
     formSeleccionarAlbaran: false,
     formNuevaEntrada: false,
@@ -32,6 +34,8 @@ export default function AlmacenEntradas() {
           formCrearAlbaranEntradas: action.payload.formCrearAlbaranEntradas,
           formSeleccionarParaEditar: action.payload.formSeleccionarParaEditar,
           formEditarAlbaran: action.payload.formEditarAlbaran,
+          formSeleccionarParaEliminar: action.payload.formSeleccionarParaEliminar,
+          formEliminarAlbaran: action.payload.formEliminarAlbaran,
           proveedor: action.payload.proveedor,
           formSeleccionarAlbaran: action.payload.formSeleccionarAlbaran,
           formNuevaEntrada: action.payload.formNuevaEntrada,
@@ -72,6 +76,11 @@ export default function AlmacenEntradas() {
           ...state,
           formEditarAlbaran: action.payload,
         };
+      case 'cerrar_formulario_eliminar_albaran':
+        return {
+          ...state,
+          formEliminarAlbaran: action.payload,
+        };
       default:
         return state;
     }
@@ -86,6 +95,8 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: true,
         formSeleccionarParaEditar: false,
         formEditarAlbaran: false,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -101,6 +112,8 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: true,
         formSeleccionarParaEditar: false,
         formEditarAlbaran: false,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
         proveedor: true,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -116,6 +129,8 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: false,
         formSeleccionarParaEditar: false,
         formEditarAlbaran: false,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: true,
         formNuevaEntrada: false,
@@ -131,6 +146,8 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: false,
         formSeleccionarParaEditar: false,
         formEditarAlbaran: false,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: true,
         formNuevaEntrada: true,
@@ -146,6 +163,25 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: false,
         formSeleccionarParaEditar: true,
         formEditarAlbaran: false,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
+        proveedor: false,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
+      },
+    });
+  }
+
+  function seleccionarParaEliminrAlbaranFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
+        formSeleccionarParaEliminar: true,
+        formEliminarAlbaran: false,
         proveedor: false,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -161,6 +197,26 @@ export default function AlmacenEntradas() {
         formCrearAlbaranEntradas: false,
         formSeleccionarParaEditar: true,
         formEditarAlbaran: true,
+        formSeleccionarParaEliminar: false,
+        formEliminarAlbaran: false,
+        proveedor: false,
+        formSeleccionarAlbaran: false,
+        formNuevaEntrada: false,
+        viewDetalleAlbaran: false,
+      },
+    });
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  function eliminarAlbaranFormDispatch() {
+    dispatch({
+      type: 'albaranesEntrada',
+      payload: {
+        formCrearAlbaranEntradas: false,
+        formSeleccionarParaEditar: false,
+        formEditarAlbaran: false,
+        formSeleccionarParaEliminar: true,
+        formEliminarAlbaran: true,
         proveedor: false,
         formSeleccionarAlbaran: false,
         formNuevaEntrada: false,
@@ -204,10 +260,10 @@ export default function AlmacenEntradas() {
   const ObtenerAlbaranPorId = (id) => {
     obtenerAlbaranPorId(id)
       .then((response) => {
-        dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
-      })
-      .then(() => {
-        NuevaEntradaYDetalleFormDispatch();
+        if (id !== '') {
+          dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+          NuevaEntradaYDetalleFormDispatch();
+        }
       })
       .catch((error) => error.response.status === 404
       && modal.handleOpenError(error.response.data.mensaje));
@@ -218,9 +274,23 @@ export default function AlmacenEntradas() {
       .then((response) => {
         if (response.data.facturado === true) {
           modal.handleOpenError('el  albarán ya está facturado');
-        } else {
+        } else if (id !== '') {
           dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
           editarAlbaranFormDispatch();
+        }
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const ObtenerAlbaranPorIdParaEliminar = (id) => {
+    obtenerAlbaranPorId(id)
+      .then((response) => {
+        if (response.data.facturado === true) {
+          modal.handleOpenError('el  albarán ya está facturado');
+        } else if (id !== '') {
+          dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
+          eliminarAlbaranFormDispatch();
         }
       })
       .catch((error) => error.response.status === 404
@@ -243,35 +313,45 @@ export default function AlmacenEntradas() {
     dispatch({ type: 'cerrar_formulario_editar_albaran', payload: false });
   };
 
+  const CerrarFormEliminarAlbaran = () => {
+    dispatch({ type: 'cerrar_formulario_eliminar_albaran', payload: false });
+  };
+
   const albaranesEntradaProvider = useMemo(
     () => ({
       state,
       crearAlbaranEntradasFormDispatch,
       seleccionarParaEditarAlbaranFormDispatch,
+      seleccionarParaEliminrAlbaranFormDispatch,
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
       addEntradasFormDispatch,
       ObtenerAlbaranPorId,
       ObtenerAlbaranPorIdParaModificar,
+      ObtenerAlbaranPorIdParaEliminar,
       CerrarFormNuevaEntradaYDetalleAlbaran,
       ObtenerAlbaranPorIdParaActualizar,
       CerrarFormEditarAlbaran,
+      CerrarFormEliminarAlbaran,
     }
     ),
     [
       state,
       crearAlbaranEntradasFormDispatch,
       seleccionarParaEditarAlbaranFormDispatch,
+      seleccionarParaEliminrAlbaranFormDispatch,
       ListarAlbaranesEntrada,
       ObtenerProveedorPorDniCif,
       CerrarFormBuscarProveedor,
       addEntradasFormDispatch,
       ObtenerAlbaranPorId,
       ObtenerAlbaranPorIdParaModificar,
+      ObtenerAlbaranPorIdParaEliminar,
       CerrarFormNuevaEntradaYDetalleAlbaran,
       ObtenerAlbaranPorIdParaActualizar,
       CerrarFormEditarAlbaran,
+      CerrarFormEliminarAlbaran,
     ],
   );
 

@@ -10,19 +10,23 @@ import BuscarAlbaranPorIdForm from './forms/BuscarAlbaranPorIdForm';
 import NuevaEntradaPiezaForm from './forms/NuevaEntradaPiezaForm';
 import DetalleAlbaran from './DetalleAlbaran';
 import EditarAlbaranForm from './forms/EditarAlbaranForm';
+import EliminarAlbaranForm from './forms/EliminarAlbaranForm';
 
 export default function Entradas() {
   const {
     state,
     crearAlbaranEntradasFormDispatch,
     seleccionarParaEditarAlbaranFormDispatch,
+    seleccionarParaEliminrAlbaranFormDispatch,
     ObtenerProveedorPorDniCif,
     CerrarFormBuscarProveedor,
     addEntradasFormDispatch,
     ObtenerAlbaranPorId,
     ObtenerAlbaranPorIdParaModificar,
+    ObtenerAlbaranPorIdParaEliminar,
     CerrarFormNuevaEntradaYDetalleAlbaran,
     CerrarFormEditarAlbaran,
+    CerrarFormEliminarAlbaran,
   } = useContext(AlmacenEntradasContext);
 
   return (
@@ -32,6 +36,7 @@ export default function Entradas() {
           <NavigationButtonEntradas
             crearAlbaran={crearAlbaranEntradasFormDispatch}
             editarAlbaran={seleccionarParaEditarAlbaranFormDispatch}
+            eliminarAlbaran={seleccionarParaEliminrAlbaranFormDispatch}
             addEntradas={addEntradasFormDispatch}
           />
         </Box>
@@ -105,6 +110,23 @@ export default function Entradas() {
             </Grid>
             <Grid item md={4}>
               {state.formEditarAlbaran ? <EditarAlbaranForm /> : null}
+            </Grid>
+          </>
+        ) : null}
+      {state.formSeleccionarParaEliminar
+        ? (
+          <>
+            <Grid item md={4}>
+              <Box>
+                <BuscarAlbaranPorIdForm
+                  label="Seleccionar albaran para eliminarlo"
+                  obtener={ObtenerAlbaranPorIdParaEliminar}
+                  cerrar={CerrarFormEliminarAlbaran}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              {state.formEliminarAlbaran ? <EliminarAlbaranForm /> : null}
             </Grid>
           </>
         ) : null}

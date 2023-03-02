@@ -320,3 +320,5 @@ export const modificarAlbaranEntradas = (
   };
   return axios.put(`http://localhost:8080/api/albaranProveedor/${idProveedor}`, body);
 };
+
+export const eliminarAlbaranEntradas = (id) => axios.delete(`http://localhost:8080/api/albaranProveedor/${id}`);

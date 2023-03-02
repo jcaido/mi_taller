@@ -5,11 +5,17 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CreateIcon from '@mui/icons-material/Create';
 import ToysIcon from '@mui/icons-material/Toys';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import useNavigationButton from '../../hooks/useNavigationButton';
 
-export default function NavigationButtonEntradas({ crearAlbaran, editarAlbaran, addEntradas }) {
+export default function NavigationButtonEntradas({
+  crearAlbaran,
+  editarAlbaran,
+  addEntradas,
+  eliminarAlbaran,
+}) {
   const changeButton = useNavigationButton('seleccionar');
 
   const navigate = useNavigate();
@@ -30,6 +36,14 @@ export default function NavigationButtonEntradas({ crearAlbaran, editarAlbaran, 
           value="editar"
           icon={<CreateIcon />}
           onClick={editarAlbaran}
+        />
+      </Tooltip>
+      <Tooltip title="eliminar albaran">
+        <BottomNavigationAction
+          label="eliminar"
+          value="eliminar"
+          icon={<DeleteIcon />}
+          onClick={eliminarAlbaran}
         />
       </Tooltip>
       <Tooltip title="añadir entradas a un albarán">
