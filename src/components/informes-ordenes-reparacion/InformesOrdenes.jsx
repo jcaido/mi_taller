@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import OrdenesAbiertasPDF from './OrdenesAbiertasPDF';
@@ -13,7 +14,7 @@ import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
 import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
 import ModalErrores from '../../utils/ModalErrores';
-import NavigationButtonInfoOrdenes from './NavigationButtonInfoOrdenes';
+import NavigationButtonInfoOrdenes from '../NavigationButtonInformes';
 import BuscarOrdenReparacionPorMatriculaForm from './forms/BuscarOrdenReparacionPorMatriculaForm';
 import HistoricoOrdenesCerradasPorVehiculoPDF from './HistoricoOrdenesCerradasPorVehiculoPDF';
 import PreciosManoDeObraPDF from './PreciosManoDeObraPDF';
@@ -22,6 +23,8 @@ import useModal from '../../hooks/useModal';
 
 function InformesOrdenes() {
   const modal = useModal();
+
+  const navigate = useNavigate();
 
   const [tablaOrdenesReparacionAbiertas, setTablaOrdenesReparacionAbiertas] = useState(false);
   const [formEntreFechas, setFormEntreFechas] = useState(false);
@@ -234,11 +237,15 @@ function InformesOrdenes() {
       });
   };
 
+  const handleClickBotonRegresar = () => {
+    navigate('/taller/opciones');
+  };
+
   return (
     <Grid container rowSpacing={1}>
       <Grid item md={12}>
         <Box mt={1}>
-          <NavigationButtonInfoOrdenes />
+          <NavigationButtonInfoOrdenes botonRegresar={handleClickBotonRegresar} />
         </Box>
       </Grid>
       <Grid item md={3}>
