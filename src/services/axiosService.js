@@ -324,3 +324,5 @@ export const modificarAlbaranEntradas = (
 export const eliminarAlbaranEntradas = (id) => axios.delete(`http://localhost:8080/api/albaranProveedor/${id}`);
 
 export const obtenerInventarioActualAlmacen = () => axios.get('http://localhost:8080/api/almacen/inventario');
+
+export const obtenerInventarioFecha = (fecha) => axios.get(`http://localhost:8080/api/almacen/inventario/${fecha}`);
