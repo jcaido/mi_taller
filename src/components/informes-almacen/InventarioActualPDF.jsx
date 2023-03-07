@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Page, Text, View, Document, StyleSheet, PDFViewer,
 } from '@react-pdf/renderer';
-import { obtenerInventarioActualAlmacen } from '../../services/axiosService';
 
-export default function InventarioActualAlmacenPDF() {
-  const [listaInventarioActualAlmacen, setListaInventarioActualAlmacen] = useState([]);
-
-  useEffect(() => {
-    obtenerInventarioActualAlmacen()
-      .then((response) => {
-        setListaInventarioActualAlmacen(response.data);
-      });
-  }, []);
-
+export default function InventarioActualPDF({ listaInventarioActual }) {
   const styles = StyleSheet.create({
     page: {
       paddingTop: 35,
@@ -93,9 +83,9 @@ export default function InventarioActualAlmacenPDF() {
               <Text style={styles.pieza}>Pieza</Text>
               <Text style={styles.cantidad}>Cantidad (uds)</Text>
             </View>
-            {listaInventarioActualAlmacen.map(
+            {listaInventarioActual.map(
               (piezaLinea) => (
-                <View style={styles.row} key={piezaLinea.id}>
+                <View style={styles.row} key={piezaLinea.piezaReferencia}>
                   <Text style={styles.referencia}>{piezaLinea.piezaReferencia}</Text>
                   <Text style={styles.pieza}>{piezaLinea.piezaNombre}</Text>
                   <Text style={styles.cantidad}>{piezaLinea.total}</Text>

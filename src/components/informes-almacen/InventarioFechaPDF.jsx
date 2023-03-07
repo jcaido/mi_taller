@@ -101,7 +101,7 @@ export default function InventarioFechaPDF({ listaInventario, fechaInventario })
             </View>
             {listaInventario.map(
               (piezaLinea) => (
-                <View style={styles.row} key={piezaLinea.id}>
+                <View style={styles.row} key={piezaLinea.piezaReferencia}>
                   <Text style={styles.referencia}>{piezaLinea.piezaReferencia}</Text>
                   <Text style={styles.pieza}>{piezaLinea.piezaNombre}</Text>
                   <Text style={styles.cantidad}>{piezaLinea.total}</Text>
