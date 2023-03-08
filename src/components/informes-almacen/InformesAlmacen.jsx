@@ -5,10 +5,12 @@ import Button from '@mui/material/Button';
 import NavigationButtonInformes from '../NavigationButtonInformes';
 import InventarioActualPDF from './InventarioActualPDF';
 import InventarioFechaForm from './forms/InventarioFechaForm';
-import { obtenerInventarioFecha } from '../../services/axiosService';
+import { obtenerInventarioFecha, obtenerMovimientosPieza } from '../../services/axiosService';
 import useModal from '../../hooks/useModal';
 import InventarioFechaPDF from './InventarioFechaPDF';
 import ModalErrores from '../../utils/ModalErrores';
+import BuscarPiezaPorReferenciaForm from '../piezas/forms/BuscarPiezaPorReferenciaForm';
+import MovimientosPiezaPDF from './MovimientosPiezaPDF';
 
 export default function InformesAlmacen() {
   const modal = useModal();
@@ -18,13 +20,18 @@ export default function InformesAlmacen() {
   const [tablaInventarioFecha, setTablaInventarioFecha] = useState(false);
   const [listaInventarioFecha, setListaInventarioFecha] = useState([]);
   const [fechaInventario, setFechaInventario] = useState();
-
+  const [formSeleccionarPieza, setFormSeleccionarPieza] = useState(false);
   const [pdfInventario, setPdfInventario] = useState(false);
+  const [pdfMovimientosPieza, setPdfMovimientosPieza] = useState(false);
+  const [listaMovimientosPieza, setListaMovimientosPieza] = useState([]);
+  const [referenciaPieza, setReferenciaPieza] = useState();
 
   const handleClickInventarioFecha = () => {
     setPdfInventario(false);
     setFormFechaInventario(true);
     setTablaInventarioFecha(false);
+    setFormSeleccionarPieza(false);
+    setPdfMovimientosPieza(false);
   };
 
   const inventarioFecha = (fecha) => {
@@ -32,6 +39,8 @@ export default function InformesAlmacen() {
       .then((response) => {
         setFormFechaInventario(false);
         setTablaInventarioFecha(true);
+        setFormSeleccionarPieza(false);
+        setPdfMovimientosPieza(false);
         setListaInventarioFecha(response.data);
         setFechaInventario(fecha);
       })
@@ -48,6 +57,9 @@ export default function InformesAlmacen() {
 
     setFormFechaInventario(false);
     setTablaInventarioFecha(false);
+    setFormSeleccionarPieza(false);
+    setPdfMovimientosPieza(false);
+
     obtenerInventarioFecha(fechaAdaptada)
       .then((response) => {
         setPdfInventario(true);
@@ -57,6 +69,31 @@ export default function InformesAlmacen() {
       && modal.handleOpenError(error.response.data.mensaje))
       .catch((error) => error.response.status === 400
       && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const handleClickMovimientosPieza = () => {
+    setPdfInventario(false);
+    setFormFechaInventario(false);
+    setTablaInventarioFecha(false);
+    setFormSeleccionarPieza(true);
+    setPdfMovimientosPieza(false);
+  };
+
+  const movimientosPieza = (referencia) => {
+    setFormSeleccionarPieza(false);
+
+    obtenerMovimientosPieza(referencia)
+      .then((response) => {
+        setPdfMovimientosPieza(true);
+        setListaMovimientosPieza(response.data);
+        setReferenciaPieza(referencia);
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const movimientosPiezaCerrar = () => {
+    //
   };
 
   const handleClickBotonRegresar = () => {
@@ -74,6 +111,7 @@ export default function InformesAlmacen() {
         <Box mt={2}>
           <Button variant="text" onClick={inventarioActual}>INVENTARIO ACTUAL DE PIEZAS EN ALMACEN</Button>
           <Button variant="text" onClick={handleClickInventarioFecha}>INVENTARIO DE PIEZAS EN ALMACEN (Fecha)</Button>
+          <Button variant="text" onClick={handleClickMovimientosPieza}>MOVIMIENTOS DE ALMACEN DE UNA PIEZA</Button>
         </Box>
       </Grid>
       <Grid item md={9}>
@@ -90,6 +128,21 @@ export default function InformesAlmacen() {
               <InventarioFechaPDF
                 listaInventario={listaInventarioFecha}
                 fechaInventario={fechaInventario}
+              />
+            ) : null}
+          {formSeleccionarPieza
+            ? (
+              <BuscarPiezaPorReferenciaForm
+                label="Seleccionar Pieza"
+                obtener={movimientosPieza}
+                cerrar={movimientosPiezaCerrar}
+              />
+            ) : null}
+          {pdfMovimientosPieza
+            ? (
+              <MovimientosPiezaPDF
+                listaMovimientosPieza={listaMovimientosPieza}
+                referenciaPieza={referenciaPieza}
               />
             ) : null}
         </Box>

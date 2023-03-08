@@ -326,3 +326,5 @@ export const eliminarAlbaranEntradas = (id) => axios.delete(`http://localhost:80
 export const obtenerInventarioActualAlmacen = () => axios.get('http://localhost:8080/api/almacen/inventario');
 
 export const obtenerInventarioFecha = (fecha) => axios.get(`http://localhost:8080/api/almacen/inventario/${fecha}`);
+
+export const obtenerMovimientosPieza = (referencia) => axios.get(`http://localhost:8080/api/almacen/movimientos/${referencia}`);
