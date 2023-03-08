@@ -92,10 +92,6 @@ export default function InformesAlmacen() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
-  const movimientosPiezaCerrar = () => {
-    //
-  };
-
   const handleClickBotonRegresar = () => {
     navigate('/almacen/opciones');
   };
@@ -115,37 +111,49 @@ export default function InformesAlmacen() {
         </Box>
       </Grid>
       <Grid item md={9}>
-        <Box>
-          {pdfInventario
-            ? (
+        {pdfInventario
+          ? (
+            <Box>
               <InventarioActualPDF
                 listaInventarioActual={listaInventarioFecha}
               />
-            ) : null}
-          {formFechaInventario ? <InventarioFechaForm inventarioFecha={inventarioFecha} /> : null}
-          {tablaInventarioFecha
-            ? (
+            </Box>
+          ) : null}
+        {formFechaInventario
+          ? (
+            <Box>
+              <InventarioFechaForm
+                inventarioFecha={inventarioFecha}
+              />
+            </Box>
+          ) : null}
+        {tablaInventarioFecha
+          ? (
+            <Box>
               <InventarioFechaPDF
                 listaInventario={listaInventarioFecha}
                 fechaInventario={fechaInventario}
               />
-            ) : null}
-          {formSeleccionarPieza
-            ? (
+            </Box>
+          ) : null}
+        {formSeleccionarPieza
+          ? (
+            <Box sx={{ width: '40%' }}>
               <BuscarPiezaPorReferenciaForm
                 label="Seleccionar Pieza"
                 obtener={movimientosPieza}
-                cerrar={movimientosPiezaCerrar}
               />
-            ) : null}
-          {pdfMovimientosPieza
-            ? (
+            </Box>
+          ) : null}
+        {pdfMovimientosPieza
+          ? (
+            <Box>
               <MovimientosPiezaPDF
                 listaMovimientosPieza={listaMovimientosPieza}
                 referenciaPieza={referenciaPieza}
               />
-            ) : null}
-        </Box>
+            </Box>
+          ) : null}
         <ModalErrores
           openError={modal.openError}
           message={modal.message}
