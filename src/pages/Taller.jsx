@@ -9,7 +9,7 @@ function Taller() {
       <Grid item xs={12}>
         <Box>
           <NavBar
-            pages={['INICIO', 'DATOS GENERALES', 'ALMACÉN', 'FACTURACIÓN', 'CONTABILIDAD']}
+            pages={['INICIO', 'DATOS GENERALES', 'ALMACÉN', 'FACTURACION', 'CONTABILIDAD']}
             pagina="TALLER"
           />
         </Box>

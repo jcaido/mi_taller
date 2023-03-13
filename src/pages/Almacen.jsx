@@ -9,7 +9,7 @@ export default function Almacen() {
       <Grid item xs={12}>
         <Box>
           <NavBar
-            pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'FACTURACIÓN', 'CONTABILIDAD']}
+            pages={['INICIO', 'DATOS GENERALES', 'TALLER', 'FACTURACION', 'CONTABILIDAD']}
             pagina="ALMACÉN"
           />
         </Box>

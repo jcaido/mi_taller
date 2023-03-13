@@ -34,7 +34,7 @@ function NavBar({ pages, pagina }) {
       case 'ALMACÉN':
         return navigate('/almacen/opciones');
       case 'FACTURACION':
-        return navigate('/facturacion');
+        return navigate('/facturacion/opciones');
       case 'CONTABILIDAD':
         return navigate('/contabilidad');
       default:

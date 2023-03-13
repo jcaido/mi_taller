@@ -46,7 +46,7 @@ function Home() {
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <Box p={2}>
-          <OpcionCard titulo="Facturación" subtitulo="Emisión de facturas, proveedores, etc..." url="/facturacion">
+          <OpcionCard titulo="Facturación" subtitulo="Emisión de facturas, proveedores, etc..." url="/facturacion/opciones">
             <EuroIcon
               color="primary"
               sx={{ fontSize: 100 }}
