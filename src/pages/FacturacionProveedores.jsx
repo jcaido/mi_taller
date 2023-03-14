@@ -14,6 +14,8 @@ export default function FacturacionProveedores() {
     formCrearFacturaProveedor: false,
     formEditarFacturaProveedor: false,
     formEliminarFacturaProveedor: false,
+    tablasAlbaranes: false,
+    idFacturaProveedor: null,
   };
 
   const facturacionProveedoresReducer = (state, action) => {
@@ -24,6 +26,12 @@ export default function FacturacionProveedores() {
           formCrearFacturaProveedor: action.payload.formCrearFacturaProveedor,
           formEditarFacturaProveedor: action.payload.formEditarFacturaProveedor,
           formEliminarFacturaProveedor: action.payload.formEliminarFacturaProveedor,
+          tablasAlbaranes: action.payload.tablasAlbaranes,
+        };
+      case 'obtener_id_factura_proveedor':
+        return {
+          ...state,
+          idFacturaProveedor: action.payload,
         };
       default:
         return state;
@@ -40,6 +48,7 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: true,
         formEditarFacturaProveedor: false,
         formEliminarFacturaProveedor: false,
+        tablasAlbaranes: false,
       },
     });
   }
@@ -51,6 +60,7 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: false,
         formEditarFacturaProveedor: true,
         formEliminarFacturaProveedor: false,
+        tablasAlbaranes: false,
       },
     });
   }
@@ -62,9 +72,26 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: false,
         formEditarFacturaProveedor: false,
         formEliminarFacturaProveedor: true,
+        tablasAlbaranes: false,
       },
     });
   }
+
+  function tablasAlbaranesDispatch() {
+    dispatch({
+      type: 'facturasProveedor',
+      payload: {
+        formCrearFacturaProveedor: true,
+        formEditarFacturaProveedor: false,
+        formEliminarFacturaProveedor: false,
+        tablasAlbaranes: true,
+      },
+    });
+  }
+
+  const obtenerIdFacturaProveedor = (id) => {
+    dispatch({ type: 'obtener_id_factura_proveedor', payload: id });
+  };
 
   const facturacionProveedoresProvider = useMemo(
     () => ({
@@ -72,6 +99,8 @@ export default function FacturacionProveedores() {
       crearFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
+      obtenerIdFacturaProveedor,
+      tablasAlbaranesDispatch,
     }
     ),
     [
@@ -79,6 +108,8 @@ export default function FacturacionProveedores() {
       crearFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
+      obtenerIdFacturaProveedor,
+      tablasAlbaranesDispatch,
     ],
   );
 
