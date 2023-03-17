@@ -338,3 +338,11 @@ export const nuevaFacturaProveedor = (fechaFactura, numeroFactura, tipoIVA, idPr
 
   return axios.post(`http://localhost:8080/api/facturaProveedor/${idProveedor}`, body);
 };
+
+export const obtenerAlbaranesNoFacturadosProveedor = (idProveedor) => axios.get(`http://localhost:8080/api/albaranProveedor/no-facturados/${idProveedor}`);
+
+export const facturarAlbaranProveedor = (idAlbaran, idFactura) => axios.put(`http://localhost:8080/api/albaranProveedor/facturarAlbaran/${idAlbaran}/${idFactura}`);
+
+export const noFacturarAlbaranProveedor = (idAlbaran) => axios.put(`http://localhost:8080/api/albaranProveedor/noFacturarAlbaran/${idAlbaran}`);
+
+export const obtenerAlbaranesAsignadosAFactura = (idFactura) => axios.get(`http://localhost:8080/api/albaranProveedor/factura/${idFactura}`);

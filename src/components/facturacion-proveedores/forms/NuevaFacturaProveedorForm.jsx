@@ -37,6 +37,16 @@ export default function NuevaFacturaProveedorForm() {
   const
     {
       obtenerIdFacturaProveedor,
+      obtenerIdProveedor,
+      obtenerFechaFacturaProveedor,
+      obtenerNumeroFacturaProveedor,
+      obtenerNombreProveedor,
+      obtenerCifNifProveedr,
+      obtenerDomicilioProveedor,
+      obtenerCodigoPostalProveedor,
+      obtenerLocalidadProveedor,
+      obtenerProvinciaProveedor,
+      obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
     } = useContext(FacturacionProveedoresContext);
 
@@ -59,7 +69,17 @@ export default function NuevaFacturaProveedorForm() {
           response.data.id,
         )
           .then((res) => {
+            obtenerIdProveedor(response.data.id);
             obtenerIdFacturaProveedor(res.data.id);
+            obtenerFechaFacturaProveedor(res.data.fechaFactura);
+            obtenerNumeroFacturaProveedor(res.data.numeroFactura);
+            obtenerNombreProveedor(res.data.proveedor.nombre);
+            obtenerCifNifProveedr(res.data.proveedor.dniCif);
+            obtenerDomicilioProveedor(res.data.proveedor.domicilio);
+            obtenerCodigoPostalProveedor(res.data.proveedor.codigoPostal.codigo);
+            obtenerLocalidadProveedor(res.data.proveedor.codigoPostal.localidad);
+            obtenerProvinciaProveedor(res.data.proveedor.codigoPostal.provincia);
+            obtenerTipoIvaFacturaProveedor(res.data.tipoIVA);
             tablasAlbaranesDispatch();
           });
       })
