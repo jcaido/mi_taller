@@ -45,7 +45,7 @@ export default function TablaAlbaranesAsignados({
                     <TableCell align="left">{albaran.numeroAlbaran}</TableCell>
                     <TableCell align="left">{totalAlbaran(albaran.id, albaranes).toLocaleString('en')}</TableCell>
                     <TableCell align="left">
-                      <Tooltip title="Facturar albarán">
+                      <Tooltip title="Quitar albarán">
                         <IconButton aria-label="delete" size="small" color="error" onClick={() => handleClickNoFacturarAlbaranFacturado(albaran.id)}>
                           <ClearIcon fontSize="inherit" />
                         </IconButton>

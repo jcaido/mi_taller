@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -55,6 +55,8 @@ export default function NuevaFacturaProveedorForm() {
   const tipoIVARef = useRef();
   const proveedorRef = useRef();
 
+  const [disabled, setDisabled] = useState(false);
+
   const modal = useModal();
 
   const changeFecha = useChangeFecha(new Date());
@@ -80,8 +82,11 @@ export default function NuevaFacturaProveedorForm() {
             obtenerLocalidadProveedor(res.data.proveedor.codigoPostal.localidad);
             obtenerProvinciaProveedor(res.data.proveedor.codigoPostal.provincia);
             obtenerTipoIvaFacturaProveedor(res.data.tipoIVA);
+            setDisabled(true);
             tablasAlbaranesDispatch();
-          });
+          })
+          .catch((error) => error.response.status === 409
+             && modal.handleOpenError(error.response.data.mensaje));
       })
       .catch((error) => error.response.status === 404
       && modal.handleOpenError(error.response.data.mensaje));
@@ -106,6 +111,7 @@ export default function NuevaFacturaProveedorForm() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
               <DesktopDatePicker
+                disabled={disabled}
                 id="fechaFactura"
                 name="fechaFactura"
                 label="fecha de la factura"
@@ -122,6 +128,7 @@ export default function NuevaFacturaProveedorForm() {
         </Box>
         <Box m={1}>
           <TextField
+            disabled={disabled}
             fullWidth
             id="numeroFactura"
             name="numeroFactura"
@@ -136,6 +143,7 @@ export default function NuevaFacturaProveedorForm() {
         </Box>
         <Box m={1}>
           <TextField
+            disabled={disabled}
             fullWidth
             id="tipoIva"
             name="tipoIva"
@@ -150,6 +158,7 @@ export default function NuevaFacturaProveedorForm() {
         </Box>
         <Box m={1}>
           <TextField
+            disabled={disabled}
             fullWidth
             id="proveedor"
             name="proveedor"
@@ -163,7 +172,7 @@ export default function NuevaFacturaProveedorForm() {
           />
         </Box>
         <Box m={1}>
-          <Button type="submit" color="primary" variant="contained" fullWidth>Aceptar</Button>
+          <Button type="submit" color="primary" variant="contained" fullWidth disabled={disabled}>Aceptar</Button>
           <ModalOK open={modal.open} handleClose={modal.handleClose} />
           <ModalErrores
             openError={modal.openError}

@@ -14,6 +14,7 @@ import {
   obtenerAlbaranesAsignadosAFactura,
   obtenerAlbaranesNoFacturadosProveedor,
 } from '../../services/axiosService';
+import useModal from '../../hooks/useModal';
 
 export default function FacturasProveedor() {
   const
@@ -34,6 +35,8 @@ export default function FacturasProveedor() {
   const obtenerAlbaranesAsignados = (albaranes) => {
     setAlbaranesAsignados(albaranes);
   };
+
+  const modal = useModal();
 
   const totalAlbaran = (idAlbaran, albaranes) => {
     let total = 0;
@@ -67,26 +70,23 @@ export default function FacturasProveedor() {
         obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
           .then((response) => {
             asignarAlbaranesNoFacturados(response.data);
-            // alert(`OK ---> albaran: ${albaran}, factura: ${factura}`);
             obtenerAlbaranesAsignadosAFactura(state.idFacturaProveedor)
               .then((res) => {
                 obtenerAlbaranesAsignados(res.data);
               })
-              .catch(() => {
-                alert('otro error');
+              .catch((error) => {
+                modal.handleOpenError(`something went wrong: ${error}`);
               });
           })
-          .catch(() => {
-            alert('error');
+          .catch((error) => {
+            modal.handleOpenError(`something went wrong: ${error}`);
           });
       })
-      .catch(() => {
-        alert('something went wrong');
-      });
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const handleClickNoFacturarAlbaranFacturado = (albaran) => {
-    // alert(albaran);
     noFacturarAlbaranProveedor(albaran)
       .then(() => {
         obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
@@ -96,17 +96,16 @@ export default function FacturasProveedor() {
               .then((res) => {
                 obtenerAlbaranesAsignados(res.data);
               })
-              .catch(() => {
-                alert('otro error');
+              .catch((error) => {
+                modal.handleOpenError(`something went wrong: ${error}`);
               });
           })
-          .catch(() => {
-            alert('error');
+          .catch((error) => {
+            modal.handleOpenError(`something went wrong: ${error}`);
           });
       })
-      .catch(() => {
-        alert('something went wrong');
-      });
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   return (
@@ -147,8 +146,11 @@ export default function FacturasProveedor() {
                       handleClickNoFacturarAlbaranFacturado={handleClickNoFacturarAlbaranFacturado}
                     />
                   </Grid>
-                  <Grid item md={5}>
-                    <Card sx={{ minWidth: 200, height: '180px' }}>
+                  <Grid item md={6}>
+                    <Card sx={{
+                      minWidth: 200, height: '180px', marginLeft: 5, marginRight: 5,
+                    }}
+                    >
                       <CardContent>
                         <Typography variant="body2" color="text.secondary">
                           { 'Referencia (id): ' }
@@ -185,8 +187,11 @@ export default function FacturasProveedor() {
                       </CardContent>
                     </Card>
                   </Grid>
-                  <Grid item md={5}>
-                    <Card sx={{ minWidth: 200, height: '180px' }}>
+                  <Grid item md={6}>
+                    <Card sx={{
+                      minWidth: 200, height: '180px', marginLeft: 5, marginRight: 5,
+                    }}
+                    >
                       <CardContent>
                         <Typography variant="body2" color="text.secondary">
                           { 'BASE IMPONIBLE: ' }
