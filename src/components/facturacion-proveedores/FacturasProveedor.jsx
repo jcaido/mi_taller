@@ -1,8 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Box, Grid } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
 import NavigationButtonFacturacionProveedores from './NavigationButtonFacturacionProveedores';
 import NuevaFacturaProveedorForm from './forms/NuevaFacturaProveedorForm';
@@ -15,6 +12,8 @@ import {
   obtenerAlbaranesNoFacturadosProveedor,
 } from '../../services/axiosService';
 import useModal from '../../hooks/useModal';
+import DatosFactura from './DatosFactura';
+import TotalesFactura from './TotalesFactura';
 
 export default function FacturasProveedor() {
   const
@@ -147,74 +146,13 @@ export default function FacturasProveedor() {
                     />
                   </Grid>
                   <Grid item md={6}>
-                    <Card sx={{
-                      minWidth: 200, height: '180px', marginLeft: 5, marginRight: 5,
-                    }}
-                    >
-                      <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Referencia (id): ' }
-                          { state.idFacturaProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Fecha Factura: ' }
-                          { state.fechaFacturaProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Número Factura: ' }
-                          { state.numeroFacturaProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Proveedor: ' }
-                          { state.nombreProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'CIF / DNI: ' }
-                          { state.cifNifProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Domicilio: ' }
-                          { state.domicilioProveedor }
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'Código Postal: ' }
-                          { state.codigoPostalProveedor }
-                          { ' .- ' }
-                          { state.localidadProveedor }
-                          { ' .- ' }
-                          { state.provinciaProveedor }
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    <DatosFactura />
                   </Grid>
                   <Grid item md={6}>
-                    <Card sx={{
-                      minWidth: 200, height: '180px', marginLeft: 5, marginRight: 5,
-                    }}
-                    >
-                      <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'BASE IMPONIBLE: ' }
-                          { baseImponible(albaranesAsignados).toLocaleString('en') }
-                          { ' €'}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'TIPO IVA: ' }
-                          { state.tipoIVAFacturaProveedor }
-                          { ' %'}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'CUOTA IVA: ' }
-                          { ((baseImponible(albaranesAsignados) * state.tipoIVAFacturaProveedor) / 100).toLocaleString('en') }
-                          { ' €'}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          { 'TOTAL FACTURA: ' }
-                          { (baseImponible(albaranesAsignados) + ((baseImponible(albaranesAsignados) * state.tipoIVAFacturaProveedor) / 100)).toLocaleString('en') }
-                          { ' €'}
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    <TotalesFactura
+                      baseImponible={baseImponible}
+                      albaranesAsignados={albaranesAsignados}
+                    />
                   </Grid>
                 </>
               ) : null }
