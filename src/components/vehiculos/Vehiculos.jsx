@@ -8,8 +8,8 @@ import Vehiculo from './Vehiculo';
 import TablaVehiculos from './TablaVehiculos';
 import TablaVehiculosBusquedas from './TablaVehiculosBusquedas';
 import EditarVehiculoForm from './forms/EditarVehiculoForm';
-import BuscarVehiculoPorMatriculaForm from './forms/BuscarVehiculoPorMatriculaForm';
 import EliminarVehiculoForm from './forms/EliminarVehiculoForm';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function Vehiculos() {
   const {
@@ -43,16 +43,20 @@ function Vehiculos() {
         { state.formBuscarVehiculo && <BuscarVehiculoForm />}
         { state.formEditarVehiculo
           && (
-          <BuscarVehiculoPorMatriculaForm
+          <BuscarPorUnInput
             label="Editar vehiculo"
+            textInput="matricula"
+            inputLabel="matricula"
             obtener={ObtenerVehiculoPorMatriculaParaEditar}
             cerrar={CerrarFormEditarVehiculo}
           />
           )}
         { state.formEliminarVehiculo
           && (
-          <BuscarVehiculoPorMatriculaForm
+          <BuscarPorUnInput
             label="Eliminar vehiculo"
+            textInput="matricula"
+            inputLabel="matricula"
             obtener={obtenerVehiculoPorMatriculaParaEliminar}
             cerrar={CerrarFormEliminarVehiculo}
           />

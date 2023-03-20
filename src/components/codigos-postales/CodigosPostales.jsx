@@ -7,9 +7,9 @@ import BuscarCodigoPostalForm from './forms/BuscarCodigoPostalForm';
 import EditarCodigoPostalForm from './forms/EditarCodigoPostalForm';
 import CodigoPostal from './CodigoPostal';
 import TablaCodigosPostalesPorProvincia from './TablaCodigosPostalesPorProvincia';
-import BuscarCodigoPostalPorCodigoForm from './forms/BuscarCodigoPostalPorCodigoForm';
 import EliminarCodigoPostalForm from './forms/EliminarCodigoPostalForm';
 import NavigationButton from '../NavigationButton';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function CodigosPostales() {
   const {
@@ -43,16 +43,20 @@ function CodigosPostales() {
         { state.formBuscarCodigoPostal && <BuscarCodigoPostalForm />}
         { state.formEditarCodigoPostal
           && (
-          <BuscarCodigoPostalPorCodigoForm
+          <BuscarPorUnInput
             label="Editar codigo postal"
+            textInput="codigo"
+            inputLabel="codigo"
             obtener={ObtenerCodigoPostalPorCodigoParaEditar}
             cerrar={CerrarFormEditarCodigoPostal}
           />
           )}
         { state.formEliminarCodigoPostal
           && (
-          <BuscarCodigoPostalPorCodigoForm
+          <BuscarPorUnInput
             label="Eliminar codigo postal"
+            textInput="codigo"
+            inputLabel="codigo"
             obtener={ObtenerCodigoPostalPorCodigoParaEliminar}
             cerrar={CerrarFormEliminarCodigoPostal}
           />

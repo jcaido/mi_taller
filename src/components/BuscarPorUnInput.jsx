@@ -3,21 +3,26 @@ import { useFormik } from 'formik';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import CabeceraForms from '../../CabeceraForms';
+import CabeceraForms from './CabeceraForms';
 
-function BuscarOrdenReparacionPorIdForm({ label, obtener, cerrar }) {
-  const idRef = useRef();
+export default function BuscarPorUnInput({
+  label,
+  textImput,
+  inputLabel,
+  obtener,
+  cerrar,
+}) {
+  const inputRef = useRef();
 
   const handleSubmitForm = () => {
-    if (idRef.current.value !== '') {
-      obtener(idRef.current.value);
-    }
+    obtener(inputRef.current.value);
+    formik.resetForm();
   };
 
   const formik = useFormik({
 
     initialValues: {
-      id: '',
+      input: '',
     },
     onSubmit: () => handleSubmitForm(),
   });
@@ -29,16 +34,16 @@ function BuscarOrdenReparacionPorIdForm({ label, obtener, cerrar }) {
         <Box m={1}>
           <TextField
             fullWidth
-            id="id"
-            name="id"
-            label="referencia(id)"
+            id={textImput}
+            name={textImput}
+            label={inputLabel}
             size="small"
-            value={formik.values.id}
+            value={formik.values.textImput}
             onChange={formik.handleChange}
             onFocus={cerrar}
-            error={formik.touched.id && Boolean(formik.errors.id)}
-            helperText={formik.touched.id && formik.errors.id}
-            inputRef={idRef}
+            error={formik.touched.input && Boolean(formik.errors.input)}
+            helperText={formik.touched.input && formik.errors.input}
+            inputRef={inputRef}
           />
         </Box>
         <Box m={1}>
@@ -48,5 +53,3 @@ function BuscarOrdenReparacionPorIdForm({ label, obtener, cerrar }) {
     </Box>
   );
 }
-
-export default BuscarOrdenReparacionPorIdForm;

@@ -14,6 +14,7 @@ import {
 import useModal from '../../hooks/useModal';
 import DatosFactura from './DatosFactura';
 import TotalesFactura from './TotalesFactura';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 export default function FacturasProveedor() {
   const
@@ -107,6 +108,10 @@ export default function FacturasProveedor() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const obtenerFactura = () => {
+    //
+  };
+
   return (
     <Grid container rowSpacing={1}>
       <Grid item md={12}>
@@ -158,7 +163,15 @@ export default function FacturasProveedor() {
               ) : null }
           </>
         ) : null}
-      {state.formEditarFacturaProveedor ? <p>formulario editar factura</p> : null}
+      {state.formEditarFacturaProveedor
+        ? (
+          <BuscarPorUnInput
+            label="Seleccionar factura"
+            textImput="referencia"
+            inputLabel="referencia(id)"
+            obtener={obtenerFactura}
+          />
+        ) : null}
       {state.formEliminarFacturaProveedor ? <p>formulario eliminar factura</p> : null}
     </Grid>
   );

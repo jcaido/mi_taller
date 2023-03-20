@@ -7,9 +7,9 @@ import TablaProveedores from './TablaProveedores';
 import BuscarProveedorForm from './forms/BuscarProveedorForm';
 import Proveedor from './Proveedor';
 import TablaProveedoresBusquedas from './TablaProveedoresBusquedas';
-import BuscarProveedorPorDniCifForm from './forms/BuscarProveedorPorDniCifForm';
 import EditarProveedorForm from './forms/EditarProveedorForm';
 import EliminarProveedorForm from './forms/EliminarProveedorForm';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 export default function Proveedores() {
   const {
@@ -42,16 +42,20 @@ export default function Proveedores() {
           {state.formBuscarProveedor ? <BuscarProveedorForm /> : null}
           {state.formEditarProveedor
             ? (
-              <BuscarProveedorPorDniCifForm
+              <BuscarPorUnInput
                 label="Editar Proveedor"
+                textInput="dni_ci"
+                inputLabel="dni / cif"
                 obtener={ObtenerProveedorPorDniCifParaEditar}
                 cerrar={CerrarFormEditarProveedor}
               />
             ) : null }
           {state.formEliminarProveedor
             ? (
-              <BuscarProveedorPorDniCifForm
+              <BuscarPorUnInput
                 label="Eliminar Proveedor"
+                textInput="dni_ci"
+                inputLabel="dni / cif"
                 obtener={ObtenerProveedorPorDniCifParaEliminar}
                 cerrar={CerrarFormEliminarProveedor}
               />

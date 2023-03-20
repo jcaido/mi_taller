@@ -7,10 +7,10 @@ import NuevaOrdenReparacionForm from './forms/NuevaOrdenReparacionForm';
 import TablaOrdenesReparacion from './TablaOrdenesReparacion';
 import BuscarOrdenReparacionForm from './forms/BuscarOrdenReparacionForm';
 import TablaOrdenesReparacionBusqueda from './TablaOrdenesReparacionBusqueda';
-import BuscarOrdenReparacionPorIdForm from './forms/BuscarOrdenReparacionPorIdForm';
 import EditarOrdenReparacionForm from './forms/EditarOrdenReparacionForm';
 import EliminarOrdenReparacionForm from './forms/EliminarOrdenReparacionForm';
 import OrdenReparacionPDF from './OrdenReparacionPDF';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function AutorizacionOrdenes() {
   const {
@@ -52,24 +52,30 @@ function AutorizacionOrdenes() {
           { state.formBuscarOrdenReparacion && <BuscarOrdenReparacionForm /> }
           { state.formEditarOrdenReparacion
                         && (
-                        <BuscarOrdenReparacionPorIdForm
+                        <BuscarPorUnInput
                           label="Buscar orden de reparacion"
+                          textInput="id"
+                          inputLabel="referencia(id)"
                           obtener={ObtenerOrdenReparacionPorIdParaEditar}
                           cerrar={CerrarFormEditarOrdenReparacion}
                         />
                         )}
           { state.formEliminarOrdenReparacion
                         && (
-                        <BuscarOrdenReparacionPorIdForm
+                        <BuscarPorUnInput
                           label="Buscar orden de reparacion"
+                          textInput="id"
+                          inputLabel="referencia(id)"
                           obtener={ObtenerOrdenReparacionPorIdParaEliminar}
                           cerrar={CerrarFormEliminarOrdenReparacion}
                         />
                         )}
           { state.formImprimirOrdenReparacion
                         && (
-                        <BuscarOrdenReparacionPorIdForm
+                        <BuscarPorUnInput
                           label="Buscar orden de reparacion"
+                          textInput="id"
+                          inputLabel="referencia(id)"
                           obtener={ImprimirOrdenReparacionPorId}
                           cerrar={CerrarAutorizacionPdf}
                         />

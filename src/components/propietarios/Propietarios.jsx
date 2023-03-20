@@ -6,10 +6,10 @@ import TablaPropietarios from './TablaPropietarios';
 import BuscarPropietarioForm from './forms/BuscarPropietarioForm';
 import Propietario from './Propietario';
 import TablaPropietariosBusquedas from './TablaPropietariosBusquedas';
-import BuscarPropietarioPorDniForm from './forms/BuscarPropietarioPorDniForm';
 import EditarPropietarioForm from './forms/EditarPropietarioForm';
 import EliminarPropietarioForm from './forms/EliminarPropietarioForm';
 import NavigationButton from '../NavigationButton';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function Propietarios() {
   const {
@@ -43,16 +43,20 @@ function Propietarios() {
         { state.formBuscarPropietario && <BuscarPropietarioForm />}
         { state.formEditarPropietario
           && (
-          <BuscarPropietarioPorDniForm
+          <BuscarPorUnInput
             label="Editar propietario"
+            textInput="dni"
+            inputLabel="dni"
             obtener={ObtenerPropietarioPorDniParaEditar}
             cerrar={CerrarFormEditarPropietario}
           />
           )}
         { state.formEliminarPropietario
           && (
-          <BuscarPropietarioPorDniForm
+          <BuscarPorUnInput
             label="Eliminar propietario"
+            textInput="dni"
+            inputLabel="dni"
             obtener={obtenerPropietarioPorDniParaEliminar}
             cerrar={CerrarFormEliminarPropietario}
           />

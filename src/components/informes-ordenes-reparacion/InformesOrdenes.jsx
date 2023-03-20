@@ -11,7 +11,6 @@ import {
   obtenerVehiculosPorMatricula,
 } from '../../services/axiosService';
 import OrdenesCerradasEntreFechasPDF from './OrdenesCerradasEntreFechasPDF';
-import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import OrdenCerradaPorIdPDF from './OrdenCerradaPorIdPDF';
 import ModalErrores from '../../utils/ModalErrores';
 import NavigationButtonInfoOrdenes from '../NavigationButtonInformes';
@@ -20,6 +19,7 @@ import HistoricoOrdenesCerradasPorVehiculoPDF from './HistoricoOrdenesCerradasPo
 import PreciosManoDeObraPDF from './PreciosManoDeObraPDF';
 import ResumenOrdenesCerradasEntreFechasPDF from './ResumenOrdenesCerradasEntreFechasPDF';
 import useModal from '../../hooks/useModal';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function InformesOrdenes() {
   const modal = useModal();
@@ -280,8 +280,10 @@ function InformesOrdenes() {
           { formSeleccionarOrdenReparacion
             ? (
               <Box sx={{ width: '30%' }}>
-                <BuscarOrdenReparacionPorIdForm
+                <BuscarPorUnInput
                   label="Seleccionar orden de reparacion"
+                  textInput="id"
+                  inputLabel="referencia(id)"
                   obtener={ordenReparacionPorId}
                 />
               </Box>

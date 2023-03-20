@@ -7,9 +7,9 @@ import TablaPiezas from './TablaPiezas';
 import BuscarPiezaForm from './forms/BuscarPiezaForm';
 import Pieza from './Pieza';
 import TablaPiezasBusquedas from './TablaPiezasBusquedas';
-import BuscarPiezaPorReferenciaForm from './forms/BuscarPiezaPorReferenciaForm';
 import EditarPiezaForm from './forms/EditarPiezaForm';
 import EliminarPiezaForm from './forms/EliminarPiezaForm';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 export default function Piezas() {
   const {
@@ -42,16 +42,20 @@ export default function Piezas() {
           {state.formBuscarPiezas ? <BuscarPiezaForm /> : null}
           {state.formEditarPiezas
             ? (
-              <BuscarPiezaPorReferenciaForm
+              <BuscarPorUnInput
                 label="Editar Pieza"
+                textInput="referencia"
+                inputLabel="referencia"
                 obtener={ObtenerPiezaPorReferenciaParaEditar}
                 cerrar={CerrarFormEditarPieza}
               />
             ) : null}
           {state.formEliminarPiezas
             ? (
-              <BuscarPiezaPorReferenciaForm
+              <BuscarPorUnInput
                 label="Eliminar Pieza"
+                textInput="referencia"
+                inputLabel="referencia"
                 obtener={ObtenerPiezaPorReferenciaParaEliminar}
                 cerrar={CerrarFormEliminarPieza}
               />

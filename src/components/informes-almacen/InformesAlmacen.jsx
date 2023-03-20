@@ -9,8 +9,8 @@ import { obtenerInventarioFecha, obtenerMovimientosPieza } from '../../services/
 import useModal from '../../hooks/useModal';
 import InventarioFechaPDF from './InventarioFechaPDF';
 import ModalErrores from '../../utils/ModalErrores';
-import BuscarPiezaPorReferenciaForm from '../piezas/forms/BuscarPiezaPorReferenciaForm';
 import MovimientosPiezaPDF from './MovimientosPiezaPDF';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 export default function InformesAlmacen() {
   const modal = useModal();
@@ -139,8 +139,10 @@ export default function InformesAlmacen() {
         {formSeleccionarPieza
           ? (
             <Box sx={{ width: '40%' }}>
-              <BuscarPiezaPorReferenciaForm
+              <BuscarPorUnInput
                 label="Seleccionar Pieza"
+                textInput="referencia"
+                inputLabel="referencia"
                 obtener={movimientosPieza}
               />
             </Box>

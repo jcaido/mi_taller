@@ -4,13 +4,12 @@ import { AlmacenEntradasContext } from '../../pages/AlmacenEntradas';
 import NavigationButtonEntradas from './NavigationButtonEntradas';
 import NuevoAlbaranEntradasForm from './forms/NuevoAlbaranEntradasForm';
 import TablaAlbaranesEntrada from './TablaAlbaranesEntrada';
-import BuscarProveedorPorDniCifForm from '../proveedores/forms/BuscarProveedorPorDniCifForm';
 import Proveedor from '../proveedores/Proveedor';
-import BuscarAlbaranPorIdForm from './forms/BuscarAlbaranPorIdForm';
 import NuevaEntradaPiezaForm from './forms/NuevaEntradaPiezaForm';
 import DetalleAlbaran from './DetalleAlbaran';
 import EditarAlbaranForm from './forms/EditarAlbaranForm';
 import EliminarAlbaranForm from './forms/EliminarAlbaranForm';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 export default function Entradas() {
   const {
@@ -51,8 +50,10 @@ export default function Entradas() {
             </Grid>
             <Grid item md={4}>
               <Box>
-                <BuscarProveedorPorDniCifForm
+                <BuscarPorUnInput
                   label="Buscar proveedor"
+                  textInput="dni_ci"
+                  inputLabel="dni / cif"
                   obtener={ObtenerProveedorPorDniCif}
                   cerrar={CerrarFormBuscarProveedor}
                 />
@@ -75,8 +76,10 @@ export default function Entradas() {
           <>
             <Grid item md={4}>
               <Box>
-                <BuscarAlbaranPorIdForm
+                <BuscarPorUnInput
                   label="Seleccionar albaran para añadir entradas"
+                  textInput="id"
+                  inputLabel="referencia(id)"
                   obtener={ObtenerAlbaranPorId}
                   cerrar={CerrarFormNuevaEntradaYDetalleAlbaran}
                 />
@@ -101,8 +104,10 @@ export default function Entradas() {
           <>
             <Grid item md={4}>
               <Box>
-                <BuscarAlbaranPorIdForm
+                <BuscarPorUnInput
                   label="Seleccionar albaran para editarlo"
+                  textInput="id"
+                  inputLabel="referencia(id)"
                   obtener={ObtenerAlbaranPorIdParaModificar}
                   cerrar={CerrarFormEditarAlbaran}
                 />
@@ -118,8 +123,10 @@ export default function Entradas() {
           <>
             <Grid item md={4}>
               <Box>
-                <BuscarAlbaranPorIdForm
+                <BuscarPorUnInput
                   label="Seleccionar albaran para eliminarlo"
+                  textInput="id"
+                  inputLabel="referencia(id)"
                   obtener={ObtenerAlbaranPorIdParaEliminar}
                   cerrar={CerrarFormEliminarAlbaran}
                 />

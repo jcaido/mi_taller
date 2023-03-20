@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import NavigationButtonEdiOrdenes from './NavigationButtonEdiOrdenes';
-import BuscarOrdenReparacionPorIdForm from '../autorizacion-ordenes-reparacion/forms/BuscarOrdenReparacionPorIdForm';
 import { EdicionOrdenesContext } from '../../pages/TallerEdicionOrdenes';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import ImputarPiezasForm from './forms/ImputarPiezasForm';
@@ -13,6 +12,7 @@ import InformacionPrecioManoDeObraActual from './InformacionPrecioManoDeObraActu
 import { establecerPrecioManoDeObra, obtenerPrecioManDeObraActual } from '../../services/axiosService';
 import ModalErrores from '../../utils/ModalErrores';
 import useModal from '../../hooks/useModal';
+import BuscarPorUnInput from '../BuscarPorUnInput';
 
 function EdicionOrdenes() {
   const {
@@ -64,8 +64,10 @@ function EdicionOrdenes() {
         <Box>
           {state.formSeleccionarOrdenReparacion
             ? (
-              <BuscarOrdenReparacionPorIdForm
+              <BuscarPorUnInput
                 label="Seleccionar orden de reparacion"
+                textInput="id"
+                inputLabel="referencia(id)"
                 obtener={ObtenerOrdenReparacionPorIdParaCompletar}
                 cerrar={cerrarFormsPiezasMO}
               />
