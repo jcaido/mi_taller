@@ -260,9 +260,11 @@ export default function AlmacenEntradas() {
   const ObtenerAlbaranPorId = (id) => {
     obtenerAlbaranPorId(id)
       .then((response) => {
-        if (id !== '') {
+        if (id !== '' && response.data.facturado !== true) {
           dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
           NuevaEntradaYDetalleFormDispatch();
+        } else {
+          modal.handleOpenError('debe introducir un albarán que no esté facturado');
         }
       })
       .catch((error) => error.response.status === 404
@@ -273,7 +275,7 @@ export default function AlmacenEntradas() {
     obtenerAlbaranPorId(id)
       .then((response) => {
         if (response.data.facturado === true) {
-          modal.handleOpenError('el  albarán ya está facturado');
+          modal.handleOpenError('el albarán ya está facturado');
         } else if (id !== '') {
           dispatch({ type: 'actualizar_lista_albaranes', payload: response.data });
           editarAlbaranFormDispatch();
