@@ -11,22 +11,15 @@ import IconButton from '@mui/material/IconButton';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Tooltip from '@mui/material/Tooltip';
 import CabeceraForms from '../CabeceraForms';
-import { obtenerAlbaranesNoFacturadosProveedor } from '../../services/axiosService';
 import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
 
 export default function TablaAlbaranesNoFacturados({
-  albaranes, asignarAlbaranes, totalAlbaran, handleClickFacturarAlbaran,
+  albaranes, obtenerAlbaranes, totalAlbaran, handleClickFacturarAlbaran,
 }) {
   const { state } = useContext(FacturacionProveedoresContext);
 
   useEffect(() => {
-    obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
-      .then((response) => {
-        asignarAlbaranes(response.data);
-      })
-      .catch(() => {
-        alert('something went wrong');
-      });
+    obtenerAlbaranes();
   }, []);
 
   return (

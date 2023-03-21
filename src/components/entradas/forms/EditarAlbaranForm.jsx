@@ -37,7 +37,9 @@ export default function EditarAlbaranForm() {
 
   const modal = useModal();
 
-  const changeFecha = useChangeFecha(new Date());
+  const fecha = state.listaAlbaranesEntrada.fechaAlbaran.split('-');
+
+  const changeFecha = useChangeFecha(`${fecha[1]}-${fecha[0]}-${fecha[2]}`);
 
   const handleSubmitForm = () => {
     obtenerProveedorPorDniCif(proveedorRef.current.value)
@@ -61,7 +63,7 @@ export default function EditarAlbaranForm() {
 
   const formik = useFormik({
     initialValues: {
-      fechaAlbaran: state.listaAlbaranesEntrada.fechaAlbaran,
+      fechaAlbaran: changeFecha.value,
       numeroAlbaran: state.listaAlbaranesEntrada.numeroAlbaran,
       proveedor: state.listaAlbaranesEntrada.proveedor.dniCif,
     },

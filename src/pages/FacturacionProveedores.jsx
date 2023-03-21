@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import useModal from '../hooks/useModal';
 import ModalErrores from '../utils/ModalErrores';
 import FacturasProveedor from '../components/facturacion-proveedores/FacturasProveedor';
+import { obtenerFacturaProveedorPorId } from '../services/axiosService';
 
 export const FacturacionProveedoresContext = createContext();
 
@@ -12,6 +13,7 @@ export default function FacturacionProveedores() {
 
   const facturacionProveedoresInicial = {
     formCrearFacturaProveedor: false,
+    formBuscarParaEditarFacturaProveedor: false,
     formEditarFacturaProveedor: false,
     formEliminarFacturaProveedor: false,
     tablasAlbaranes: false,
@@ -26,6 +28,7 @@ export default function FacturacionProveedores() {
     localidadProveedor: null,
     provinciaProveedor: null,
     tipoIVAFacturaProveedor: null,
+    facturaProveedor: [],
   };
 
   const facturacionProveedoresReducer = (state, action) => {
@@ -34,6 +37,7 @@ export default function FacturacionProveedores() {
         return {
           ...state,
           formCrearFacturaProveedor: action.payload.formCrearFacturaProveedor,
+          formBuscarParaEditarFacturaProveedor: action.payload.formBuscarParaEditarFacturaProveedor,
           formEditarFacturaProveedor: action.payload.formEditarFacturaProveedor,
           formEliminarFacturaProveedor: action.payload.formEliminarFacturaProveedor,
           tablasAlbaranes: action.payload.tablasAlbaranes,
@@ -93,6 +97,11 @@ export default function FacturacionProveedores() {
           ...state,
           tipoIVAFacturaProveedor: action.payload,
         };
+      case 'actualizar_factura_proveedor':
+        return {
+          ...state,
+          facturaProveedor: action.payload,
+        };
       default:
         return state;
     }
@@ -106,6 +115,20 @@ export default function FacturacionProveedores() {
       type: 'facturasProveedor',
       payload: {
         formCrearFacturaProveedor: true,
+        formBuscarParaEditarFacturaProveedor: false,
+        formEditarFacturaProveedor: false,
+        formEliminarFacturaProveedor: false,
+        tablasAlbaranes: false,
+      },
+    });
+  }
+
+  function buscarParaEditarFacturaProveedorFormDispatch() {
+    dispatch({
+      type: 'facturasProveedor',
+      payload: {
+        formCrearFacturaProveedor: false,
+        formBuscarParaEditarFacturaProveedor: true,
         formEditarFacturaProveedor: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: false,
@@ -118,6 +141,7 @@ export default function FacturacionProveedores() {
       type: 'facturasProveedor',
       payload: {
         formCrearFacturaProveedor: false,
+        formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: true,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: false,
@@ -130,6 +154,7 @@ export default function FacturacionProveedores() {
       type: 'facturasProveedor',
       payload: {
         formCrearFacturaProveedor: false,
+        formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: false,
         formEliminarFacturaProveedor: true,
         tablasAlbaranes: false,
@@ -142,6 +167,7 @@ export default function FacturacionProveedores() {
       type: 'facturasProveedor',
       payload: {
         formCrearFacturaProveedor: true,
+        formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: true,
@@ -193,10 +219,21 @@ export default function FacturacionProveedores() {
     dispatch({ type: 'obtener_tipo_iva_factura_proveedor', payload: tipoIVAFacturaProveedor });
   };
 
+  const ObtenerFacturaProveedor = (id) => {
+    obtenerFacturaProveedorPorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_proveedor', payload: response.data });
+        editarFacturaProveedorFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const facturacionProveedoresProvider = useMemo(
     () => ({
       state,
       crearFacturaProveedorFormDispatch,
+      buscarParaEditarFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
       obtenerIdFacturaProveedor,
@@ -211,11 +248,13 @@ export default function FacturacionProveedores() {
       obtenerProvinciaProveedor,
       obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
+      ObtenerFacturaProveedor,
     }
     ),
     [
       state,
       crearFacturaProveedorFormDispatch,
+      buscarParaEditarFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
       obtenerIdFacturaProveedor,
@@ -230,6 +269,7 @@ export default function FacturacionProveedores() {
       obtenerProvinciaProveedor,
       obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
+      ObtenerFacturaProveedor,
     ],
   );
 

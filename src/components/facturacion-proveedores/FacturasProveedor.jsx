@@ -15,14 +15,16 @@ import useModal from '../../hooks/useModal';
 import DatosFactura from './DatosFactura';
 import TotalesFactura from './TotalesFactura';
 import BuscarPorUnInput from '../BuscarPorUnInput';
+import EditarFacturaProveedorForm from './forms/EditarFacturaProveedorForm';
 
 export default function FacturasProveedor() {
   const
     {
       state,
       crearFacturaProveedorFormDispatch,
-      editarFacturaProveedorFormDispatch,
+      buscarParaEditarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
+      ObtenerFacturaProveedor,
     } = useContext(FacturacionProveedoresContext);
 
   const [albaranesNoFacturados, setAlbaranesNoFacturados] = useState([]);
@@ -108,8 +110,28 @@ export default function FacturasProveedor() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
-  const obtenerFactura = () => {
-    //
+  const obtenerFactura = (id) => {
+    ObtenerFacturaProveedor(id);
+  };
+
+  const obtenerAlbaranesNoFacturados = () => {
+    obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
+      .then((response) => {
+        asignarAlbaranesNoFacturados(response.data);
+      })
+      .catch(() => {
+        alert('something went wrong');
+      });
+  };
+
+  const obtenerAlbaranesNoFacturadosParaEditar = () => {
+    obtenerAlbaranesNoFacturadosProveedor(state.facturaProveedor.id)
+      .then((response) => {
+        asignarAlbaranesNoFacturados(response.data);
+      })
+      .catch(() => {
+        alert('something went wrong');
+      });
   };
 
   return (
@@ -118,7 +140,7 @@ export default function FacturasProveedor() {
         <Box mt={1}>
           <NavigationButtonFacturacionProveedores
             crearFactura={crearFacturaProveedorFormDispatch}
-            editarFactura={editarFacturaProveedorFormDispatch}
+            editarFactura={buscarParaEditarFacturaProveedorFormDispatch}
             eliminarFactura={eliminarFacturaProveedorFormDispatch}
           />
         </Box>
@@ -137,7 +159,7 @@ export default function FacturasProveedor() {
                   <Grid item md={5}>
                     <TablaAlbaranesNoFacturados
                       albaranes={albaranesNoFacturados}
-                      asignarAlbaranes={asignarAlbaranesNoFacturados}
+                      obtenerAlbaranes={obtenerAlbaranesNoFacturados}
                       totalAlbaran={totalAlbaran}
                       handleClickFacturarAlbaran={handleClickFacturarAlbaran}
                     />
@@ -163,7 +185,7 @@ export default function FacturasProveedor() {
               ) : null }
           </>
         ) : null}
-      {state.formEditarFacturaProveedor
+      {state.formBuscarParaEditarFacturaProveedor
         ? (
           <BuscarPorUnInput
             label="Seleccionar factura"
@@ -171,6 +193,39 @@ export default function FacturasProveedor() {
             inputLabel="referencia(id)"
             obtener={obtenerFactura}
           />
+        ) : null}
+      {state.formEditarFacturaProveedor
+        ? (
+          <>
+            <Grid item md={2}>
+              <Box>
+                <EditarFacturaProveedorForm />
+              </Box>
+            </Grid>
+            <Grid item md={5}>
+              <TablaAlbaranesNoFacturados
+                albaranes={albaranesNoFacturados}
+                obtenerAlbaranes={obtenerAlbaranesNoFacturadosParaEditar}
+                totalAlbaran={totalAlbaran}
+                handleClickFacturarAlbaran={handleClickFacturarAlbaran}
+              />
+            </Grid>
+            <Grid item md={5}>
+              <Box>
+                Tabla albaranes asignados
+              </Box>
+            </Grid>
+            <Grid item md={6}>
+              <Box>
+                Datos factura
+              </Box>
+            </Grid>
+            <Grid item md={6}>
+              <Box>
+                Totales factura
+              </Box>
+            </Grid>
+          </>
         ) : null}
       {state.formEliminarFacturaProveedor ? <p>formulario eliminar factura</p> : null}
     </Grid>

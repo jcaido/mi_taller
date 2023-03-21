@@ -346,3 +346,5 @@ export const facturarAlbaranProveedor = (idAlbaran, idFactura) => axios.put(`htt
 export const noFacturarAlbaranProveedor = (idAlbaran) => axios.put(`http://localhost:8080/api/albaranProveedor/noFacturarAlbaran/${idAlbaran}`);
 
 export const obtenerAlbaranesAsignadosAFactura = (idFactura) => axios.get(`http://localhost:8080/api/albaranProveedor/factura/${idFactura}`);
+
+export const obtenerFacturaProveedorPorId = (idFactura) => axios.get(`http://localhost:8080/api/facturaProveedor/${idFactura}`);
