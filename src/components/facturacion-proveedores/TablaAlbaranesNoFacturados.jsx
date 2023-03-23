@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,13 +11,10 @@ import IconButton from '@mui/material/IconButton';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Tooltip from '@mui/material/Tooltip';
 import CabeceraForms from '../CabeceraForms';
-import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
 
 export default function TablaAlbaranesNoFacturados({
   albaranes, obtenerAlbaranes, totalAlbaran, handleClickFacturarAlbaran,
 }) {
-  const { state } = useContext(FacturacionProveedoresContext);
-
   useEffect(() => {
     obtenerAlbaranes();
   }, []);
@@ -49,7 +46,7 @@ export default function TablaAlbaranesNoFacturados({
                     <TableCell align="left">{totalAlbaran(albaran.id, albaranes).toLocaleString('en')}</TableCell>
                     <TableCell align="left">
                       <Tooltip title="Facturar albarán">
-                        <IconButton aria-label="delete" size="small" color="error" onClick={() => handleClickFacturarAlbaran(albaran.id, state.idFacturaProveedor)}>
+                        <IconButton aria-label="delete" size="small" color="error" onClick={() => handleClickFacturarAlbaran(albaran.id)}>
                           <ReceiptLongIcon fontSize="inherit" />
                         </IconButton>
                       </Tooltip>

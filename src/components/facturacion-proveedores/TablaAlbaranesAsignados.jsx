@@ -16,7 +16,7 @@ export default function TablaAlbaranesAsignados({
   albaranes, obtenerAlbaranesAsignados, totalAlbaran, handleClickNoFacturarAlbaranFacturado,
 }) {
   useEffect(() => {
-    obtenerAlbaranesAsignados([]);
+    obtenerAlbaranesAsignados();
   }, []);
 
   return (

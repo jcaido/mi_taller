@@ -34,6 +34,20 @@ export default function FacturasProveedor() {
     setAlbaranesNoFacturados(albaranes);
   };
 
+  const listaAlbaranesAsignados = () => {
+    obtenerAlbaranesAsignadosAFactura(state.idFacturaProveedor)
+      .then((response) => {
+        setAlbaranesAsignados(response.data);
+      });
+  };
+
+  const listaEdicionAlbaranesAsignados = () => {
+    obtenerAlbaranesAsignadosAFactura(state.facturaProveedor.id)
+      .then((response) => {
+        setAlbaranesAsignados(response.data);
+      });
+  };
+
   const obtenerAlbaranesAsignados = (albaranes) => {
     setAlbaranesAsignados(albaranes);
   };
@@ -66,13 +80,35 @@ export default function FacturasProveedor() {
     return total;
   };
 
-  const handleClickFacturarAlbaran = (albaran, factura) => {
-    facturarAlbaranProveedor(albaran, factura)
+  const handleClickFacturarAlbaran = (albaran) => {
+    facturarAlbaranProveedor(albaran, state.idFacturaProveedor)
       .then(() => {
         obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
           .then((response) => {
             asignarAlbaranesNoFacturados(response.data);
             obtenerAlbaranesAsignadosAFactura(state.idFacturaProveedor)
+              .then((res) => {
+                obtenerAlbaranesAsignados(res.data);
+              })
+              .catch((error) => {
+                modal.handleOpenError(`something went wrong: ${error}`);
+              });
+          })
+          .catch((error) => {
+            modal.handleOpenError(`something went wrong: ${error}`);
+          });
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
+  const handleClickEdicionFacturarAlbaran = (albaran) => {
+    facturarAlbaranProveedor(albaran, state.facturaProveedor.id)
+      .then(() => {
+        obtenerAlbaranesNoFacturadosProveedor(state.facturaProveedor.proveedor.id)
+          .then((response) => {
+            asignarAlbaranesNoFacturados(response.data);
+            obtenerAlbaranesAsignadosAFactura(state.facturaProveedor.id)
               .then((res) => {
                 obtenerAlbaranesAsignados(res.data);
               })
@@ -110,6 +146,28 @@ export default function FacturasProveedor() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const handleClickEdicionNoFacturarAlbaranFacturado = (albaran) => {
+    noFacturarAlbaranProveedor(albaran)
+      .then(() => {
+        obtenerAlbaranesNoFacturadosProveedor(state.facturaProveedor.proveedor.id)
+          .then((response) => {
+            asignarAlbaranesNoFacturados(response.data);
+            obtenerAlbaranesAsignadosAFactura(state.facturaProveedor.id)
+              .then((res) => {
+                obtenerAlbaranesAsignados(res.data);
+              })
+              .catch((error) => {
+                modal.handleOpenError(`something went wrong: ${error}`);
+              });
+          })
+          .catch((error) => {
+            modal.handleOpenError(`something went wrong: ${error}`);
+          });
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const obtenerFactura = (id) => {
     ObtenerFacturaProveedor(id);
   };
@@ -125,7 +183,7 @@ export default function FacturasProveedor() {
   };
 
   const obtenerAlbaranesNoFacturadosParaEditar = () => {
-    obtenerAlbaranesNoFacturadosProveedor(state.facturaProveedor.id)
+    obtenerAlbaranesNoFacturadosProveedor(state.facturaProveedor.proveedor.id)
       .then((response) => {
         asignarAlbaranesNoFacturados(response.data);
       })
@@ -167,18 +225,29 @@ export default function FacturasProveedor() {
                   <Grid item md={5}>
                     <TablaAlbaranesAsignados
                       albaranes={albaranesAsignados}
-                      obtenerAlbaranesAsignados={obtenerAlbaranesAsignados}
+                      obtenerAlbaranesAsignados={listaAlbaranesAsignados}
                       totalAlbaran={totalAlbaran}
                       handleClickNoFacturarAlbaranFacturado={handleClickNoFacturarAlbaranFacturado}
                     />
                   </Grid>
                   <Grid item md={6}>
-                    <DatosFactura />
+                    <DatosFactura
+                      idFactura={state.idFacturaProveedor}
+                      fechaFactura={state.fechaFacturaProveedor}
+                      numeroFactura={state.numeroFacturaProveedor}
+                      nombreProveedor={state.nombreProveedor}
+                      cifNifProveedor={state.cifNifProveedor}
+                      domicilioProveedor={state.domicilioProveedor}
+                      codigoPostalProveedor={state.codigoPostalProveedor}
+                      localidadProveedor={state.localidadProveedor}
+                      provinciaProveedor={state.provinciaProveedor}
+                    />
                   </Grid>
                   <Grid item md={6}>
                     <TotalesFactura
                       baseImponible={baseImponible}
                       albaranesAsignados={albaranesAsignados}
+                      tipoIva={state.tipoIVAFacturaProveedor}
                     />
                   </Grid>
                 </>
@@ -199,7 +268,9 @@ export default function FacturasProveedor() {
           <>
             <Grid item md={2}>
               <Box>
-                <EditarFacturaProveedorForm />
+                <EditarFacturaProveedorForm
+                  asignarAlbaranesNoFacturados={asignarAlbaranesNoFacturados}
+                />
               </Box>
             </Grid>
             <Grid item md={5}>
@@ -207,23 +278,36 @@ export default function FacturasProveedor() {
                 albaranes={albaranesNoFacturados}
                 obtenerAlbaranes={obtenerAlbaranesNoFacturadosParaEditar}
                 totalAlbaran={totalAlbaran}
-                handleClickFacturarAlbaran={handleClickFacturarAlbaran}
+                handleClickFacturarAlbaran={handleClickEdicionFacturarAlbaran}
               />
             </Grid>
             <Grid item md={5}>
-              <Box>
-                Tabla albaranes asignados
-              </Box>
+              <TablaAlbaranesAsignados
+                albaranes={albaranesAsignados}
+                obtenerAlbaranesAsignados={listaEdicionAlbaranesAsignados}
+                totalAlbaran={totalAlbaran}
+                handleClickNoFacturarAlbaranFacturado={handleClickEdicionNoFacturarAlbaranFacturado}
+              />
             </Grid>
             <Grid item md={6}>
-              <Box>
-                Datos factura
-              </Box>
+              <DatosFactura
+                idFactura={state.facturaProveedor.id}
+                fechaFactura={state.facturaProveedor.fechaFactura}
+                numeroFactura={state.facturaProveedor.numeroFactura}
+                nombreProveedor={state.facturaProveedor.proveedor.nombre}
+                cifNifProveedor={state.facturaProveedor.proveedor.dniCif}
+                domicilioProveedor={state.facturaProveedor.proveedor.domicilio}
+                codigoPostalProveedor={state.facturaProveedor.proveedor.codigoPostal.codigo}
+                localidadProveedor={state.facturaProveedor.proveedor.codigoPostal.localidad}
+                provinciaProveedor={state.facturaProveedor.proveedor.codigoPostal.provincia}
+              />
             </Grid>
             <Grid item md={6}>
-              <Box>
-                Totales factura
-              </Box>
+              <TotalesFactura
+                baseImponible={baseImponible}
+                albaranesAsignados={albaranesAsignados}
+                tipoIva={state.facturaProveedor.tipoIVA}
+              />
             </Grid>
           </>
         ) : null}

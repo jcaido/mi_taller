@@ -14,6 +14,7 @@ import CabeceraForms from '../../CabeceraForms';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import useModal from '../../../hooks/useModal';
+import { modificarFacturaProveedor, obtenerAlbaranesNoFacturadosProveedor, obtenerProveedorPorDniCif } from '../../../services/axiosService';
 
 const validationSchema = yup.object({
   fechaFactura: yup
@@ -32,8 +33,13 @@ const validationSchema = yup.object({
     .required('El proveedor es obligatorio'),
 });
 
-export default function EditarFacturaProveedorForm() {
-  const { state } = useContext(FacturacionProveedoresContext);
+export default function EditarFacturaProveedorForm({
+  asignarAlbaranesNoFacturados,
+}) {
+  const {
+    state,
+    actualizarFacturaProveedor,
+  } = useContext(FacturacionProveedoresContext);
 
   const fechaFacturaRef = useRef();
   const numeroFacturaRef = useRef();
@@ -50,7 +56,28 @@ export default function EditarFacturaProveedorForm() {
   const changeFecha = useChangeFecha(`${fecha[1]}-${fecha[0]}-${fecha[2]}`);
 
   const handleSubmitForm = () => {
-    //
+    obtenerProveedorPorDniCif(proveedorRef.current.value)
+      .then((response) => {
+        modificarFacturaProveedor(
+          state.facturaProveedor.id,
+          fechaFacturaRef.current.value,
+          numeroFacturaRef.current.value,
+          tipoIVARef.current.value,
+          response.data.id,
+        )
+          .then((res) => {
+            actualizarFacturaProveedor(res.data.id);
+            obtenerAlbaranesNoFacturadosProveedor(response.data.id)
+              .then((resp) => {
+                asignarAlbaranesNoFacturados(resp.data);
+                modal.handleOpen();
+              });
+          })
+          .catch((error) => (error.response.status === 409 || error.response.status === 400)
+          && modal.handleOpenError(error.response.data.mensaje));
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({

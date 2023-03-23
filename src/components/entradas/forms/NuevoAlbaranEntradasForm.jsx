@@ -53,14 +53,15 @@ export default function NuevoAlbaranEntradasForm() {
             modal.handleOpen();
             ListarAlbaranesEntrada();
           })
-          .catch((error) => (error.response.status === 400
-            && error.response.data.fechaApertura === 'la fecha del albarán no puede ser nula')
-            && modal.handleOpenError(error.response.data.fechaApertura))
-          .catch((error) => error.response.status === 400
-          && error.response.data.descripcion === 'El número del albarán es obligatorio'
-          && modal.handleOpenError(error.response.data.descripcion))
-          .catch((error) => error.response.status === 409
-          && modal.handleOpenError(error.response.data.mensaje));
+          .catch((error) => {
+            if (error.response.status === 400 && error.response.data.fechaApertura === 'la fecha del albarán no puede ser nula') {
+              modal.handleOpenError(error.response.data.fechaApertura);
+            } else if (error.response.status === 400 && error.response.data.descripcion === 'El número del albarán es obligatorio') {
+              modal.handleOpenError(error.response.data.descripcion);
+            } else {
+              modal.handleOpenError(error.response.data.mensaje);
+            }
+          });
       })
       .catch((error) => error.response.status === 404
       && modal.handleOpenError(error.response.data.mensaje));

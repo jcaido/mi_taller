@@ -51,7 +51,6 @@ export default function EditarAlbaranForm() {
           response.data.id,
         )
           .then(() => {
-            formik.resetForm();
             modal.handleOpen();
           })
           .catch((error) => (error.response.status === 409 || error.response.status === 400)

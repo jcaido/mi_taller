@@ -12,7 +12,7 @@ export default function FacturacionOpciones() {
       <Grid item xs={12}>
         <EncabezadoOpciones titulo="Facturacion" fontSize={50} />
       </Grid>
-      <Grid xs={4}>
+      <Grid item xs={4}>
         <Box p={2}>
           <OpcionCard titulo="Proveedores" subtitulo="Gestión de facturación de proveedores ..." url="/facturacion/proveedores">
             <FactoryIcon
@@ -22,7 +22,7 @@ export default function FacturacionOpciones() {
           </OpcionCard>
         </Box>
       </Grid>
-      <Grid xs={4}>
+      <Grid item xs={4}>
         <Box p={2}>
           <OpcionCard titulo="Clientes" subtitulo="Gestión de facturación de clientes ..." url="/facturacion/clientes">
             <CarRepairIcon
@@ -32,7 +32,7 @@ export default function FacturacionOpciones() {
           </OpcionCard>
         </Box>
       </Grid>
-      <Grid xs={4}>
+      <Grid item xs={4}>
         <Box p={2}>
           <OpcionCard titulo="Informes" subtitulo="Informes de facturación, IVA ..." url="/facturacion/informes">
             <ViewComfyIcon

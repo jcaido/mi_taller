@@ -1,11 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
+// import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
 
-export default function DatosFactura() {
-  const { state } = useContext(FacturacionProveedoresContext);
+export default function DatosFactura({
+  idFactura,
+  fechaFactura,
+  numeroFactura,
+  nombreProveedor,
+  cifNifProveedor,
+  domicilioProveedor,
+  codigoPostalProveedor,
+  localidadProveedor,
+  provinciaProveedor,
+}) {
+  // const { state } = useContext(FacturacionProveedoresContext);
 
   return (
     <Card sx={{
@@ -15,35 +25,35 @@ export default function DatosFactura() {
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           { 'Referencia (id): ' }
-          { state.idFacturaProveedor }
+          { idFactura }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'Fecha Factura: ' }
-          { state.fechaFacturaProveedor }
+          { fechaFactura }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'Número Factura: ' }
-          { state.numeroFacturaProveedor }
+          { numeroFactura }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'Proveedor: ' }
-          { state.nombreProveedor }
+          { nombreProveedor }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'CIF / DNI: ' }
-          { state.cifNifProveedor }
+          { cifNifProveedor }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'Domicilio: ' }
-          { state.domicilioProveedor }
+          { domicilioProveedor }
         </Typography>
         <Typography variant="body2" color="text.secondary">
           { 'Código Postal: ' }
-          { state.codigoPostalProveedor }
+          { codigoPostalProveedor }
           { ' .- ' }
-          { state.localidadProveedor }
+          { localidadProveedor }
           { ' .- ' }
-          { state.provinciaProveedor }
+          { provinciaProveedor }
         </Typography>
       </CardContent>
     </Card>

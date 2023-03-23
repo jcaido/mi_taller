@@ -229,6 +229,13 @@ export default function FacturacionProveedores() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const actualizarFacturaProveedor = (id) => {
+    obtenerFacturaProveedorPorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_proveedor', payload: response.data });
+      });
+  };
+
   const facturacionProveedoresProvider = useMemo(
     () => ({
       state,
@@ -249,6 +256,7 @@ export default function FacturacionProveedores() {
       obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
       ObtenerFacturaProveedor,
+      actualizarFacturaProveedor,
     }
     ),
     [
@@ -270,6 +278,7 @@ export default function FacturacionProveedores() {
       obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
       ObtenerFacturaProveedor,
+      actualizarFacturaProveedor,
     ],
   );
 
