@@ -364,3 +364,5 @@ export const modificarFacturaProveedor = (
   };
   return axios.put(`http://localhost:8080/api/facturaProveedor/${idProveedor}`, body);
 };
+
+export const eliminarFacturaProveedor = (id) => axios.delete(`http://localhost:8080/api/facturaProveedor/${id}`);

@@ -8,6 +8,7 @@ import useModal from '../../../hooks/useModal';
 import ModalOK from '../../../utils/ModalOK';
 import ModalErrores from '../../../utils/ModalErrores';
 import CabeceraForms from '../../CabeceraForms';
+import { eliminarFacturaProveedor } from '../../../services/axiosService';
 
 export default function EliminarFacturaProveedorForm() {
   const { state } = useContext(FacturacionProveedoresContext);
@@ -15,7 +16,13 @@ export default function EliminarFacturaProveedorForm() {
   const modal = useModal();
 
   const handleSubmitForm = () => {
-    //
+    eliminarFacturaProveedor(state.facturaProveedor.id)
+      .then(() => {
+        formik.resetForm();
+        modal.handleOpen();
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const formik = useFormik({
