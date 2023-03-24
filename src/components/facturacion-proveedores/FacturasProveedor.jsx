@@ -16,6 +16,7 @@ import DatosFactura from './DatosFactura';
 import TotalesFactura from './TotalesFactura';
 import BuscarPorUnInput from '../BuscarPorUnInput';
 import EditarFacturaProveedorForm from './forms/EditarFacturaProveedorForm';
+import EliminarFacturaProveedorForm from './forms/EliminarFacturaProveedorForm';
 
 export default function FacturasProveedor() {
   const
@@ -23,8 +24,9 @@ export default function FacturasProveedor() {
       state,
       crearFacturaProveedorFormDispatch,
       buscarParaEditarFacturaProveedorFormDispatch,
-      eliminarFacturaProveedorFormDispatch,
+      buscarParaEliminarFacturaProveedorFormDispatch,
       ObtenerFacturaProveedor,
+      ObtenerFacturaProveedorParaEliminar,
     } = useContext(FacturacionProveedoresContext);
 
   const [albaranesNoFacturados, setAlbaranesNoFacturados] = useState([]);
@@ -172,6 +174,10 @@ export default function FacturasProveedor() {
     ObtenerFacturaProveedor(id);
   };
 
+  const obtenerFacturaParaEliminar = (id) => {
+    ObtenerFacturaProveedorParaEliminar(id);
+  };
+
   const obtenerAlbaranesNoFacturados = () => {
     obtenerAlbaranesNoFacturadosProveedor(state.idProveedor)
       .then((response) => {
@@ -199,7 +205,7 @@ export default function FacturasProveedor() {
           <NavigationButtonFacturacionProveedores
             crearFactura={crearFacturaProveedorFormDispatch}
             editarFactura={buscarParaEditarFacturaProveedorFormDispatch}
-            eliminarFactura={eliminarFacturaProveedorFormDispatch}
+            eliminarFactura={buscarParaEliminarFacturaProveedorFormDispatch}
           />
         </Box>
       </Grid>
@@ -257,7 +263,7 @@ export default function FacturasProveedor() {
       {state.formBuscarParaEditarFacturaProveedor
         ? (
           <BuscarPorUnInput
-            label="Seleccionar factura"
+            label="Seleccionar factura para editar"
             textImput="referencia"
             inputLabel="referencia(id)"
             obtener={obtenerFactura}
@@ -311,7 +317,56 @@ export default function FacturasProveedor() {
             </Grid>
           </>
         ) : null}
-      {state.formEliminarFacturaProveedor ? <p>formulario eliminar factura</p> : null}
+      {state.formBuscarParaEliminarFacturaProv
+        ? (
+          <BuscarPorUnInput
+            label="Seleccionar factura para eliminar"
+            textImput="referencia"
+            inputLabel="referencia(id)"
+            obtener={obtenerFacturaParaEliminar}
+          />
+        ) : null}
+      {state.formEliminarFacturaProveedor
+        ? (
+          <>
+            <Grid item md={2}>
+              <Box>
+                <EliminarFacturaProveedorForm />
+              </Box>
+            </Grid>
+            <Grid item md={5}>
+              <Box m={5}>
+                <DatosFactura
+                  idFactura={state.facturaProveedor.id}
+                  fechaFactura={state.facturaProveedor.fechaFactura}
+                  numeroFactura={state.facturaProveedor.numeroFactura}
+                  nombreProveedor={state.facturaProveedor.proveedor.nombre}
+                  cifNifProveedor={state.facturaProveedor.proveedor.dniCif}
+                  domicilioProveedor={state.facturaProveedor.proveedor.domicilio}
+                  codigoPostalProveedor={state.facturaProveedor.proveedor.codigoPostal.codigo}
+                  localidadProveedor={state.facturaProveedor.proveedor.codigoPostal.localidad}
+                  provinciaProveedor={state.facturaProveedor.proveedor.codigoPostal.provincia}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={5}>
+              <Box m={5}>
+                <TotalesFactura
+                  baseImponible={baseImponible}
+                  albaranesAsignados={albaranesAsignados}
+                  tipoIva={state.facturaProveedor.tipoIVA}
+                />
+              </Box>
+            </Grid>
+            <Grid item md={5}>
+              <TablaAlbaranesAsignados
+                albaranes={albaranesAsignados}
+                obtenerAlbaranesAsignados={listaEdicionAlbaranesAsignados}
+                totalAlbaran={totalAlbaran}
+              />
+            </Grid>
+          </>
+        ) : null}
     </Grid>
   );
 }

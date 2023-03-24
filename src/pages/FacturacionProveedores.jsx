@@ -15,8 +15,10 @@ export default function FacturacionProveedores() {
     formCrearFacturaProveedor: false,
     formBuscarParaEditarFacturaProveedor: false,
     formEditarFacturaProveedor: false,
+    formBuscarParaEliminarFacturaProv: false,
     formEliminarFacturaProveedor: false,
     tablasAlbaranes: false,
+    eliminarAlbaranProveedor: true,
     idFacturaProveedor: null,
     idProveedor: null,
     fechaFacturaProveedor: null,
@@ -39,8 +41,10 @@ export default function FacturacionProveedores() {
           formCrearFacturaProveedor: action.payload.formCrearFacturaProveedor,
           formBuscarParaEditarFacturaProveedor: action.payload.formBuscarParaEditarFacturaProveedor,
           formEditarFacturaProveedor: action.payload.formEditarFacturaProveedor,
+          formBuscarParaEliminarFacturaProv: action.payload.formBuscarParaEliminarFacturaProv,
           formEliminarFacturaProveedor: action.payload.formEliminarFacturaProveedor,
           tablasAlbaranes: action.payload.tablasAlbaranes,
+          eliminarAlbaranProveedor: action.payload.eliminarAlbaranProveedor,
         };
       case 'obtener_id_factura_proveedor':
         return {
@@ -117,8 +121,10 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: true,
         formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: false,
+        formBuscarParaEliminarFacturaProv: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: false,
+        eliminarAlbaranProveedor: true,
       },
     });
   }
@@ -130,8 +136,10 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: false,
         formBuscarParaEditarFacturaProveedor: true,
         formEditarFacturaProveedor: false,
+        formBuscarParaEliminarFacturaProv: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: false,
+        eliminarAlbaranProveedor: true,
       },
     });
   }
@@ -143,8 +151,25 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: false,
         formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: true,
+        formBuscarParaEliminarFacturaProv: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: false,
+        eliminarAlbaranProveedor: true,
+      },
+    });
+  }
+
+  function buscarParaEliminarFacturaProveedorFormDispatch() {
+    dispatch({
+      type: 'facturasProveedor',
+      payload: {
+        formCrearFacturaProveedor: false,
+        formBuscarParaEditarFacturaProveedor: false,
+        formEditarFacturaProveedor: false,
+        formBuscarParaEliminarFacturaProv: true,
+        formEliminarFacturaProveedor: false,
+        tablasAlbaranes: false,
+        eliminarAlbaranProveedor: false,
       },
     });
   }
@@ -156,8 +181,10 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: false,
         formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: false,
+        formBuscarParaEliminarFacturaProv: false,
         formEliminarFacturaProveedor: true,
         tablasAlbaranes: false,
+        eliminarAlbaranProveedor: false,
       },
     });
   }
@@ -169,8 +196,10 @@ export default function FacturacionProveedores() {
         formCrearFacturaProveedor: true,
         formBuscarParaEditarFacturaProveedor: false,
         formEditarFacturaProveedor: false,
+        formBuscarParaEliminarFacturaProv: false,
         formEliminarFacturaProveedor: false,
         tablasAlbaranes: true,
+        eliminarAlbaranProveedor: true,
       },
     });
   }
@@ -229,6 +258,16 @@ export default function FacturacionProveedores() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerFacturaProveedorParaEliminar = (id) => {
+    obtenerFacturaProveedorPorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_proveedor', payload: response.data });
+        eliminarFacturaProveedorFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const actualizarFacturaProveedor = (id) => {
     obtenerFacturaProveedorPorId(id)
       .then((response) => {
@@ -242,6 +281,7 @@ export default function FacturacionProveedores() {
       crearFacturaProveedorFormDispatch,
       buscarParaEditarFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
+      buscarParaEliminarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
       obtenerIdFacturaProveedor,
       obtenerIdProveedor,
@@ -257,6 +297,7 @@ export default function FacturacionProveedores() {
       tablasAlbaranesDispatch,
       ObtenerFacturaProveedor,
       actualizarFacturaProveedor,
+      ObtenerFacturaProveedorParaEliminar,
     }
     ),
     [
@@ -264,6 +305,7 @@ export default function FacturacionProveedores() {
       crearFacturaProveedorFormDispatch,
       buscarParaEditarFacturaProveedorFormDispatch,
       editarFacturaProveedorFormDispatch,
+      buscarParaEliminarFacturaProveedorFormDispatch,
       eliminarFacturaProveedorFormDispatch,
       obtenerIdFacturaProveedor,
       obtenerIdProveedor,
@@ -279,6 +321,7 @@ export default function FacturacionProveedores() {
       tablasAlbaranesDispatch,
       ObtenerFacturaProveedor,
       actualizarFacturaProveedor,
+      ObtenerFacturaProveedorParaEliminar,
     ],
   );
 

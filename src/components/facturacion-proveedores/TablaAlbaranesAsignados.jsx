@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,10 +11,13 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
 import CabeceraForms from '../CabeceraForms';
+import { FacturacionProveedoresContext } from '../../pages/FacturacionProveedores';
 
 export default function TablaAlbaranesAsignados({
   albaranes, obtenerAlbaranesAsignados, totalAlbaran, handleClickNoFacturarAlbaranFacturado,
 }) {
+  const { state } = useContext(FacturacionProveedoresContext);
+
   useEffect(() => {
     obtenerAlbaranesAsignados();
   }, []);
@@ -33,7 +36,10 @@ export default function TablaAlbaranesAsignados({
                 <TableCell sx={{ fontWeight: 'bold' }} align="left">Fecha</TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }} align="left">Numero</TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }} align="left">Total</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} align="left">Acciones</TableCell>
+                {state.eliminarAlbaranProveedor
+                  ? (
+                    <TableCell sx={{ fontWeight: 'bold' }} align="left">Acciones</TableCell>
+                  ) : null}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -44,13 +50,16 @@ export default function TablaAlbaranesAsignados({
                     <TableCell align="left">{albaran.fechaAlbaran}</TableCell>
                     <TableCell align="left">{albaran.numeroAlbaran}</TableCell>
                     <TableCell align="left">{totalAlbaran(albaran.id, albaranes).toLocaleString('en')}</TableCell>
-                    <TableCell align="left">
-                      <Tooltip title="Quitar albarán">
-                        <IconButton aria-label="delete" size="small" color="error" onClick={() => handleClickNoFacturarAlbaranFacturado(albaran.id)}>
-                          <ClearIcon fontSize="inherit" />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
+                    {state.eliminarAlbaranProveedor
+                      ? (
+                        <TableCell align="left">
+                          <Tooltip title="Quitar albarán">
+                            <IconButton aria-label="delete" size="small" color="error" onClick={() => handleClickNoFacturarAlbaranFacturado(albaran.id)}>
+                              <ClearIcon fontSize="inherit" />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      ) : null}
                   </TableRow>
                 ),
               )}
