@@ -366,3 +366,5 @@ export const modificarFacturaProveedor = (
 };
 
 export const eliminarFacturaProveedor = (id) => axios.delete(`http://localhost:8080/api/facturaProveedor/${id}`);
+
+export const obtenerFacturasProveedoresEntreFechas = (fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/facturaProveedor/${fechaInicial}/${fechaFinal}`);
