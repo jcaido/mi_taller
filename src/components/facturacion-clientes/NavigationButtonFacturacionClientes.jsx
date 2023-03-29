@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { BottomNavigation } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CreateIcon from '@mui/icons-material/Create';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import useNavigationButton from '../../hooks/useNavigationButton';
 
-export default function NavigationButtonFacturacionProveedores(
+export default function NavigationButtonFacturacionClientes(
   {
     crearFactura,
     editarFactura,
