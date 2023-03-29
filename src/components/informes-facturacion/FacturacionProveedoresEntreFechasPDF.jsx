@@ -248,7 +248,7 @@ export default function FacturacionProveedoresEntreFechasPDF(
               {' €'}
             </Text>
             <Text style={styles.totalText}>
-              {'TOTAL IVA SPORTADO:  '}
+              {'TOTAL IVA SOPORTADO:  '}
               {totalIvaSoportado(listaFacturasProveedores).toLocaleString('en')}
               {' €'}
             </Text>
