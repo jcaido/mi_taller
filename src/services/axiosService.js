@@ -124,6 +124,7 @@ export const nuevaOrdenReparacion = (fechaApertura, descripcion, kilometros, idM
     descripcion,
     kilometros,
     cerrada: false,
+    facturada: false,
   };
 
   return axios.post(`http://localhost:8080/api/ordenesReparacion/${idMatricula}`, body);
