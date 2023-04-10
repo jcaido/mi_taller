@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Grid } from '@mui/material';
 import NavigationButtonFacturacionClientes from './NavigationButtonFacturacionClientes';
 import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
+import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
 
 export default function FacturasClientes() {
   const {
@@ -22,7 +23,21 @@ export default function FacturasClientes() {
           />
         </Box>
       </Grid>
-      {state.formCrearFacturaCliente ? <p>crear factura cliente</p> : null}
+      {state.formCrearFacturaCliente
+        ? (
+          <>
+            <Grid item md={2}>
+              <Box>
+                <NuevaFacturaClienteForm />
+              </Box>
+            </Grid>
+            <Grid item md={10}>
+              <Box>
+                Tabla ordenes de reparación pendientes de facturar
+              </Box>
+            </Grid>
+          </>
+        ) : null}
       {state.formBuscarParaEditarFacturaCliente ? <p>form editar factura cliente</p> : null}
       {state.formBuscarParaEliminarFacturaCliente ? <p>form eliminar factura cliente</p> : null}
     </Grid>
