@@ -143,6 +143,8 @@ export const obtenerOrdenReparacionPorId = (id) => axios.get(`http://localhost:8
 
 export const obtenerOrdenReparacionPorIdCompleta = (id) => axios.get(`http://localhost:8080/api/ordenesReparacion/${id}`);
 
+export const obtenerOrdenesReparacionCerradasPendientesFacturas = () => axios.get('http://localhost:8080/api/ordenesReparacion/cerradas-ptes-facturar');
+
 export const modificarOrdenReparacion = (
   id,
   fechaApertura,

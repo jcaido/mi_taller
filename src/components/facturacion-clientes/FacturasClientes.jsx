@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import NavigationButtonFacturacionClientes from './NavigationButtonFacturacionClientes';
 import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
 import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
+import TablaOrdenesReparacionNoFacturadas from './TablaOrdenesReparacionNoFacturadas';
+import { obtenerOrdenesReparacionCerradasPendientesFacturas } from '../../services/axiosService';
 
 export default function FacturasClientes() {
   const {
@@ -11,6 +13,15 @@ export default function FacturasClientes() {
     buscarParaEditarFacturaClienteFormDispatch,
     buscarParaEliminarFacturaClienteFormDispatch,
   } = useContext(FacturacionClientesContext);
+
+  const [ordenesReeparacionNoFacturadas, setOrdenesReeparacionNoFacturadas] = useState([]);
+
+  const obtenerOrdenesReparacionNoFacturadas = () => {
+    obtenerOrdenesReparacionCerradasPendientesFacturas()
+      .then((response) => {
+        setOrdenesReeparacionNoFacturadas(response.data);
+      });
+  };
 
   return (
     <Grid container rowSpacing={1}>
@@ -31,9 +42,12 @@ export default function FacturasClientes() {
                 <NuevaFacturaClienteForm />
               </Box>
             </Grid>
-            <Grid item md={10}>
+            <Grid item md={8}>
               <Box>
-                Tabla ordenes de reparación pendientes de facturar
+                <TablaOrdenesReparacionNoFacturadas
+                  obtenerOrdenesReparacionNoFacturadas={obtenerOrdenesReparacionNoFacturadas}
+                  ordenesReparacionNoFacturadas={ordenesReeparacionNoFacturadas}
+                />
               </Box>
             </Grid>
           </>
