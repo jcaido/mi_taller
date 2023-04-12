@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -28,7 +28,11 @@ const validationSchema = yup.object({
     .required('La orden de reparación es obligatoria'),
 });
 
-export default function NuevaFacturaClienteForm() {
+export default function NuevaFacturaClienteForm({
+  inputOrdenReparacion,
+  labelOrdenReparacion,
+  establecerLabelOrdenFormNuevaFactura,
+}) {
   const fechaFacturaRef = useRef();
   const tipoIVARef = useRef();
   const ordenReparacionRef = useRef();
@@ -38,6 +42,10 @@ export default function NuevaFacturaClienteForm() {
   const modal = useModal();
 
   const changeFecha = useChangeFecha(new Date());
+
+  useEffect(() => {
+    establecerLabelOrdenFormNuevaFactura(true);
+  }, []);
 
   const handleSubmitForm = () => {
     setDisabled(true);
@@ -97,9 +105,9 @@ export default function NuevaFacturaClienteForm() {
             fullWidth
             id="ordenReparacion"
             name="ordenReparacion"
-            label="orden reparacion (id)"
+            label={labelOrdenReparacion ? 'orden reparacion (id)' : ''}
             size="small"
-            value={formik.values.ordenReparacion}
+            value={labelOrdenReparacion ? 'orden reparacion (id)' : inputOrdenReparacion}
             onChange={formik.handleChange}
             error={formik.touched.ordenReparacion && Boolean(formik.errors.ordenReparacion)}
             helperText={formik.touched.ordenReparacion && formik.errors.ordenReparacion}

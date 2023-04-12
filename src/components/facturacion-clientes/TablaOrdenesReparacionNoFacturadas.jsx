@@ -12,6 +12,7 @@ import CabeceraForms from '../CabeceraForms';
 export default function TablaOrdenesReparacionNoFacturadas({
   obtenerOrdenesReparacionNoFacturadas,
   ordenesReparacionNoFacturadas,
+  seleccionarOrdenReparacion,
 }) {
   useEffect(() => {
     obtenerOrdenesReparacionNoFacturadas();
@@ -38,7 +39,11 @@ export default function TablaOrdenesReparacionNoFacturadas({
             <TableBody>
               {ordenesReparacionNoFacturadas.map(
                 (ordenReparacion) => (
-                  <TableRow key={ordenReparacion.id} sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}>
+                  <TableRow
+                    key={ordenReparacion.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}
+                    onClick={() => seleccionarOrdenReparacion(ordenReparacion.id)}
+                  >
                     <TableCell align="left">{ordenReparacion.id}</TableCell>
                     <TableCell align="left">{ordenReparacion.fechaCierre}</TableCell>
                     <TableCell align="left">{ordenReparacion.vehiculoMatricula}</TableCell>

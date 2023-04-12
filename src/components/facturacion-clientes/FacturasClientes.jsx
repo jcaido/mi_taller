@@ -4,7 +4,8 @@ import NavigationButtonFacturacionClientes from './NavigationButtonFacturacionCl
 import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
 import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
 import TablaOrdenesReparacionNoFacturadas from './TablaOrdenesReparacionNoFacturadas';
-import { obtenerOrdenesReparacionCerradasPendientesFacturas } from '../../services/axiosService';
+import { obtenerOrdenesReparacionCerradasPendientesFacturas, obtenerOrdenReparacionPorIdCompleta } from '../../services/axiosService';
+import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 
 export default function FacturasClientes() {
   const {
@@ -14,13 +15,40 @@ export default function FacturasClientes() {
     buscarParaEliminarFacturaClienteFormDispatch,
   } = useContext(FacturacionClientesContext);
 
-  const [ordenesReeparacionNoFacturadas, setOrdenesReeparacionNoFacturadas] = useState([]);
+  const [ordenesReeparacionNoFacturadas, setOrdenesReparacionNoFacturadas] = useState([]);
+  const [ordenReparacionAFacturar, setOrdenReparacionAFacturar] = useState([]);
+
+  const [inputOrdenReparacion, setInputOrdenReparacion] = useState();
+  const [labelOrdenReparacion, setLabelOrdenReparacion] = useState(true);
+  const [datosOrdenReparacion, setDatosOrdenReparacion] = useState(false);
 
   const obtenerOrdenesReparacionNoFacturadas = () => {
     obtenerOrdenesReparacionCerradasPendientesFacturas()
       .then((response) => {
-        setOrdenesReeparacionNoFacturadas(response.data);
+        setOrdenesReparacionNoFacturadas(response.data);
       });
+  };
+
+  const seleccionarOrdenReparacion = (idOrden) => {
+    setInputOrdenReparacion(idOrden);
+    setLabelOrdenReparacion(false);
+    obtenerOrdenReparacionPorIdCompleta(idOrden)
+      .then((response) => {
+        setDatosOrdenReparacion(true);
+        setOrdenReparacionAFacturar(response.data);
+      });
+  };
+
+  const establecerLabelOrdenFormNuevaFactura = () => {
+    setLabelOrdenReparacion(true);
+  };
+
+  const establecerDatosOrdenReparacionTrue = () => {
+    setDatosOrdenReparacion(true);
+  };
+
+  const estableerDatosOrdenReparacionFalse = () => {
+    setDatosOrdenReparacion(false);
   };
 
   return (
@@ -39,17 +67,34 @@ export default function FacturasClientes() {
           <>
             <Grid item md={2}>
               <Box>
-                <NuevaFacturaClienteForm />
+                <NuevaFacturaClienteForm
+                  inputOrdenReparacion={inputOrdenReparacion}
+                  labelOrdenReparacion={labelOrdenReparacion}
+                  establecerLabelOrdenFormNuevaFactura={establecerLabelOrdenFormNuevaFactura}
+                />
               </Box>
             </Grid>
-            <Grid item md={8}>
+            <Grid item md={10}>
               <Box>
                 <TablaOrdenesReparacionNoFacturadas
                   obtenerOrdenesReparacionNoFacturadas={obtenerOrdenesReparacionNoFacturadas}
                   ordenesReparacionNoFacturadas={ordenesReeparacionNoFacturadas}
+                  seleccionarOrdenReparacion={seleccionarOrdenReparacion}
                 />
               </Box>
             </Grid>
+            {datosOrdenReparacion
+              ? (
+                <Grid item md={12}>
+                  <Box>
+                    <InformacionOrdenReparacion
+                      ordenReparacionAFacturar={ordenReparacionAFacturar}
+                      establecerDatosOrdenReparacionTrue={establecerDatosOrdenReparacionTrue}
+                      estableerDatosOrdenReparacionFalse={estableerDatosOrdenReparacionFalse}
+                    />
+                  </Box>
+                </Grid>
+              ) : null}
           </>
         ) : null}
       {state.formBuscarParaEditarFacturaCliente ? <p>form editar factura cliente</p> : null}
