@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Box } from '@mui/material';
@@ -22,43 +22,35 @@ const validationSchema = yup.object({
   tipoIVA: yup
     .number('Introduzca el tipo de IVA')
     .typeError('Introduzca un dato numerico'),
-  // .required('El tipo de IVA es obligatorio'),
-  ordenReparacion: yup
-    .string('Introduzca la referencia (id) de la orden de reparación')
-    .required('La orden de reparación es obligatoria'),
 });
 
 export default function NuevaFacturaClienteForm({
-  inputOrdenReparacion,
-  labelOrdenReparacion,
-  establecerLabelOrdenFormNuevaFactura,
+  handleSubmitNuevaFacturaForm,
+  ordenReparacionAFacturar,
+  disabled,
+  setDisabled,
 }) {
   const fechaFacturaRef = useRef();
   const tipoIVARef = useRef();
-  const ordenReparacionRef = useRef();
-
-  const [disabled, setDisabled] = useState(false);
-
   const modal = useModal();
-
   const changeFecha = useChangeFecha(new Date());
 
   useEffect(() => {
-    establecerLabelOrdenFormNuevaFactura(true);
-  }, []);
-
-  const handleSubmitForm = () => {
     setDisabled(true);
-  };
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       fechaFactura: changeFecha.value,
       tipoIva: 21,
-      ordenReparacion: '',
     },
     validationSchema,
-    onSubmit: () => handleSubmitForm(),
+    onSubmit: () => handleSubmitNuevaFacturaForm(
+      fechaFacturaRef.current.value,
+      tipoIVARef.current.value,
+      ordenReparacionAFacturar.vehiculo.propietario.id,
+      ordenReparacionAFacturar.id,
+    ),
   });
 
   return (
@@ -69,7 +61,6 @@ export default function NuevaFacturaClienteForm({
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
               <DesktopDatePicker
-                disabled={disabled}
                 id="fechaFactura"
                 name="fechaFactura"
                 label="fecha de la factura"
@@ -86,7 +77,6 @@ export default function NuevaFacturaClienteForm({
         </Box>
         <Box m={1}>
           <TextField
-            disabled={disabled}
             fullWidth
             id="tipoIva"
             name="tipoIva"
@@ -97,21 +87,6 @@ export default function NuevaFacturaClienteForm({
             error={formik.touched.tipoIva && Boolean(formik.errors.tipoIva)}
             helperText={formik.touched.tipoIva && formik.errors.tipoIva}
             inputRef={tipoIVARef}
-          />
-        </Box>
-        <Box m={1}>
-          <TextField
-            disabled={disabled}
-            fullWidth
-            id="ordenReparacion"
-            name="ordenReparacion"
-            label={labelOrdenReparacion ? 'orden reparacion (id)' : ''}
-            size="small"
-            value={labelOrdenReparacion ? 'orden reparacion (id)' : inputOrdenReparacion}
-            onChange={formik.handleChange}
-            error={formik.touched.ordenReparacion && Boolean(formik.errors.ordenReparacion)}
-            helperText={formik.touched.ordenReparacion && formik.errors.ordenReparacion}
-            inputRef={ordenReparacionRef}
           />
         </Box>
         <Box m={1}>

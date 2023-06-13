@@ -21,7 +21,7 @@ export default function TablaOrdenesReparacionNoFacturadas({
   return (
     <>
       <Box m={2}>
-        <CabeceraForms label="Ordenes de reparación cerradas pendientes de facturar" />
+        <CabeceraForms label="Seleccionar orden de reparación cerrada pendientes de facturar" />
       </Box>
       <Box m={1}>
         <TableContainer component={Paper}>

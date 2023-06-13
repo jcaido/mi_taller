@@ -12,6 +12,7 @@ export default function FacturacionClientes() {
     formEditarFacturaCliente: false,
     formBuscarParaEliminarFacturaCliente: false,
     formEliminarFacturaCliente: false,
+    facturaPDF: false,
   };
 
   const facturacionClientesReducer = (state, action) => {
@@ -24,6 +25,7 @@ export default function FacturacionClientes() {
           formEditarFacturaCliente: action.payload.formEditarFacturaCliente,
           formBuscarParaEliminarFacturaCliente: action.payload.formBuscarParaEliminarFacturaCliente,
           formEliminarFacturaCliente: action.payload.formEliminarFacturaCliente,
+          facturaPDF: action.payload.facturaPDF,
         };
       default:
         return state;
@@ -41,6 +43,21 @@ export default function FacturacionClientes() {
         formEditarFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
+        facturaPDF: false,
+      },
+    });
+  }
+
+  function ocultarFacturaClienteFormDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: false,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: false,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: false,
+        facturaPDF: false,
       },
     });
   }
@@ -54,6 +71,7 @@ export default function FacturacionClientes() {
         formEditarFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
+        facturaPDF: false,
       },
     });
   }
@@ -67,6 +85,7 @@ export default function FacturacionClientes() {
         formEditarFacturaCliente: true,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
+        facturaPDF: false,
       },
     });
   }
@@ -80,6 +99,7 @@ export default function FacturacionClientes() {
         formEditarFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: true,
         formEliminarFacturaCliente: false,
+        facturaPDF: false,
       },
     });
   }
@@ -93,6 +113,21 @@ export default function FacturacionClientes() {
         formEditarFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: true,
+        facturaPDF: false,
+      },
+    });
+  }
+
+  function facturaPDFDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: false,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: false,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: true,
+        facturaPDF: true,
       },
     });
   }
@@ -101,19 +136,23 @@ export default function FacturacionClientes() {
     () => ({
       state,
       crearFacturaClienteFormDispatch,
+      ocultarFacturaClienteFormDispatch,
       buscarParaEditarFacturaClienteFormDispatch,
       editarFacturaClienteFormDispatch,
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
+      facturaPDFDispatch,
     }
     ),
     [
       state,
       crearFacturaClienteFormDispatch,
+      ocultarFacturaClienteFormDispatch,
       buscarParaEditarFacturaClienteFormDispatch,
       editarFacturaClienteFormDispatch,
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
+      facturaPDFDispatch,
     ],
   );
 

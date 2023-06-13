@@ -375,3 +375,14 @@ export const obtenerFacturasProveedoresEntreFechas = (fechaInicial, fechaFinal) 
 export const obtenerFacturasPorProveedorEntreFechas = (idProveedor, fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/facturaProveedor/${idProveedor}/${fechaInicial}/${fechaFinal}`);
 
 export const obtenerProveedorPorId = (id) => axios.get(`http://localhost:8080/api/proveedores/${id}`);
+
+export const nuevaFacturaCliente = (fechaFactura, tipoIVA, idPropietario, idOrdenReparacion) => {
+  const body = {
+    fechaFactura,
+    tipoIVA,
+  };
+
+  return axios.post(`http://localhost:8080/api/facturaCliente/nuevaFactura/${idPropietario}/${idOrdenReparacion}`, body);
+};
+
+export const ultimaFacturaCliente = () => axios.get('http://localhost:8080/api/facturaCliente/ultima-factura');

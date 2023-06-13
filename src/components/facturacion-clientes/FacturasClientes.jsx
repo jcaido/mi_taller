@@ -1,26 +1,37 @@
 import React, { useContext, useState } from 'react';
 import { Box, Grid } from '@mui/material';
+import { PDFViewer } from '@react-pdf/renderer';
 import NavigationButtonFacturacionClientes from './NavigationButtonFacturacionClientes';
 import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
 import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
 import TablaOrdenesReparacionNoFacturadas from './TablaOrdenesReparacionNoFacturadas';
-import { obtenerOrdenesReparacionCerradasPendientesFacturas, obtenerOrdenReparacionPorIdCompleta } from '../../services/axiosService';
+import {
+  nuevaFacturaCliente,
+  obtenerOrdenesReparacionCerradasPendientesFacturas,
+  obtenerOrdenReparacionPorIdCompleta, ultimaFacturaCliente,
+} from '../../services/axiosService';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
+import FacturaClientePDF from './FacturaClientePDF';
 
 export default function FacturasClientes() {
   const {
     state,
     crearFacturaClienteFormDispatch,
+    ocultarFacturaClienteFormDispatch,
     buscarParaEditarFacturaClienteFormDispatch,
     buscarParaEliminarFacturaClienteFormDispatch,
+    facturaPDFDispatch,
   } = useContext(FacturacionClientesContext);
 
   const [ordenesReeparacionNoFacturadas, setOrdenesReparacionNoFacturadas] = useState([]);
   const [ordenReparacionAFacturar, setOrdenReparacionAFacturar] = useState([]);
 
-  const [inputOrdenReparacion, setInputOrdenReparacion] = useState();
-  const [labelOrdenReparacion, setLabelOrdenReparacion] = useState(true);
   const [datosOrdenReparacion, setDatosOrdenReparacion] = useState(false);
+
+  const [ultimaFactura, setUltimaFactura] = useState([]);
+
+  // eslint-disable-next-line no-unused-vars
+  const [disabled, setDisabled] = useState(true);
 
   const obtenerOrdenesReparacionNoFacturadas = () => {
     obtenerOrdenesReparacionCerradasPendientesFacturas()
@@ -30,17 +41,32 @@ export default function FacturasClientes() {
   };
 
   const seleccionarOrdenReparacion = (idOrden) => {
-    setInputOrdenReparacion(idOrden);
-    setLabelOrdenReparacion(false);
     obtenerOrdenReparacionPorIdCompleta(idOrden)
       .then((response) => {
         setDatosOrdenReparacion(true);
         setOrdenReparacionAFacturar(response.data);
+        setDisabled(false);
       });
   };
 
-  const establecerLabelOrdenFormNuevaFactura = () => {
-    setLabelOrdenReparacion(true);
+  const handleSubmitNuevaFacturaForm = (
+    fechaFactura,
+    tipoIVA,
+    idPropietario,
+    idOrdenReparacion,
+  ) => {
+    nuevaFacturaCliente(fechaFactura, tipoIVA, idPropietario, idOrdenReparacion)
+      .then(() => {
+        ultimaFacturaCliente()
+          .then((response) => {
+            ocultarFacturaClienteFormDispatch();
+            facturaPDFDispatch();
+            setUltimaFactura(response.data);
+          });
+      })
+      .catch(() => {
+        alert('error');
+      });
   };
 
   const establecerDatosOrdenReparacionTrue = () => {
@@ -68,9 +94,10 @@ export default function FacturasClientes() {
             <Grid item md={2}>
               <Box>
                 <NuevaFacturaClienteForm
-                  inputOrdenReparacion={inputOrdenReparacion}
-                  labelOrdenReparacion={labelOrdenReparacion}
-                  establecerLabelOrdenFormNuevaFactura={establecerLabelOrdenFormNuevaFactura}
+                  handleSubmitNuevaFacturaForm={handleSubmitNuevaFacturaForm}
+                  ordenReparacionAFacturar={ordenReparacionAFacturar}
+                  disabled={disabled}
+                  setDisabled={setDisabled}
                 />
               </Box>
             </Grid>
@@ -85,7 +112,7 @@ export default function FacturasClientes() {
             </Grid>
             {datosOrdenReparacion
               ? (
-                <Grid item md={12}>
+                <Grid item md={6}>
                   <Box>
                     <InformacionOrdenReparacion
                       ordenReparacionAFacturar={ordenReparacionAFacturar}
@@ -96,6 +123,16 @@ export default function FacturasClientes() {
                 </Grid>
               ) : null}
           </>
+        ) : null}
+      {state.facturaPDF
+        ? (
+          <Grid item md={10}>
+            <Box>
+              <PDFViewer style={{ width: '90%', height: '90vh', marginLeft: '80px' }}>
+                <FacturaClientePDF factura={ultimaFactura} />
+              </PDFViewer>
+            </Box>
+          </Grid>
         ) : null}
       {state.formBuscarParaEditarFacturaCliente ? <p>form editar factura cliente</p> : null}
       {state.formBuscarParaEliminarFacturaCliente ? <p>form eliminar factura cliente</p> : null}
