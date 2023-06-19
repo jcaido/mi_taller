@@ -385,4 +385,21 @@ export const nuevaFacturaCliente = (fechaFactura, tipoIVA, idPropietario, idOrde
   return axios.post(`http://localhost:8080/api/facturaCliente/nuevaFactura/${idPropietario}/${idOrdenReparacion}`, body);
 };
 
+export const modificarFacturaCliente = (
+  id,
+  fechaFactura,
+  tipoIVA,
+  idOrdenReparacion,
+) => {
+  const body = {
+    id,
+    fechaFactura,
+    tipoIVA,
+  };
+
+  return axios.put(`http://localhost:8080/api/facturaCliente/modificarFactura/${idOrdenReparacion}`, body);
+};
+
 export const ultimaFacturaCliente = () => axios.get('http://localhost:8080/api/facturaCliente/ultima-factura');
+
+export const obtenerFacturaClientePorId = (idFactura) => axios.get(`http://localhost:8080/api/facturaCliente/${idFactura}`);

@@ -27,7 +27,6 @@ const validationSchema = yup.object({
   tipoIVA: yup
     .number('Introduzca el tipo de IVA')
     .typeError('Introduzca un dato numerico'),
-  // .required('El tipo de IVA es obligatorio'),
   proveedor: yup
     .string('Introduzca la referencia (id) del proveedor')
     .required('El proveedor es obligatorio'),

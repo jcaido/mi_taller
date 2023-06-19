@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
+import React, {} from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 export default function InformacionOrdenReparacion({
   ordenReparacionAFacturar,
-  establecerDatosOrdenReparacionTrue,
-  estableerDatosOrdenReparacionFalse,
 }) {
-  useEffect(() => {
-    establecerDatosOrdenReparacionTrue();
-    return () => estableerDatosOrdenReparacionFalse();
-  }, []);
-
   function totalPiezas() {
     let total = 0;
     // eslint-disable-next-line no-restricted-syntax

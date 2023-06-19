@@ -20,7 +20,6 @@ export default function BuscarPorUnInput({
   };
 
   const formik = useFormik({
-
     initialValues: {
       input: '',
     },

@@ -2,10 +2,15 @@ import React, { createContext, useReducer, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import FacturasClientes from '../components/facturacion-clientes/FacturasClientes';
+import { obtenerFacturaClientePorId } from '../services/axiosService';
+import useModal from '../hooks/useModal';
+import ModalErrores from '../utils/ModalErrores';
 
 export const FacturacionClientesContext = createContext();
 
 export default function FacturacionClientes() {
+  const modal = useModal();
+
   const facturacionClientesInicial = {
     formCrearFacturaCliente: false,
     formBuscarParaEditarFacturaCliente: false,
@@ -13,6 +18,8 @@ export default function FacturacionClientes() {
     formBuscarParaEliminarFacturaCliente: false,
     formEliminarFacturaCliente: false,
     facturaPDF: false,
+    facturaCliente: [],
+    datosOrdenReparacion: false,
   };
 
   const facturacionClientesReducer = (state, action) => {
@@ -26,6 +33,13 @@ export default function FacturacionClientes() {
           formBuscarParaEliminarFacturaCliente: action.payload.formBuscarParaEliminarFacturaCliente,
           formEliminarFacturaCliente: action.payload.formEliminarFacturaCliente,
           facturaPDF: action.payload.facturaPDF,
+          datosOrdenReparacion: action.payload.datosOrdenReparacion,
+
+        };
+      case 'actualizar_factura_cliente':
+        return {
+          ...state,
+          facturaCliente: action.payload,
         };
       default:
         return state;
@@ -44,6 +58,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -58,6 +73,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -72,6 +88,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -86,6 +103,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -100,6 +118,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: true,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -114,6 +133,7 @@ export default function FacturacionClientes() {
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: true,
         facturaPDF: false,
+        datosOrdenReparacion: false,
       },
     });
   }
@@ -126,11 +146,52 @@ export default function FacturacionClientes() {
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
-        formEliminarFacturaCliente: true,
+        formEliminarFacturaCliente: false,
         facturaPDF: true,
+        datosOrdenReparacion: false,
       },
     });
   }
+
+  function datosOrdenReparacionDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: true,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: false,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: false,
+        facturaPDF: false,
+        datosOrdenReparacion: true,
+      },
+    });
+  }
+
+  function datosOrdenReparacionEditarDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: false,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: true,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: false,
+        facturaPDF: false,
+        datosOrdenReparacion: true,
+      },
+    });
+  }
+
+  const ObtenerFacturaCliente = (id) => {
+    obtenerFacturaClientePorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_cliente', payload: response.data });
+        editarFacturaClienteFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
 
   const facturacionClientesProvider = useMemo(
     () => ({
@@ -142,6 +203,9 @@ export default function FacturacionClientes() {
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
       facturaPDFDispatch,
+      ObtenerFacturaCliente,
+      datosOrdenReparacionDispatch,
+      datosOrdenReparacionEditarDispatch,
     }
     ),
     [
@@ -153,6 +217,9 @@ export default function FacturacionClientes() {
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
       facturaPDFDispatch,
+      ObtenerFacturaCliente,
+      datosOrdenReparacionDispatch,
+      datosOrdenReparacionEditarDispatch,
     ],
   );
 
@@ -167,6 +234,11 @@ export default function FacturacionClientes() {
             <FacturasClientes />
           </Box>
         </Grid>
+        <ModalErrores
+          openError={modal.openError}
+          message={modal.message}
+          handleCloseError={modal.handleCloseError}
+        />
       </Grid>
     </FacturacionClientesContext.Provider>
   );

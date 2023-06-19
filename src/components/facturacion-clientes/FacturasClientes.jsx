@@ -6,12 +6,18 @@ import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
 import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
 import TablaOrdenesReparacionNoFacturadas from './TablaOrdenesReparacionNoFacturadas';
 import {
+  modificarFacturaCliente,
   nuevaFacturaCliente,
+  obtenerFacturaClientePorId,
   obtenerOrdenesReparacionCerradasPendientesFacturas,
   obtenerOrdenReparacionPorIdCompleta, ultimaFacturaCliente,
 } from '../../services/axiosService';
 import InformacionOrdenReparacion from './InformacionOrdenReparacion';
 import FacturaClientePDF from './FacturaClientePDF';
+import BuscarPorUnInput from '../BuscarPorUnInput';
+import EditarFacturaClienteForm from './forms/EditarFacturaClienteForm';
+import useModal from '../../hooks/useModal';
+import ModalErrores from '../../utils/ModalErrores';
 
 export default function FacturasClientes() {
   const {
@@ -21,16 +27,18 @@ export default function FacturasClientes() {
     buscarParaEditarFacturaClienteFormDispatch,
     buscarParaEliminarFacturaClienteFormDispatch,
     facturaPDFDispatch,
+    ObtenerFacturaCliente,
+    datosOrdenReparacionDispatch,
+    datosOrdenReparacionEditarDispatch,
   } = useContext(FacturacionClientesContext);
+
+  const modal = useModal();
 
   const [ordenesReeparacionNoFacturadas, setOrdenesReparacionNoFacturadas] = useState([]);
   const [ordenReparacionAFacturar, setOrdenReparacionAFacturar] = useState([]);
 
-  const [datosOrdenReparacion, setDatosOrdenReparacion] = useState(false);
-
   const [ultimaFactura, setUltimaFactura] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
   const [disabled, setDisabled] = useState(true);
 
   const obtenerOrdenesReparacionNoFacturadas = () => {
@@ -43,7 +51,16 @@ export default function FacturasClientes() {
   const seleccionarOrdenReparacion = (idOrden) => {
     obtenerOrdenReparacionPorIdCompleta(idOrden)
       .then((response) => {
-        setDatosOrdenReparacion(true);
+        datosOrdenReparacionDispatch();
+        setOrdenReparacionAFacturar(response.data);
+        setDisabled(false);
+      });
+  };
+
+  const seleccionarOrdenReparacionEditar = (idOrden) => {
+    obtenerOrdenReparacionPorIdCompleta(idOrden)
+      .then((response) => {
+        datosOrdenReparacionEditarDispatch();
         setOrdenReparacionAFacturar(response.data);
         setDisabled(false);
       });
@@ -69,12 +86,27 @@ export default function FacturasClientes() {
       });
   };
 
-  const establecerDatosOrdenReparacionTrue = () => {
-    setDatosOrdenReparacion(true);
+  const handleSubmitEditarFacturaForm = (
+    id,
+    fechaFactura,
+    tipoIva,
+    idOrdenReparacion,
+  ) => {
+    modificarFacturaCliente(id, fechaFactura, tipoIva, idOrdenReparacion)
+      .then(() => {
+        obtenerFacturaClientePorId(id)
+          .then((response) => {
+            ocultarFacturaClienteFormDispatch();
+            facturaPDFDispatch();
+            setUltimaFactura(response.data);
+          });
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
-  const estableerDatosOrdenReparacionFalse = () => {
-    setDatosOrdenReparacion(false);
+  const obtenerFactura = (id) => {
+    ObtenerFacturaCliente(id);
   };
 
   return (
@@ -110,14 +142,12 @@ export default function FacturasClientes() {
                 />
               </Box>
             </Grid>
-            {datosOrdenReparacion
+            {state.datosOrdenReparacion
               ? (
                 <Grid item md={6}>
                   <Box>
                     <InformacionOrdenReparacion
                       ordenReparacionAFacturar={ordenReparacionAFacturar}
-                      establecerDatosOrdenReparacionTrue={establecerDatosOrdenReparacionTrue}
-                      estableerDatosOrdenReparacionFalse={estableerDatosOrdenReparacionFalse}
                     />
                   </Box>
                 </Grid>
@@ -134,7 +164,56 @@ export default function FacturasClientes() {
             </Box>
           </Grid>
         ) : null}
-      {state.formBuscarParaEditarFacturaCliente ? <p>form editar factura cliente</p> : null}
+      {state.formBuscarParaEditarFacturaCliente
+        ? (
+          <Grid item md={2}>
+            <Box>
+              <BuscarPorUnInput
+                label="Seleccionar factura para editar"
+                textImput="referencia"
+                inputLabel="referencia(id)"
+                obtener={obtenerFactura}
+              />
+            </Box>
+          </Grid>
+        ) : null}
+      {state.formEditarFacturaCliente
+        ? (
+          <>
+            <Grid item md={2}>
+              <EditarFacturaClienteForm
+                handleSubmitEditarFacturaForm={handleSubmitEditarFacturaForm}
+                ordenReparacionAFacturar={ordenReparacionAFacturar}
+                disabled={disabled}
+                setDisabled={setDisabled}
+              />
+              <ModalErrores
+                openError={modal.openError}
+                message={modal.message}
+                handleCloseError={modal.handleCloseError}
+              />
+            </Grid>
+            <Grid item md={10}>
+              <Box>
+                <TablaOrdenesReparacionNoFacturadas
+                  obtenerOrdenesReparacionNoFacturadas={obtenerOrdenesReparacionNoFacturadas}
+                  ordenesReparacionNoFacturadas={ordenesReeparacionNoFacturadas}
+                  seleccionarOrdenReparacion={seleccionarOrdenReparacionEditar}
+                />
+              </Box>
+            </Grid>
+            {state.datosOrdenReparacion
+              ? (
+                <Grid item md={6}>
+                  <Box>
+                    <InformacionOrdenReparacion
+                      ordenReparacionAFacturar={ordenReparacionAFacturar}
+                    />
+                  </Box>
+                </Grid>
+              ) : null}
+          </>
+        ) : null}
       {state.formBuscarParaEliminarFacturaCliente ? <p>form eliminar factura cliente</p> : null}
     </Grid>
   );
