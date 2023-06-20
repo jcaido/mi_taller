@@ -15,6 +15,8 @@ export default function FacturacionClientes() {
     formCrearFacturaCliente: false,
     formBuscarParaEditarFacturaCliente: false,
     formEditarFacturaCliente: false,
+    formEditarNoORFacturaCliente: false,
+    formBuscarParaEditarNoORFacturaCliente: false,
     formBuscarParaEliminarFacturaCliente: false,
     formEliminarFacturaCliente: false,
     facturaPDF: false,
@@ -30,6 +32,9 @@ export default function FacturacionClientes() {
           formCrearFacturaCliente: action.payload.formCrearFacturaCliente,
           formBuscarParaEditarFacturaCliente: action.payload.formBuscarParaEditarFacturaCliente,
           formEditarFacturaCliente: action.payload.formEditarFacturaCliente,
+          formEditarNoORFacturaCliente: action.payload.formEditarNoORFacturaCliente,
+          formBuscarParaEditarNoORFacturaCliente:
+          action.payload.formBuscarParaEditarNoORFacturaCliente,
           formBuscarParaEliminarFacturaCliente: action.payload.formBuscarParaEliminarFacturaCliente,
           formEliminarFacturaCliente: action.payload.formEliminarFacturaCliente,
           facturaPDF: action.payload.facturaPDF,
@@ -55,6 +60,8 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: true,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formEditarNoORFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -70,6 +77,8 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formEditarNoORFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -85,6 +94,25 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: true,
         formEditarFacturaCliente: false,
+        formEditarNoORFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: false,
+        facturaPDF: false,
+        datosOrdenReparacion: false,
+      },
+    });
+  }
+
+  function buscarParaEditarNoORFacturaClienteFormDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: false,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: false,
+        formEditarNoORFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: true,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -100,6 +128,25 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: true,
+        formEditarNoORFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
+        formBuscarParaEliminarFacturaCliente: false,
+        formEliminarFacturaCliente: false,
+        facturaPDF: false,
+        datosOrdenReparacion: false,
+      },
+    });
+  }
+
+  function editarNoORFacturaClienteFormDispatch() {
+    dispatch({
+      type: 'facturasCliente',
+      payload: {
+        formCrearFacturaCliente: false,
+        formBuscarParaEditarFacturaCliente: false,
+        formEditarFacturaCliente: false,
+        formEditarNoORFacturaCliente: true,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -115,6 +162,7 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: true,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -130,6 +178,7 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: true,
         facturaPDF: false,
@@ -145,6 +194,7 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: true,
@@ -160,6 +210,7 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: true,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: false,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -175,6 +226,7 @@ export default function FacturacionClientes() {
         formCrearFacturaCliente: false,
         formBuscarParaEditarFacturaCliente: false,
         formEditarFacturaCliente: true,
+        formBuscarParaEditarNoORFacturaCliente: false,
         formBuscarParaEliminarFacturaCliente: false,
         formEliminarFacturaCliente: false,
         facturaPDF: false,
@@ -193,6 +245,16 @@ export default function FacturacionClientes() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerFacturaClienteNoOR = (id) => {
+    obtenerFacturaClientePorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_cliente', payload: response.data });
+        editarNoORFacturaClienteFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const facturacionClientesProvider = useMemo(
     () => ({
       state,
@@ -200,10 +262,13 @@ export default function FacturacionClientes() {
       ocultarFacturaClienteFormDispatch,
       buscarParaEditarFacturaClienteFormDispatch,
       editarFacturaClienteFormDispatch,
+      editarNoORFacturaClienteFormDispatch,
+      buscarParaEditarNoORFacturaClienteFormDispatch,
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
       facturaPDFDispatch,
       ObtenerFacturaCliente,
+      ObtenerFacturaClienteNoOR,
       datosOrdenReparacionDispatch,
       datosOrdenReparacionEditarDispatch,
     }
@@ -214,10 +279,13 @@ export default function FacturacionClientes() {
       ocultarFacturaClienteFormDispatch,
       buscarParaEditarFacturaClienteFormDispatch,
       editarFacturaClienteFormDispatch,
+      editarNoORFacturaClienteFormDispatch,
+      buscarParaEditarNoORFacturaClienteFormDispatch,
       buscarParaEliminarFacturaClienteFormDispatch,
       eliminarFacturaClienteFormDispatch,
       facturaPDFDispatch,
       ObtenerFacturaCliente,
+      ObtenerFacturaClienteNoOR,
       datosOrdenReparacionDispatch,
       datosOrdenReparacionEditarDispatch,
     ],

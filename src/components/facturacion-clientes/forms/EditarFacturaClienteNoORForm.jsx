@@ -1,7 +1,6 @@
 import React, {
   useContext,
   useRef,
-  useEffect,
 } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -29,11 +28,9 @@ const validationSchema = yup.object({
     .typeError('Introduzca un dato numerico'),
 });
 
-export default function EditarFacturaClienteForm({
+export default function EditarFacturaClienteNoORForm({
   handleSubmitEditarFacturaForm,
   ordenReparacionAFacturar,
-  disabled,
-  setDisabled,
 }) {
   const {
     state,
@@ -47,10 +44,6 @@ export default function EditarFacturaClienteForm({
   const fecha = state.facturaCliente.fechaFactura.split('-');
 
   const changeFecha = useChangeFecha(`${fecha[1]}-${fecha[0]}-${fecha[2]}`);
-
-  useEffect(() => {
-    setDisabled(true);
-  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -103,7 +96,7 @@ export default function EditarFacturaClienteForm({
           />
         </Box>
         <Box m={1}>
-          <Button type="submit" color="primary" variant="contained" fullWidth disabled={disabled}>Modificar</Button>
+          <Button type="submit" color="primary" variant="contained" fullWidth>Modificar</Button>
           <ModalOK open={modal.open} handleClose={modal.handleClose} />
           <ModalErrores
             openError={modal.openError}

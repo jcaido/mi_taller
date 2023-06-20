@@ -5,6 +5,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CreateIcon from '@mui/icons-material/Create';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Tooltip from '@mui/material/Tooltip';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import useNavigationButton from '../../hooks/useNavigationButton';
@@ -13,6 +14,7 @@ export default function NavigationButtonFacturacionClientes(
   {
     crearFactura,
     editarFactura,
+    editarFacturaNoOR,
     eliminarFactura,
   },
 ) {
@@ -36,6 +38,14 @@ export default function NavigationButtonFacturacionClientes(
           value="editar"
           icon={<CreateIcon />}
           onClick={editarFactura}
+        />
+      </Tooltip>
+      <Tooltip title="editar factura (solo fecha y tipo de IVA)">
+        <BottomNavigationAction
+          label="editarNoOR"
+          value="editarNoOR"
+          icon={<DriveFileRenameOutlineIcon />}
+          onClick={editarFacturaNoOR}
         />
       </Tooltip>
       <Tooltip title="eliminar factura">

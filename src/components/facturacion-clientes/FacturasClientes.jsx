@@ -7,6 +7,7 @@ import NuevaFacturaClienteForm from './forms/NuevaFacturaClienteForm';
 import TablaOrdenesReparacionNoFacturadas from './TablaOrdenesReparacionNoFacturadas';
 import {
   modificarFacturaCliente,
+  modificarFacturaClienteNoOR,
   nuevaFacturaCliente,
   obtenerFacturaClientePorId,
   obtenerOrdenesReparacionCerradasPendientesFacturas,
@@ -18,6 +19,7 @@ import BuscarPorUnInput from '../BuscarPorUnInput';
 import EditarFacturaClienteForm from './forms/EditarFacturaClienteForm';
 import useModal from '../../hooks/useModal';
 import ModalErrores from '../../utils/ModalErrores';
+import EditarFacturaClienteNoORForm from './forms/EditarFacturaClienteNoORForm';
 
 export default function FacturasClientes() {
   const {
@@ -25,9 +27,11 @@ export default function FacturasClientes() {
     crearFacturaClienteFormDispatch,
     ocultarFacturaClienteFormDispatch,
     buscarParaEditarFacturaClienteFormDispatch,
+    buscarParaEditarNoORFacturaClienteFormDispatch,
     buscarParaEliminarFacturaClienteFormDispatch,
     facturaPDFDispatch,
     ObtenerFacturaCliente,
+    ObtenerFacturaClienteNoOR,
     datosOrdenReparacionDispatch,
     datosOrdenReparacionEditarDispatch,
   } = useContext(FacturacionClientesContext);
@@ -81,9 +85,8 @@ export default function FacturasClientes() {
             setUltimaFactura(response.data);
           });
       })
-      .catch(() => {
-        alert('error');
-      });
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
   };
 
   const handleSubmitEditarFacturaForm = (
@@ -105,8 +108,30 @@ export default function FacturasClientes() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const handleSubmitEditarFacturaNoORForm = (
+    id,
+    fechaFactura,
+    tipoIva,
+  ) => {
+    modificarFacturaClienteNoOR(id, fechaFactura, tipoIva)
+      .then(() => {
+        obtenerFacturaClientePorId(id)
+          .then((response) => {
+            ocultarFacturaClienteFormDispatch();
+            facturaPDFDispatch();
+            setUltimaFactura(response.data);
+          });
+      })
+      .catch((error) => error.response.status === 409
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const obtenerFactura = (id) => {
     ObtenerFacturaCliente(id);
+  };
+
+  const obtenerFacturaNoOR = (id) => {
+    ObtenerFacturaClienteNoOR(id);
   };
 
   return (
@@ -116,6 +141,7 @@ export default function FacturasClientes() {
           <NavigationButtonFacturacionClientes
             crearFactura={crearFacturaClienteFormDispatch}
             editarFactura={buscarParaEditarFacturaClienteFormDispatch}
+            editarFacturaNoOR={buscarParaEditarNoORFacturaClienteFormDispatch}
             eliminarFactura={buscarParaEliminarFacturaClienteFormDispatch}
           />
         </Box>
@@ -130,6 +156,11 @@ export default function FacturasClientes() {
                   ordenReparacionAFacturar={ordenReparacionAFacturar}
                   disabled={disabled}
                   setDisabled={setDisabled}
+                />
+                <ModalErrores
+                  openError={modal.openError}
+                  message={modal.message}
+                  handleCloseError={modal.handleCloseError}
                 />
               </Box>
             </Grid>
@@ -213,6 +244,33 @@ export default function FacturasClientes() {
                 </Grid>
               ) : null}
           </>
+        ) : null}
+      {state.formBuscarParaEditarNoORFacturaCliente
+        ? (
+          <Grid item md={2}>
+            <Box>
+              <BuscarPorUnInput
+                label="Seleccionar factura para editar"
+                textImput="referencia"
+                inputLabel="referencia(id)"
+                obtener={obtenerFacturaNoOR}
+              />
+            </Box>
+          </Grid>
+        ) : null}
+      {state.formEditarNoORFacturaCliente
+        ? (
+          <Grid item md={2}>
+            <EditarFacturaClienteNoORForm
+              handleSubmitEditarFacturaForm={handleSubmitEditarFacturaNoORForm}
+              ordenReparacionAFacturar={ordenReparacionAFacturar}
+            />
+            <ModalErrores
+              openError={modal.openError}
+              message={modal.message}
+              handleCloseError={modal.handleCloseError}
+            />
+          </Grid>
         ) : null}
       {state.formBuscarParaEliminarFacturaCliente ? <p>form eliminar factura cliente</p> : null}
     </Grid>
