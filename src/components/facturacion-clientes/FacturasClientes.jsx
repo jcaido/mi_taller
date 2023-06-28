@@ -20,6 +20,7 @@ import EditarFacturaClienteForm from './forms/EditarFacturaClienteForm';
 import useModal from '../../hooks/useModal';
 import ModalErrores from '../../utils/ModalErrores';
 import EditarFacturaClienteNoORForm from './forms/EditarFacturaClienteNoORForm';
+import EliminarFacturaClienteForm from './EliminarFacturaClienteForm';
 
 export default function FacturasClientes() {
   const {
@@ -32,6 +33,7 @@ export default function FacturasClientes() {
     facturaPDFDispatch,
     ObtenerFacturaCliente,
     ObtenerFacturaClienteNoOR,
+    ObtenerFacturaClienteEliminar,
     datosOrdenReparacionDispatch,
     datosOrdenReparacionEditarDispatch,
   } = useContext(FacturacionClientesContext);
@@ -272,7 +274,26 @@ export default function FacturasClientes() {
             />
           </Grid>
         ) : null}
-      {state.formBuscarParaEliminarFacturaCliente ? <p>form eliminar factura cliente</p> : null}
+      {state.formBuscarParaEliminarFacturaCliente
+        ? (
+          <Grid item md={2}>
+            <Box>
+              <BuscarPorUnInput
+                label="Seleccionar factura para eliminar"
+                textImput="referencia"
+                inputLabel="referencia(id)"
+                obtener={ObtenerFacturaClienteEliminar}
+              />
+            </Box>
+          </Grid>
+        ) : null}
+      {state.formEliminarFacturaCliente
+        ? (
+          <>
+            <EliminarFacturaClienteForm />
+            <p>{state.facturaCliente.serie}</p>
+          </>
+        ) : null}
     </Grid>
   );
 }

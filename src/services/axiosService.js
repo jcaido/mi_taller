@@ -416,3 +416,7 @@ export const modificarFacturaClienteNoOR = (
 export const ultimaFacturaCliente = () => axios.get('http://localhost:8080/api/facturaCliente/ultima-factura');
 
 export const obtenerFacturaClientePorId = (idFactura) => axios.get(`http://localhost:8080/api/facturaCliente/${idFactura}`);
+
+export const eliminarFacturaCliente = (id) => axios.delete(`http://localhost:8080/api/facturaCliente/${id}`);
+
+export const obtenerFacturasClientessEntreFechas = (fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/facturaCliente/${fechaInicial}/${fechaFinal}`);

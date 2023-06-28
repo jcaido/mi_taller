@@ -1,72 +1,76 @@
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
 import {
   Page, Text, View, Document, StyleSheet, PDFViewer,
 } from '@react-pdf/renderer';
 
-export default function FacturacionProveedoresEntreFechasPDF(
-  { listaFacturasProveedores, fechaInicial, fechaFinal },
+export default function FacturacionClientesEntreFechasPDF(
+  { listaFacturasClientesEntreFechas, fechaInicial, fechaFinal },
 ) {
   const fecInicial = fechaInicial.split('-');
   const fechaInicialAdaptada = `${fecInicial[2]}-${fecInicial[1]}-${fecInicial[0]}`;
   const fecFinal = fechaFinal.split('-');
   const fechaFinalAdaptada = `${fecFinal[2]}-${fecFinal[1]}-${fecFinal[0]}`;
 
+  function totalPiezas(factura) {
+    let total = 0;
+    for (const pieza of factura.ordenReparacion.piezasReparacion) {
+      total += pieza.cantidad * pieza.pieza.precio;
+    }
+    return total;
+  }
+
+  function manoDeObra(factura) {
+    return factura.ordenReparacion.manoDeObra.precioHoraClienteTaller
+    * factura.ordenReparacion.horas;
+  }
+
   function baseImponible(factura) {
+    return totalPiezas(factura) + manoDeObra(factura);
+  }
+
+  function cuotaIva(factura) {
+    return baseImponible(factura) * (factura.tipoIVA / 100);
+  }
+
+  function totalFactura(factura) {
+    return baseImponible(factura) + cuotaIva(factura);
+  }
+
+  function totalManoDeObra(facturas) {
     let total = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const albaran of factura.albaranesProveedores) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const entrada of albaran.entradasPiezas) {
-        total += entrada.cantidad * entrada.precioEntrada;
+    for (const factura of facturas) {
+      total += factura.ordenReparacion.horas
+      * factura.ordenReparacion.manoDeObra.precioHoraClienteTaller;
+    }
+    return total;
+  }
+
+  function totalPiezasFacturas(facturas) {
+    let total = 0;
+    for (const factura of facturas) {
+      for (const pieza of factura.ordenReparacion.piezasReparacion) {
+        total += pieza.cantidad
+        * pieza.pieza.precio;
       }
     }
     return total;
   }
 
-  function totalBaseInponible(facturas) {
-    let total = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const factura of facturas) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const albaran of factura.albaranesProveedores) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const entrada of albaran.entradasPiezas) {
-          total += entrada.cantidad * entrada.precioEntrada;
-        }
-      }
-    }
-    return total;
+  function totalBaseImponible(facturas) {
+    return totalManoDeObra(facturas) + totalPiezasFacturas(facturas);
   }
 
-  function totalIvaSoportado(facturas) {
+  function totalCuotaIva(facturas) {
     let total = 0;
-    // eslint-disable-next-line no-restricted-syntax
     for (const factura of facturas) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const albaran of factura.albaranesProveedores) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const entrada of albaran.entradasPiezas) {
-          total += ((entrada.cantidad * entrada.precioEntrada) * factura.tipoIVA) / 100;
-        }
-      }
+      total += baseImponible(factura) * (factura.tipoIVA / 100);
     }
     return total;
   }
 
   function totalFacturas(facturas) {
-    let total = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const factura of facturas) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const albaran of factura.albaranesProveedores) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const entrada of albaran.entradasPiezas) {
-          total += (((entrada.cantidad * entrada.precioEntrada) * factura.tipoIVA) / 100)
-          + entrada.cantidad * entrada.precioEntrada;
-        }
-      }
-    }
-    return total;
+    return totalBaseImponible(facturas) + totalCuotaIva(facturas);
   }
 
   const styles = StyleSheet.create({
@@ -133,7 +137,7 @@ export default function FacturacionProveedoresEntreFechasPDF(
       fontSize: 8,
       paddingLeft: 3,
     },
-    proveedor: {
+    cliente: {
       width: '25%',
       borderRightColor: '#90e5fc',
       borderRightWidth: 1,
@@ -197,7 +201,7 @@ export default function FacturacionProveedoresEntreFechasPDF(
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={styles.titleContainer}>
-            <Text style={styles.reportTitle}>FACTURAS DE PROVEEDORES</Text>
+            <Text style={styles.reportTitle}>FACTURAS DE CLIENTES</Text>
           </View>
           <View>
             <Text style={styles.fechas}>
@@ -213,7 +217,7 @@ export default function FacturacionProveedoresEntreFechasPDF(
               <Text style={styles.referencia}>Ref</Text>
               <Text style={styles.fechaFactura}>Fecha Factura</Text>
               <Text style={styles.numeroFactura}>Nº Factura</Text>
-              <Text style={styles.proveedor}>Proveedor</Text>
+              <Text style={styles.cliente}>Cliente</Text>
               <Text style={styles.cif}>CIF / NIF</Text>
               <Text style={styles.baseImponible}>Base Imponible</Text>
               <Text style={styles.tipoIVA}>(% IVA)</Text>
@@ -221,39 +225,45 @@ export default function FacturacionProveedoresEntreFechasPDF(
               <Text style={styles.totalFactura}>Total Factura</Text>
             </View>
           </View>
-          {listaFacturasProveedores.map(
+          {listaFacturasClientesEntreFechas.map(
             (factura) => (
               <View style={styles.row} key={factura.id}>
                 <Text style={styles.referencia}>{factura.id}</Text>
                 <Text style={styles.fechaFactura}>{factura.fechaFactura}</Text>
-                <Text style={styles.numeroFactura}>{factura.numeroFactura}</Text>
-                <Text style={styles.proveedor}>{factura.proveedor.nombre}</Text>
-                <Text style={styles.cif}>{factura.proveedor.dniCif}</Text>
+                <Text style={styles.numeroFactura}>
+                  {factura.serie}
+                  -
+                  {factura.numeroFactura}
+                </Text>
+                <Text style={styles.cliente}>
+                  {factura.ordenReparacion.vehiculo.propietario.nombre}
+                  {' '}
+                  {factura.ordenReparacion.vehiculo.propietario.primerApellido}
+                  {' '}
+                  {factura.ordenReparacion.vehiculo.propietario.segundoApellido}
+                </Text>
+                <Text style={styles.cif}>{factura.ordenReparacion.vehiculo.propietario.dni}</Text>
                 <Text style={styles.baseImponible}>{baseImponible(factura).toLocaleString('en')}</Text>
                 <Text style={styles.tipoIVA}>{factura.tipoIVA}</Text>
-                <Text style={styles.cuotaIVA}>
-                  {((baseImponible(factura) * factura.tipoIVA) / 100).toLocaleString('en')}
-                </Text>
-                <Text style={styles.totalFactura}>
-                  {(baseImponible(factura) + ((baseImponible(factura) * factura.tipoIVA) / 100)).toLocaleString('en')}
-                </Text>
+                <Text style={styles.cuotaIVA}>{cuotaIva(factura).toLocaleString('en')}</Text>
+                <Text style={styles.totalFactura}>{totalFactura(factura).toLocaleString('en')}</Text>
               </View>
             ),
           )}
           <View style={styles.total}>
             <Text style={styles.totalText}>
               {'TOTAL BASE IMPONIBLE:  '}
-              {totalBaseInponible(listaFacturasProveedores).toLocaleString('en')}
+              {totalBaseImponible(listaFacturasClientesEntreFechas).toLocaleString('en')}
               {' €'}
             </Text>
             <Text style={styles.totalText}>
               {'TOTAL IVA SOPORTADO:  '}
-              {totalIvaSoportado(listaFacturasProveedores).toLocaleString('en')}
+              {totalCuotaIva(listaFacturasClientesEntreFechas).toLocaleString('en')}
               {' €'}
             </Text>
             <Text style={styles.totalText}>
               {'TOTAL FACTURAS:  '}
-              {totalFacturas(listaFacturasProveedores).toLocaleString('en')}
+              {totalFacturas(listaFacturasClientesEntreFechas).toLocaleString('en')}
               {' €'}
             </Text>
           </View>

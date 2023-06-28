@@ -255,6 +255,16 @@ export default function FacturacionClientes() {
       && modal.handleOpenError(error.response.data.mensaje));
   };
 
+  const ObtenerFacturaClienteEliminar = (id) => {
+    obtenerFacturaClientePorId(id)
+      .then((response) => {
+        dispatch({ type: 'actualizar_factura_cliente', payload: response.data });
+        eliminarFacturaClienteFormDispatch();
+      })
+      .catch((error) => error.response.status === 404
+      && modal.handleOpenError(error.response.data.mensaje));
+  };
+
   const facturacionClientesProvider = useMemo(
     () => ({
       state,
@@ -269,6 +279,7 @@ export default function FacturacionClientes() {
       facturaPDFDispatch,
       ObtenerFacturaCliente,
       ObtenerFacturaClienteNoOR,
+      ObtenerFacturaClienteEliminar,
       datosOrdenReparacionDispatch,
       datosOrdenReparacionEditarDispatch,
     }
@@ -286,6 +297,7 @@ export default function FacturacionClientes() {
       facturaPDFDispatch,
       ObtenerFacturaCliente,
       ObtenerFacturaClienteNoOR,
+      ObtenerFacturaClienteEliminar,
       datosOrdenReparacionDispatch,
       datosOrdenReparacionEditarDispatch,
     ],
