@@ -23,6 +23,14 @@ export default function FacturacionProveedoresEntreFechasPDF(
     return total;
   }
 
+  function cuotaIvaFactura(factura) {
+    return baseImponible(factura) * (factura.tipoIVA / 100);
+  }
+
+  function totalFactura(factura) {
+    return baseImponible(factura) + cuotaIvaFactura(factura);
+  }
+
   function totalBaseInponible(facturas) {
     let total = 0;
     // eslint-disable-next-line no-restricted-syntax
@@ -231,12 +239,8 @@ export default function FacturacionProveedoresEntreFechasPDF(
                 <Text style={styles.cif}>{factura.proveedor.dniCif}</Text>
                 <Text style={styles.baseImponible}>{baseImponible(factura).toLocaleString('en')}</Text>
                 <Text style={styles.tipoIVA}>{factura.tipoIVA}</Text>
-                <Text style={styles.cuotaIVA}>
-                  {((baseImponible(factura) * factura.tipoIVA) / 100).toLocaleString('en')}
-                </Text>
-                <Text style={styles.totalFactura}>
-                  {(baseImponible(factura) + ((baseImponible(factura) * factura.tipoIVA) / 100)).toLocaleString('en')}
-                </Text>
+                <Text style={styles.cuotaIVA}>{cuotaIvaFactura(factura).toLocaleString('en')}</Text>
+                <Text style={styles.totalFactura}>{totalFactura(factura).toLocaleString('en')}</Text>
               </View>
             ),
           )}
