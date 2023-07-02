@@ -6,8 +6,10 @@ import NavigationButtonInformes from '../NavigationButtonInformes';
 import FacturasProveedoresForm from './forms/FacturasProveedoresForm';
 import {
   obtenerFacturasClientessEntreFechas,
+  obtenerFacturasPorClienteEntreFechas,
   obtenerFacturasPorProveedorEntreFechas,
   obtenerFacturasProveedoresEntreFechas,
+  obtenerPropietarioPorId,
   obtenerProveedorPorId,
 } from '../../services/axiosService';
 import FacturacionProveedoresEntreFechasPDF from './FacturacionProveedoresEntreFechasPDF';
@@ -15,6 +17,8 @@ import FacturasPorProveedorForm from './forms/FacturasPorProveedorForm';
 import FacturacionPorProveedorEntreFechasPDF from './FacturacionPorProveedorEntreFechasPDF';
 import FacturasClientesForm from './forms/FacturasClientesForm';
 import FacturacionClientesEntreFechasPDF from './FacturacionClientesEntreFechasPDF';
+import FacturasPorClienteForm from './forms/FacturasPorClienteForm';
+import FacturacionPorClienteEntreFechasPDF from './FacturacionPorClienteEntreFechasPDF';
 
 export default function InformesFacturacion() {
   const navigate = useNavigate();
@@ -41,7 +45,7 @@ export default function InformesFacturacion() {
   const [
     listaFacturasPorProveedorEntreFechas, setListaFacturasPorProveedorEntreFechas] = useState([]);
 
-  const [idProveeor, setIdProveedor] = useState();
+  const [idProveedor, setIdProveedor] = useState();
   const [nombreProveedor, setNombreProveedor] = useState();
   const [cifProveedor, setCifProveedor] = useState();
   const [fechaInicialProp, setFechaInicialProp] = useState();
@@ -56,11 +60,20 @@ export default function InformesFacturacion() {
     tablaFacturaClientesEntreFechas, setTablaFacturaClientesEntreFechas] = useState(false);
 
   const [
+    listaFacturasPorClienteEntreFechas, setListaFacturasPorClienteEntreFechas] = useState([]);
+
+  const [
     tablaFacturasPorClienteEntreFechas,
     setTablaFacturasPorClienteEntreFechas] = useState(false);
 
   const [
     listaFacturasClientesEntreFechas, setListaFacturasClientesEntreFechas] = useState([]);
+
+  const [idCliente, setIdCliente] = useState();
+  const [nombreCliente, setNombreCliente] = useState();
+  const [primerApellido, setPrimerApellido] = useState();
+  const [segundoApellido, setSegundoApellido] = useState();
+  const [cifCliente, setCifCliente] = useState();
 
   const handleClickFacturasProveedores = () => {
     setFormFacturasProveedorEntreFechas(true);
@@ -126,22 +139,22 @@ export default function InformesFacturacion() {
       });
   };
 
-  const obtenerFacturasPorProveedor = (idProveedor, fechaInicial, fechaFinal) => {
-    obtenerFacturasPorProveedorEntreFechas(idProveedor, fechaInicial, fechaFinal)
+  const obtenerFacturasPorProveedor = (idProv, fechaInicial, fechaFinal) => {
+    obtenerFacturasPorProveedorEntreFechas(idProv, fechaInicial, fechaFinal)
       .then((response) => {
         setFormFacturasProveedorEntreFechas(false);
         setFormFacturasPorProveedorEntreFechas(false);
         setTablaFacturaProveedoresEntreFechas(false);
         setTablaFacturasPorProveedorEntreFechas(true);
         setFormFacturasClientesEntreFechas(false);
-        setFormFacturasPorClienteEntreFechas(true);
+        setFormFacturasPorClienteEntreFechas(false);
         setTablaFacturaClientesEntreFechas(false);
         setTablaFacturasPorClienteEntreFechas(false);
-        setIdProveedor(idProveedor);
+        setIdProveedor(idProv);
         setFechaInicialProp(fechaInicial);
         setFechaFinalProp(fechaFinal);
         setListaFacturasPorProveedorEntreFechas(response.data);
-        obtenerProveedorPorId(idProveedor)
+        obtenerProveedorPorId(idProv)
           .then((res) => {
             setNombreProveedor(res.data.nombre);
             setCifProveedor(res.data.dniCif);
@@ -166,6 +179,34 @@ export default function InformesFacturacion() {
         setFechaInicialProp(fechaInicial);
         setFechaFinalProp(fechaFinal);
         setListaFacturasClientesEntreFechas(response.data);
+      })
+      .catch(() => {
+        //
+      });
+  };
+
+  const obtenerFacturasPorCliente = (idCli, fechaInicial, fechaFinal) => {
+    obtenerFacturasPorClienteEntreFechas(idCli, fechaInicial, fechaFinal)
+      .then((response) => {
+        setFormFacturasProveedorEntreFechas(false);
+        setFormFacturasPorProveedorEntreFechas(false);
+        setTablaFacturaProveedoresEntreFechas(false);
+        setTablaFacturasPorProveedorEntreFechas(false);
+        setFormFacturasClientesEntreFechas(false);
+        setFormFacturasPorClienteEntreFechas(false);
+        setTablaFacturaClientesEntreFechas(false);
+        setTablaFacturasPorClienteEntreFechas(true);
+        setIdCliente(idCli);
+        setFechaInicialProp(fechaInicial);
+        setFechaFinalProp(fechaFinal);
+        setListaFacturasPorClienteEntreFechas(response.data);
+        obtenerPropietarioPorId(idCli)
+          .then((res) => {
+            setNombreCliente(res.data.nombre);
+            setPrimerApellido(res.data.primerApellido);
+            setSegundoApellido(res.data.segundoApellido);
+            setCifCliente(res.data.dni);
+          });
       })
       .catch(() => {
         //
@@ -213,7 +254,7 @@ export default function InformesFacturacion() {
             ? (
               <FacturacionPorProveedorEntreFechasPDF
                 listaFacturasPorProveedorEntreFechas={listaFacturasPorProveedorEntreFechas}
-                idProveeor={idProveeor}
+                idProveeor={idProveedor}
                 nombreProveedor={nombreProveedor}
                 cifProveedor={cifProveedor}
                 fechaInicial={fechaInicialProp}
@@ -228,8 +269,8 @@ export default function InformesFacturacion() {
             ) : null}
           {formFacturasPorClienteEntreFechas
             ? (
-              <FacturasPorProveedorForm
-                obtenerFacturasPorProveedor={obtenerFacturasPorProveedor}
+              <FacturasPorClienteForm
+                obtenerFacturasPorCliente={obtenerFacturasPorCliente}
               />
             ) : null}
           {tablaFacturaClientesEntreFechas
@@ -242,11 +283,13 @@ export default function InformesFacturacion() {
             ) : null}
           {tablaFacturasPorClienteEntreFechas
             ? (
-              <FacturacionPorProveedorEntreFechasPDF
-                listaFacturasPorProveedorEntreFechas={listaFacturasPorProveedorEntreFechas}
-                idProveeor={idProveeor}
-                nombreProveedor={nombreProveedor}
-                cifProveedor={cifProveedor}
+              <FacturacionPorClienteEntreFechasPDF
+                listaFacturasPorClienteEntreFechas={listaFacturasPorClienteEntreFechas}
+                idCliente={idCliente}
+                nombreCliente={nombreCliente}
+                primerApellido={primerApellido}
+                segundoApellido={segundoApellido}
+                cifCliente={cifCliente}
                 fechaInicial={fechaInicialProp}
                 fechaFinal={fechaFinalProp}
               />

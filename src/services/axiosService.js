@@ -420,3 +420,7 @@ export const obtenerFacturaClientePorId = (idFactura) => axios.get(`http://local
 export const eliminarFacturaCliente = (id) => axios.delete(`http://localhost:8080/api/facturaCliente/${id}`);
 
 export const obtenerFacturasClientessEntreFechas = (fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/facturaCliente/${fechaInicial}/${fechaFinal}`);
+
+export const obtenerFacturasPorClienteEntreFechas = (idCliente, fechaInicial, fechaFinal) => axios.get(`http://localhost:8080/api/facturaCliente/${idCliente}/${fechaInicial}/${fechaFinal}`);
+
+export const obtenerPropietarioPorId = (id) => axios.get(`http://localhost:8080/api/propietarios/${id}`);

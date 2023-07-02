@@ -1,5 +1,10 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable max-len */
 import React, { useContext, useState } from 'react';
 import { Box, Grid } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import { PDFViewer } from '@react-pdf/renderer';
 import NavigationButtonFacturacionClientes from './NavigationButtonFacturacionClientes';
 import { FacturacionClientesContext } from '../../pages/FacturacionClientes';
@@ -46,6 +51,31 @@ export default function FacturasClientes() {
   const [ultimaFactura, setUltimaFactura] = useState([]);
 
   const [disabled, setDisabled] = useState(true);
+
+  function totalPiezas(factura) {
+    let total = 0;
+    for (const pieza of factura.ordenReparacion.piezasReparacion) {
+      total += pieza.cantidad * pieza.pieza.precio;
+    }
+    return total;
+  }
+
+  function manoDeObra(factura) {
+    return factura.ordenReparacion.manoDeObra.precioHoraClienteTaller
+    * factura.ordenReparacion.horas;
+  }
+
+  function baseImponible(factura) {
+    return totalPiezas(factura) + manoDeObra(factura);
+  }
+
+  function cuotaIva(factura) {
+    return baseImponible(factura) * (factura.tipoIVA / 100);
+  }
+
+  function totalFactura(factura) {
+    return baseImponible(factura) + cuotaIva(factura);
+  }
 
   const obtenerOrdenesReparacionNoFacturadas = () => {
     obtenerOrdenesReparacionCerradasPendientesFacturas()
@@ -291,7 +321,65 @@ export default function FacturasClientes() {
         ? (
           <>
             <EliminarFacturaClienteForm />
-            <p>{state.facturaCliente.serie}</p>
+            <Box m={5}>
+              <Card>
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    { 'Fecha Factura: '}
+                    {state.facturaCliente.fechaFactura}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    { 'Numero Factura: '}
+                    {state.facturaCliente.serie}
+                    -
+                    {state.facturaCliente.numeroFactura}
+                  </Typography>
+                  <Typography>
+                    -------------------------------------------------
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.nombre}
+                    &nbsp;&nbsp;
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.primerApellido}
+                    &nbsp;&nbsp;
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.segundoApellido}
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.dni}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.domicilio}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.codigoPostal.codigo}
+                    &nbsp;&nbsp;
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.codigoPostal.localidad}
+                    {' ('}
+                    {state.facturaCliente.ordenReparacion.vehiculo.propietario.codigoPostal.provincia}
+                    {') '}
+                  </Typography>
+                  <Typography>
+                    -------------------------------------------------
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    {' BASE IMPONIBLE: '}
+                    {baseImponible(state.facturaCliente).toLocaleString('en')}
+                    {' €'}
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    {' CUOTA IVA ( '}
+                    {state.facturaCliente.tipoIVA}
+                    {'%): '}
+                    {cuotaIva(state.facturaCliente).toLocaleString('en')}
+                    {' €'}
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    {' TOTAL FACTURA: '}
+                    {totalFactura(state.facturaCliente).toLocaleString('en')}
+                    {' €'}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
           </>
         ) : null}
     </Grid>
