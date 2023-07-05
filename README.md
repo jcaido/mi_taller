@@ -44,26 +44,26 @@
 
 
 ## Cómo usarlo<a name="id4"></a>
-<p>Para poder usar el proyecto, debemos tener instalados en nuestro sistema "node.js" y "npm (node package manager)</p>
+<p>Para poder usar el proyecto, debemos tener instalados en nuestro sistema "node.js" y "npm (node package manager)"</p>
 <p><strong>1.- Clonar repositorio</strong></p>
 <ul>
     <li>Abrir  una interfaz de línea de comandos  (CLI), por ejemplo la consola de windows</li>
     <li>Crear una carpeta en la cual alojaremos el proyecto</li>
-    <li>En la interfaz de línea de comandos y dentro de la carpeta creada en el punto anterior, ejecutamos el comando "git clone https://github.com/jcaido/mi_taller.git". Es necesario tener instalado git en nuestro sistema
+    <li>En la interfaz de línea de comandos y dentro de la carpeta creada en el punto anterior, ejecutamos el comando "git clone <a>https://github.com/jcaido/mi_taller</a>.git". Es necesario tener instalado git en nuestro sistema
     </li>
 </ul>
 <br>
 <p><strong>2.- Uso en local</strong></p>
 <ul>
-    <li>Desde la raiz del proyecto, instalar las dependencias relacionadas en el archivo package.json con el comando <strong>npm install</strong></li>
-    <li>Desde la raiz del proyecto, ejecutar el comando <strong>npm start</strong>, el cual nos levantará un servidor local en "http://localhost:3000" desde el cual accedemos a la aplicadción</li>
+    <li>Desde la raiz del proyecto, instalar las dependencias relacionadas en el archivo package.json con el comando "npm install""</li>
+    <li>Desde la raiz del proyecto, ejecutar el comando "npm start", el cual nos levantará un servidor local en "http://localhost:3000" desde el cual accedemos a la aplicación</li>
 </ul>
 <br>
 <p><strong>3.- Uso con Docker</strong></p>
 <p>Para poder usar el proyecto utilizando docker, debemos tener instalado docker en nuestro sistema</p>
 <ul>
-    <li>Desde la raiz del proyecto, ejecutar el comando <strong>docker build -t [NOMBRE DE LA IMAGEN]</strong>,el cual nos creará una imagen según las instrucciones del archivo dockerfile</li>
-    <li>Desde la raiz del proyecto, ejecutar el comando <strong>docker run -d -p 3000:3000 [NOMBRE DE LA IMAGEN]</strong>, el cual nos crea el contenedor correspondiente y nos habilita la direccion http://localhost:3000 desde la que accederemos a la aplicación</li>
+    <li>Desde la raiz del proyecto, ejecutar el comando "docker build -t [NOMBRE DE LA IMAGEN]", el cual nos creará una imagen según las instrucciones del archivo dockerfile</li>
+    <li>Desde la raiz del proyecto, ejecutar el comando "docker run -d -p 3000:3000 [NOMBRE DE LA IMAGEN]", el cual nos crea el contenedor correspondiente y nos habilita la direccion http://localhost:3000 desde la que accederemos a la aplicación</li>
 </ul>
 
 
