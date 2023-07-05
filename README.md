@@ -14,7 +14,7 @@
 
 
 ## Descripción del proyecto<a name="id1"></a>
-<p>Gestaller es un proyecto compuesto por una aplicacioón web que utiliza un API REST creado expresamente para el mismo. La información referente al citado API REST está disponible en <a>https://github.com/jcaido/Taller-de-coches</a></p>
+<p>Gestaller es un proyecto compuesto por una aplicacioón web que utiliza un API REST creado expresamente para el mismo. La información referente al citado API REST está disponible en https://github.com/jcaido/Taller-de-coches</p>
 
 
 ## Funcionalidades<a name="id2"></a>
@@ -67,6 +67,6 @@
 
 
 ## Probar el proyecto<a name="id5"></a>
-<p>Para probar el proyecto, debe estar ejecutándose el API REST asociado. Toda la información referente y las instrucciones para su uso, se encuentran disponibles en <a>https://github.com/jcaido/Taller-de-coches</a></p>
+<p>Para probar el proyecto, debe estar ejecutándose el API REST asociado. Toda la información referente y las instrucciones para su uso, se encuentran disponibles en https://github.com/jcaido/Taller-de-coches</p>
     
 
