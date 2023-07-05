@@ -39,6 +39,7 @@
         <li>axios</li>
         <li>react-pdf/renderer</li>
     </ul>
+    <li>Docker</li>
 </ul>
 
 
