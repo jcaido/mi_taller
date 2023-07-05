@@ -55,7 +55,7 @@
 <br>
 <p><strong>2.- Uso en local</strong></p>
 <ul>
-    <li>Desde la raiz del proyecto, instalar las dependencias relacionadas en el archivo package.json con el comando "npm install""</li>
+    <li>Desde la raiz del proyecto, instalar las dependencias relacionadas en el archivo package.json con el comando "npm install"</li>
     <li>Desde la raiz del proyecto, ejecutar el comando "npm start", el cual nos levantará un servidor local en "http://localhost:3000" desde el cual accedemos a la aplicación</li>
 </ul>
 <br>
