@@ -1,4 +1,4 @@
-<h1 align="center"> GestTaller (API REST) </h1>
+<h1 align="center"> GestTaller (Aplicación web) </h1>
 
 **Índice**
 
