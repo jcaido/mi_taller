@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const URL_BASE = 'https://demo-render-1-mh2c.onrender.com';
+// const URL_BASE = 'https://demo-render-1-mh2c.onrender.com';
+const URL_BASE = 'https://tallerh2render.onrender.com';
 
 // ====== CODIGO POSTAL ======================================================================
 export const nuevoCodigoPostal = (codigo, localidad, provincia) => {
