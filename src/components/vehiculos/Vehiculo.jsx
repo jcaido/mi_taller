@@ -45,12 +45,12 @@ function Vehiculo() {
             {' '}
             { state.vehiculoPorMatricula && state.listaVehiculosPorMatricula.propietario.dni }
           </Typography>
+          {/*
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             DOMICILIO:
             {' '}
             { state.vehiculoPorMatricula && state.listaVehiculosPorMatricula.propietario.domicilio }
           </Typography>
-          {/*
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             CODIGO POSTAL:
             {' '}
