@@ -350,7 +350,7 @@ export const modificarPieza = (
   };
   // return axios.put('http://localhost:8080/api/piezas', body);
   // return axios.put('https://demo-render-1-mh2c.onrender.com/api/piezas', body);
-  return axios.put(`h${URL_BASE}/api/piezas`, body);
+  return axios.put(`${URL_BASE}/api/piezas`, body);
 };
 
 // export const eliminarProveedor = (id) => axios.delete(`http://localhost:8080/api/proveedores/${id}`);
