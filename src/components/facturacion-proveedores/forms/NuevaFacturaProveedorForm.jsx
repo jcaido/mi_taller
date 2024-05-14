@@ -42,10 +42,10 @@ export default function NuevaFacturaProveedorForm() {
       obtenerNumeroFacturaProveedor,
       obtenerNombreProveedor,
       obtenerCifNifProveedr,
-      obtenerDomicilioProveedor,
-      obtenerCodigoPostalProveedor,
-      obtenerLocalidadProveedor,
-      obtenerProvinciaProveedor,
+      // obtenerDomicilioProveedor,
+      // obtenerCodigoPostalProveedor,
+      // obtenerLocalidadProveedor,
+      // obtenerProvinciaProveedor,
       obtenerTipoIvaFacturaProveedor,
       tablasAlbaranesDispatch,
     } = useContext(FacturacionProveedoresContext);
@@ -77,16 +77,16 @@ export default function NuevaFacturaProveedorForm() {
             obtenerNumeroFacturaProveedor(res.data.numeroFactura);
             obtenerNombreProveedor(res.data.proveedor.nombre);
             obtenerCifNifProveedr(res.data.proveedor.dniCif);
-            obtenerDomicilioProveedor(res.data.proveedor.domicilio);
-            obtenerCodigoPostalProveedor(res.data.proveedor.codigoPostal.codigo);
-            obtenerLocalidadProveedor(res.data.proveedor.codigoPostal.localidad);
-            obtenerProvinciaProveedor(res.data.proveedor.codigoPostal.provincia);
+            // obtenerDomicilioProveedor(res.data.proveedor.domicilio);
+            // obtenerCodigoPostalProveedor(res.data.proveedor.codigoPostal.codigo);
+            // obtenerLocalidadProveedor(res.data.proveedor.codigoPostal.localidad);
+            // obtenerProvinciaProveedor(res.data.proveedor.codigoPostal.provincia);
             obtenerTipoIvaFacturaProveedor(res.data.tipoIVA);
             setDisabled(true);
             tablasAlbaranesDispatch();
-          })
-          .catch((error) => error.response.status === 409
-             && modal.handleOpenError(error.response.data.mensaje));
+          });
+        // .catch((error) => error.response.status === 409
+        //   && modal.handleOpenError(error.response.data.mensaje));
       })
       .catch((error) => error.response.status === 404
       && modal.handleOpenError(error.response.data.mensaje));
