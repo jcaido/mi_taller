@@ -71,6 +71,7 @@ export default function NuevaFacturaProveedorForm() {
           response.data.id,
         )
           .then((res) => {
+            console.log(res.data);
             obtenerIdProveedor(response.data.id);
             obtenerIdFacturaProveedor(res.data.id);
             obtenerFechaFacturaProveedor(res.data.fechaFactura);
@@ -86,7 +87,7 @@ export default function NuevaFacturaProveedorForm() {
             tablasAlbaranesDispatch();
           })
           .catch((error) => error.response.status === 409
-           && modal.handleOpenError(error.response.data.mensaje));
+          && modal.handleOpenError(error.response.data.mensaje));
       })
       .catch((error) => error.response.status === 404
       && modal.handleOpenError(error.response.data.mensaje));
