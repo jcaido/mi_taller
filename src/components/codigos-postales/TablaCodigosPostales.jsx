@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import CircularProgress from '@mui/material/CircularProgress';
 import { DatosGeneralesFormContext } from '../../pages/DatosGenerales';
 
 const columns = [
@@ -19,25 +20,36 @@ function TablaCodigosPostales() {
 
   return (
     <div style={{ height: 315, width: '100%' }}>
-      <DataGrid
-        sx={{
-          boxShadow: 2,
-          border: 2,
-          borderColor: 'primary.light',
-          '& .MuiDataGrid-cell:hover': {
-            color: 'primary.main',
-          },
-        }}
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'id', sort: 'desc' }],
-          },
-        }}
-        rows={state.listaCodigosPostales}
-        columns={columns}
-        pageSize={4}
-        rowsPerPageOptions={[4]}
-      />
+      { state.cargando ? (
+        <DataGrid
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            borderColor: 'primary.light',
+            '& .MuiDataGrid-cell:hover': {
+              color: 'primary.main',
+            },
+          }}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'id', sort: 'desc' }],
+            },
+          }}
+          rows={state.listaCodigosPostales}
+          columns={columns}
+          pageSize={4}
+          rowsPerPageOptions={[4]}
+        />
+      ) : (
+        <div style={
+          {
+            height: 200, display: 'flex', justifyContent: 'center', alignItems: 'center',
+          }
+        }
+        >
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }

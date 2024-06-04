@@ -72,6 +72,7 @@ function DatosGenerales() {
     codigoPostalPorProvincia: false,
     editarCodigoPostal: false,
     eliminarCodigoPostal: false,
+    cargando: false,
     listaCodigosPostales: [],
     listaCodigosPostalesPorCodigo: [],
     listaCodigosPostalesPorLocalidad: [],
@@ -121,6 +122,7 @@ function DatosGenerales() {
           codigoPostalPorProvincia: action.payload.codigoPostalPorProvincia,
           editarCodigoPostal: action.payload.editarCodigoPostal,
           eliminarCodigoPostal: action.payload.eliminarCodigoPostal,
+          cargando: action.payload.cargando,
         };
       case 'actualizar_lista_codigos_postales':
         return {
@@ -152,6 +154,11 @@ function DatosGenerales() {
         return {
           ...state,
           eliminarCodigoPostal: action.payload,
+        };
+      case 'tabla_codigos_postales_cargada':
+        return {
+          ...state,
+          cargando: action.payload,
         };
       case 'actualizar_lista_propietarios':
         return {
@@ -571,6 +578,7 @@ function DatosGenerales() {
         codigoPostalPorProvincia: false,
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
+        cargando: false,
       },
     });
   }
@@ -590,6 +598,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -609,6 +618,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -628,6 +638,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -647,6 +658,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -666,6 +678,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -685,6 +698,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -704,6 +718,7 @@ function DatosGenerales() {
         editarCodigoPostal: true,
         eliminarCodigoPostal: false,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -723,6 +738,7 @@ function DatosGenerales() {
         editarCodigoPostal: false,
         eliminarCodigoPostal: true,
         listaCodigosPostales: [],
+        cargando: false,
       },
     });
   }
@@ -731,6 +747,7 @@ function DatosGenerales() {
     obtenerCodigosPostales()
       .then((response) => {
         dispatch({ type: 'actualizar_lista_codigos_postales', payload: response.data });
+        dispatch({ type: 'tabla_codigos_postales_cargada', payload: true });
       })
       .catch(() => {
       // alert(`ERROR: ${error.response.data.mensaje}`);
